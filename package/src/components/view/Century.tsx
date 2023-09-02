@@ -25,6 +25,7 @@ function ViewCentury({ centuryPage, setViewDateByType, setViewType }: IProps) {
         return (
           <button
             type="button"
+            className={`${NAME_SPACE}__datepicker-button`}
             key={i}
             onClick={() => handleViewDateType(startYear)}
           >

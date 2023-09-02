@@ -5,10 +5,11 @@
 
 .react-datepicker__datepicker-container {
   position: absolute;
-  width: 360px;
+  width: 252px;
   top: 50px;
   left: 0;
   background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
 }
 
 /* controller */
@@ -20,6 +21,10 @@
   flex-grow: 1;
   border: none;
   background-color: transparent;
+  cursor: pointer;
+}
+.react-datepicker__label:hover {
+  background-color: #f7f7f7;
 }
 .react-datepicker__controller-arrow {
   width: 36px;
@@ -29,6 +34,10 @@
   background-position: center;
   border: none;
   background-color: transparent;
+  cursor: pointer;
+}
+.react-datepicker__controller-arrow:hover {
+  background-color: #f7f7f7;
 }
 .react-datepicker__controller-extra-prev {
   background-image: url(./extra-prev.svg);
@@ -41,4 +50,26 @@
 }
 .react-datepicker__controller-next {
   background-image: url(./next.svg);
+}
+.react-datepicker__century-view,
+.react-datepicker__decade-view,
+.react-datepicker__year-view {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.react-datepicker__month-view {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.react-datepicker__datepicker-button {
+  border: none;
+  background-color: transparent;
+  height: 36px;
+  cursor: pointer;
+}
+.react-datepicker__datepicker-button:hover {
+  background-color: #f7f7f7;
+}
+.react-datepicker__neighbor-button {
+  color: #ccc;
 }

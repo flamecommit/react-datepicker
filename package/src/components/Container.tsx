@@ -66,9 +66,6 @@ function Container() {
           value={getFormatDatetime(activeDate, 'YYYY-MM-DD')}
           readOnly
         />
-        {activeDate.toString()}
-        <br />
-        {viewDate}
       </div>
       <div className={`${NAME_SPACE}__datepicker-container`}>
         <Controller
@@ -102,11 +99,21 @@ function Container() {
           )}
         </div>
       </div>
-      <div className="dashboard">
+      <div
+        className="dashboard"
+        style={{
+          position: 'fixed',
+          top: 50,
+          right: 50,
+          textAlign: 'right',
+        }}
+      >
         <div>Century : {centuryPage}</div>
         <div>Decade : {decadePage}</div>
         <div>Year : {yearPage}</div>
         <div>Month : {monthPage}</div>
+        <div>activeDate : {activeDate.toString()}</div>
+        <div>viewDate : {viewDate}</div>
       </div>
     </div>
   );

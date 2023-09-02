@@ -23,6 +23,7 @@ function ViewDecade({ decadePage, setViewDateByType, setViewType }: IProps) {
         return (
           <button
             type="button"
+            className={`${NAME_SPACE}__datepicker-button`}
             key={i}
             onClick={() => handleViewDateType(year)}
           >

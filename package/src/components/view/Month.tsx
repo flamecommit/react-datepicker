@@ -33,6 +33,7 @@ function ViewMonth({ monthPage, setActiveDate }: Iprops) {
         return (
           <button
             type="button"
+            className={`${NAME_SPACE}__datepicker-button ${NAME_SPACE}__neighbor-button`}
             key={i}
             title={title}
             data-day={day}
@@ -52,6 +53,7 @@ function ViewMonth({ monthPage, setActiveDate }: Iprops) {
         return (
           <button
             type="button"
+            className={`${NAME_SPACE}__datepicker-button`}
             key={i}
             title={title}
             data-day={day}
@@ -70,6 +72,7 @@ function ViewMonth({ monthPage, setActiveDate }: Iprops) {
         return (
           <button
             type="button"
+            className={`${NAME_SPACE}__datepicker-button ${NAME_SPACE}__neighbor-button`}
             key={i}
             title={title}
             data-day={day}

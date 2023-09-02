@@ -22,6 +22,7 @@ function ViewYear({ setViewDateByType, setViewType }: Iprops) {
         return (
           <button
             type="button"
+            className={`${NAME_SPACE}__datepicker-button`}
             key={i}
             onClick={() => handleViewDateType(month)}
           >
