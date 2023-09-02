@@ -1,0 +1,78 @@
+{
+  "name": "@shinyongjun/react-datepicker",
+  "version": "0.0.1",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "source": "./src/index.tsx",
+  "types": "./dist/cjs/index.d.ts",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "description": "Datepicker component in React App.",
+  "keywords": [
+    "react",
+    "datepicker",
+    "scroll"
+  ],
+  "homepage": "https://shinyongjun.com/react-datepicker/document",
+  "bugs": {
+    "url": "https://github.com/shinyj1991/react-datepicker/issues",
+    "email": "shinyj1991@gmail.com"
+  },
+  "author": {
+    "name": "shinyongjun",
+    "email": "shinyj1991@gmail.com",
+    "url": "https://shinyongjun.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shinyj1991/react-datepicker.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "watch": "concurrently \"npm run clean\" \"npm run watch:esm\" \"npm run watch:cjs\" \"npm run copy-styles\"",
+    "watch:esm": "tsc --project tsconfig.json --outDir dist/esm --module esnext --watch",
+    "watch:cjs": "tsc --project tsconfig.json --outDir dist/cjs --module commonjs --watch",
+    "clean": "rm -rf dist",
+    "copy-styles": "node ./devops/copyStyles.js"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@shinyongjun/eslint-config": "^0.0.3",
+    "@types/node": "^20.5.7",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "chokidar": "^3.5.3",
+    "concurrently": "^8.2.1",
+    "cpy-cli": "^5.0.0",
+    "eslint": "^8.48.0",
+    "fs-extra": "^11.1.1",
+    "prettier": "^3.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}
