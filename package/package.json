@@ -39,10 +39,11 @@
   ],
   "license": "MIT",
   "scripts": {
-    "watch": "concurrently \"npm run clean\" \"npm run watch:esm\" \"npm run watch:cjs\" \"npm run copy-styles\"",
+    "watch": "concurrently \"npm run clean\" \"npm run copy-assets\" \"npm run watch:esm\" \"npm run watch:cjs\" \"npm run copy-styles\"",
     "watch:esm": "tsc --project tsconfig.json --outDir dist/esm --module esnext --watch",
     "watch:cjs": "tsc --project tsconfig.json --outDir dist/cjs --module commonjs --watch",
     "clean": "rm -rf dist",
+    "copy-assets": "cpy \"src/assets/**/*.*\" dist/assets",
     "copy-styles": "node ./devops/copyStyles.js"
   },
   "browserslist": {

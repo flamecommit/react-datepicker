@@ -1,0 +1,44 @@
+.react-datepicker__wrapper {
+  position: relative;
+  background: #fff;
+}
+
+.react-datepicker__datepicker-container {
+  position: absolute;
+  width: 360px;
+  top: 50px;
+  left: 0;
+  background-color: #fff;
+}
+
+/* controller */
+.react-datepicker__controller {
+  display: flex;
+}
+.react-datepicker__label {
+  height: 36px;
+  flex-grow: 1;
+  border: none;
+  background-color: transparent;
+}
+.react-datepicker__controller-arrow {
+  width: 36px;
+  height: 36px;
+  font-size: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  background-color: transparent;
+}
+.react-datepicker__controller-extra-prev {
+  background-image: url(./extra-prev.svg);
+}
+.react-datepicker__controller-extra-next {
+  background-image: url(./extra-next.svg);
+}
+.react-datepicker__controller-prev {
+  background-image: url(./prev.svg);
+}
+.react-datepicker__controller-next {
+  background-image: url(./next.svg);
+}

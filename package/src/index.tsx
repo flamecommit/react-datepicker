@@ -1,4 +1,4 @@
-import DatepickerContainer from "./components/DatepickerContainer";
-import "../ReactDatepicker.css";
+import Container from './components/Container';
+import '../assets/ReactDatepicker.css';
 
-export default DatepickerContainer;
+export default Container;

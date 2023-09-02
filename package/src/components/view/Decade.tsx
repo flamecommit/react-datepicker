@@ -5,13 +5,13 @@ import { NAME_SPACE } from '../constants/core';
 
 interface IProps {
   decadePage: number;
-  setViewDateType: (value: string, type: 'year') => void;
+  setViewDateByType: (value: string, type: 'year') => void;
   setViewType: (value: 'year') => void;
 }
 
-function ViewDecade({ decadePage, setViewDateType, setViewType }: IProps) {
+function ViewDecade({ decadePage, setViewDateByType, setViewType }: IProps) {
   const handleViewDateType = (year: string) => {
-    setViewDateType(year, 'year');
+    setViewDateByType(year, 'year');
     setViewType('year');
   };
 

@@ -1,9 +1,15 @@
 'use client';
 
 import * as React from 'react';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { NAME_SPACE } from './constants/core';
-import { setCenturyPage, setDecadePage, setYearPage } from '../utils/page';
+import {
+  setCenturyPage,
+  setDecadePage,
+  setMonthPage,
+  setYearPage,
+} from '../utils/page';
+import { addLeadingZero } from '../utils/string';
 
 type TviewType = 'century' | 'decade' | 'year' | 'month';
 
@@ -34,6 +40,13 @@ function Controller({ viewDate, viewType, setViewType }: IProps) {
 
       return `${yearPage}`;
     }
+    if (type === 'month') {
+      const monthPage = setMonthPage(date);
+      const year = Math.ceil(monthPage / 12);
+      const month = addLeadingZero(monthPage % 12 || 12);
+
+      return `${year}-${month}`;
+    }
     return '';
   };
 
@@ -57,12 +70,32 @@ function Controller({ viewDate, viewType, setViewType }: IProps) {
   return (
     <div className={`${NAME_SPACE}__controller`}>
       <button
+        className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-extra-prev`}
+      >
+        Extra Previous
+      </button>
+      <button
+        className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-prev`}
+      >
+        Previous
+      </button>
+      <button
         type="button"
-        className={`${NAME_SPACE}__controller-label`}
+        className={`${NAME_SPACE}__label`}
         onClick={handleLabelClick}
         disabled={viewType === 'century'}
       >
         {label}
+      </button>
+      <button
+        className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-next`}
+      >
+        Extra Next
+      </button>
+      <button
+        className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-extra-next`}
+      >
+        Next
       </button>
     </div>
   );
