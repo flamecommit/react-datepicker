@@ -11,23 +11,16 @@ export const toLocalISOString = (date: Date): string => {
 };
 
 export const getFormatDatetime = (datetime: Date, format: string) => {
-  const origin = toLocalISOString(datetime);
+  const origin = toLocalISOString(datetime).split('T')[0] as string;
 
-  const year = format.includes('YYYY')
-    ? origin.substring(0, 4)
-    : origin.substring(2, 4);
-  const month = origin.substring(5, 7);
-  const date = origin.substring(8, 10);
-  const hour = origin.substring(11, 13);
-  const minute = origin.substring(14, 16);
+  const year = origin.split('-')[0];
+  const month = origin.split('-')[1];
+  const date = origin.split('-')[2];
 
   const result = format
-    .replace(/YYYY/g, year)
-    .replace(/YY/g, year)
-    .replace(/MM/g, month)
-    .replace(/DD/g, date)
-    .replace(/HH/g, hour)
-    .replace(/mm/g, minute);
+    .replace(/YYYY/g, String(year))
+    .replace(/MM/g, String(month))
+    .replace(/DD/g, String(date));
 
   return result;
 };

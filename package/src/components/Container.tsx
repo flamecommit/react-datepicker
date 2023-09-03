@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { getFormatDatetime } from '../utils/datetime';
 import {
   setCenturyPage,
@@ -15,6 +15,8 @@ import Controller from './Controller';
 import ViewDecade from './view/Decade';
 import ViewYear from './view/Year';
 import ViewMonth from './view/Month';
+import { addLeadingZero } from '../utils/string';
+import useOutsideClick from '../hooks/useOutsideClick';
 
 function Container() {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
@@ -26,24 +28,60 @@ function Container() {
   const [viewType, setViewType] = useState<
     'century' | 'decade' | 'year' | 'month'
   >('century');
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const centuryPage = useMemo(() => setCenturyPage(viewDate), [viewDate]);
   const decadePage = useMemo(() => setDecadePage(viewDate), [viewDate]);
   const yearPage = useMemo(() => setYearPage(viewDate), [viewDate]);
   const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
+  const container = useRef(null);
+
+  useOutsideClick(container, () => {
+    setIsVisible(false);
+  });
 
   const setViewDateByType = (
-    value: string,
+    value: string | number,
     type: 'year' | 'month' | 'date'
   ) => {
-    const split = viewDate.split('-');
+    type Tsplit = string | number;
+    const split = viewDate.split('-') as [Tsplit, Tsplit, Tsplit];
+    const valueNum = Number(value);
 
-    if (type === 'year') split[0] = value;
-    if (type === 'month') split[1] = value;
-    if (type === 'date') split[2] = value;
+    if (type === 'year') {
+      if (valueNum < 1) {
+        split[0] = 1;
+      } else {
+        split[0] = valueNum;
+      }
+    }
+    if (type === 'month') {
+      if (valueNum === 0) {
+        if (Number(split[0]) > 1) {
+          split[0] = Number(split[0]) - 1;
+          split[1] = 12;
+        }
+      } else if (valueNum === 13) {
+        split[0] = Number(split[0]) + 1;
+        split[1] = 1;
+      } else {
+        split[1] = valueNum;
+      }
+      split[1] = addLeadingZero(split[1]);
+    }
+    if (type === 'date') split[2] = addLeadingZero(valueNum);
 
     setViewDate(split.join('-'));
   };
+
+  const handleFocus = () => {
+    console.log('handleFocus');
+    setIsVisible(true);
+  };
+
+  useEffect(() => {
+    setIsVisible(false);
+  }, [activeDate]);
 
   // const [centuryPage, setCenturyPage] = useState<number>(0);
   // const [decadePage, setDecadePage] = useState<number>(0);
@@ -56,8 +94,6 @@ function Container() {
   // yearPage 2041
   // monthPage 24487
 
-  console.log(NEW_DATE);
-
   return (
     <div className={`${NAME_SPACE}__wrapper`}>
       <div className={`${NAME_SPACE}__input-container`}>
@@ -65,40 +101,44 @@ function Container() {
           type="text"
           value={getFormatDatetime(activeDate, 'YYYY-MM-DD')}
           readOnly
+          onFocus={handleFocus}
         />
       </div>
-      <div className={`${NAME_SPACE}__datepicker-container`}>
-        <Controller
-          viewType={viewType}
-          setViewType={setViewType}
-          viewDate={viewDate}
-        />
-        <div className={`${NAME_SPACE}__datepicker`}>
-          {viewType === 'month' && (
-            <ViewMonth monthPage={monthPage} setActiveDate={setActiveDate} />
-          )}
-          {viewType === 'year' && (
-            <ViewYear
-              setViewDateByType={setViewDateByType}
-              setViewType={setViewType}
-            />
-          )}
-          {viewType === 'decade' && (
-            <ViewDecade
-              decadePage={decadePage}
-              setViewDateByType={setViewDateByType}
-              setViewType={setViewType}
-            />
-          )}
-          {viewType === 'century' && (
-            <ViewCentury
-              centuryPage={centuryPage}
-              setViewDateByType={setViewDateByType}
-              setViewType={setViewType}
-            />
-          )}
+      {isVisible && (
+        <div className={`${NAME_SPACE}__datepicker-container`} ref={container}>
+          <Controller
+            viewType={viewType}
+            setViewType={setViewType}
+            viewDate={viewDate}
+            setViewDateByType={setViewDateByType}
+          />
+          <div className={`${NAME_SPACE}__datepicker`}>
+            {viewType === 'month' && (
+              <ViewMonth monthPage={monthPage} setActiveDate={setActiveDate} />
+            )}
+            {viewType === 'year' && (
+              <ViewYear
+                setViewDateByType={setViewDateByType}
+                setViewType={setViewType}
+              />
+            )}
+            {viewType === 'decade' && (
+              <ViewDecade
+                decadePage={decadePage}
+                setViewDateByType={setViewDateByType}
+                setViewType={setViewType}
+              />
+            )}
+            {viewType === 'century' && (
+              <ViewCentury
+                centuryPage={centuryPage}
+                setViewDateByType={setViewDateByType}
+                setViewType={setViewType}
+              />
+            )}
+          </div>
         </div>
-      </div>
+      )}
       <div
         className="dashboard"
         style={{

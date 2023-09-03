@@ -18,15 +18,13 @@ function ViewMonth({ monthPage, setActiveDate }: Iprops) {
   const lastDay = lastDateValue.getDay(); // 이달 말 일의 요일
   const prevLastDate = new Date(year, month - 1, 0).getDate(); // 이전달의 말 일
 
-  console.log(firstDay);
-
   return (
     <div className={`${NAME_SPACE}__month-view`}>
       {Array.apply(0, Array(firstDay)).map((x, i) => {
         // prevMonth
 
         const date = prevLastDate - (firstDay - i - 1);
-        const value = new Date(year, month - 2, date);
+        const value = new Date(-1, monthPage + 22, date);
         const day = value.getDay();
         const title = getFormatDatetime(value, 'YYYY-MM-DD');
 
@@ -46,7 +44,7 @@ function ViewMonth({ monthPage, setActiveDate }: Iprops) {
       {Array.apply(0, Array(lastDate)).map((x, i) => {
         // thisMonth
         const date = i + 1;
-        const value = new Date(year, month - 1, date);
+        const value = new Date(-1, monthPage + 23, date);
         const day = value.getDay();
         const title = getFormatDatetime(value, 'YYYY-MM-DD');
 
@@ -65,7 +63,7 @@ function ViewMonth({ monthPage, setActiveDate }: Iprops) {
       })}
       {Array.apply(0, Array(6 - lastDay)).map((x, i) => {
         const date = i + 1;
-        const value = new Date(year, month, date);
+        const value = new Date(-1, monthPage + 24, date);
         const day = value.getDay();
         const title = getFormatDatetime(value, 'YYYY-MM-DD');
 

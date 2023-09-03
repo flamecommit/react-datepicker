@@ -23,8 +23,11 @@
   background-color: transparent;
   cursor: pointer;
 }
-.react-datepicker__label:hover {
+.react-datepicker__label:not(:disabled):hover {
   background-color: #f7f7f7;
+}
+.react-datepicker__label:disabled {
+  cursor: default;
 }
 .react-datepicker__controller-arrow {
   width: 36px;

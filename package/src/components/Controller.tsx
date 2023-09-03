@@ -17,9 +17,18 @@ interface IProps {
   viewType: TviewType;
   setViewType: (value: TviewType) => void;
   viewDate: string;
+  setViewDateByType: (
+    value: string | number,
+    type: 'year' | 'month' | 'date'
+  ) => void;
 }
 
-function Controller({ viewDate, viewType, setViewType }: IProps) {
+function Controller({
+  viewDate,
+  viewType,
+  setViewType,
+  setViewDateByType,
+}: IProps) {
   const setLabel = (date: string, type: TviewType): string => {
     if (type === 'century') {
       const centuryPage = setCenturyPage(date);
@@ -67,15 +76,51 @@ function Controller({ viewDate, viewType, setViewType }: IProps) {
     }
   };
 
+  const getViewDateUnit = (type: string): number => {
+    if (type === 'year') return Number(viewDate.split('-')[0]);
+    else if (type === 'month') return Number(viewDate.split('-')[1]);
+    else return Number(viewDate.split('-')[2]);
+  };
+
+  const handleControl = (action: string) => {
+    console.log(viewDate);
+
+    const isExtra = action.startsWith('extra');
+    const unit = viewType === 'month' && !isExtra ? 'month' : 'year';
+
+    const deltas: { [key: string]: number } = {
+      month: 1,
+      year: 1,
+      decade: 10,
+      century: 100,
+    };
+
+    let delta = deltas[viewType] as number;
+
+    if (viewType !== 'month' && isExtra) {
+      delta *= 10;
+    }
+
+    if (action === 'extraPrev' || action === 'prev') {
+      delta *= -1;
+    }
+
+    setViewDateByType(getViewDateUnit(unit) + delta, unit);
+  };
+
   return (
     <div className={`${NAME_SPACE}__controller`}>
-      <button
-        className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-extra-prev`}
-      >
-        Extra Previous
-      </button>
+      {viewType !== 'century' && (
+        <button
+          className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-extra-prev`}
+          onClick={() => handleControl('extraPrev')}
+        >
+          Extra Previous
+        </button>
+      )}
       <button
         className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-prev`}
+        onClick={() => handleControl('prev')}
       >
         Previous
       </button>
@@ -89,14 +134,18 @@ function Controller({ viewDate, viewType, setViewType }: IProps) {
       </button>
       <button
         className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-next`}
+        onClick={() => handleControl('next')}
       >
         Extra Next
       </button>
-      <button
-        className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-extra-next`}
-      >
-        Next
-      </button>
+      {viewType !== 'century' && (
+        <button
+          className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-extra-next`}
+          onClick={() => handleControl('extraNext')}
+        >
+          Next
+        </button>
+      )}
     </div>
   );
 }
