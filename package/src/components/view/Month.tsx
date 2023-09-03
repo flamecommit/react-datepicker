@@ -6,10 +6,10 @@ import { getFormatDatetime } from '../../utils/datetime';
 
 interface Iprops {
   monthPage: number;
-  setActiveDate: (value: Date) => void;
+  setValue: (value: Date) => void;
 }
 
-function ViewMonth({ monthPage, setActiveDate }: Iprops) {
+function ViewMonth({ monthPage, setValue }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
   const firstDay = new Date(year, month - 1, 1).getDay(); // 이달 1일의 요일
@@ -35,7 +35,7 @@ function ViewMonth({ monthPage, setActiveDate }: Iprops) {
             key={i}
             title={title}
             data-day={day}
-            onClick={() => setActiveDate(value)}
+            onClick={() => setValue(value)}
           >
             {date}
           </button>
@@ -55,7 +55,7 @@ function ViewMonth({ monthPage, setActiveDate }: Iprops) {
             key={i}
             title={title}
             data-day={day}
-            onClick={() => setActiveDate(value)}
+            onClick={() => setValue(value)}
           >
             {date}
           </button>
@@ -74,7 +74,7 @@ function ViewMonth({ monthPage, setActiveDate }: Iprops) {
             key={i}
             title={title}
             data-day={day}
-            onClick={() => setActiveDate(value)}
+            onClick={() => setValue(value)}
           >
             {date}
           </button>

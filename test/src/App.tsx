@@ -9,8 +9,8 @@ function App() {
     <div>
       <Datepicker
         initValue={dateValue}
-        onChange={(activeDate) => {
-          console.log('activeDate', activeDate);
+        onChange={(value) => {
+          console.log('value', value);
         }}
       />
     </div>

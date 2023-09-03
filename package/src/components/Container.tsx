@@ -21,7 +21,7 @@ interface Iprops {
 
 function Container({ initValue = new Date(), onChange }: Iprops) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
-  const [activeDate, setActiveDate] = useState<Date>(initValue);
+  const [value, setValue] = useState<Date>(initValue);
   const [viewDate, setViewDate] = useState<string>(
     getFormatDatetime(initValue, 'YYYY-MM-DD')
   );
@@ -81,9 +81,9 @@ function Container({ initValue = new Date(), onChange }: Iprops) {
   useEffect(() => {
     setIsVisible(false);
     if (onChange) {
-      onChange(activeDate);
+      onChange(value);
     }
-  }, [activeDate, onChange]);
+  }, [value, onChange]);
 
   // const [centuryPage, setCenturyPage] = useState<number>(0);
   // const [decadePage, setDecadePage] = useState<number>(0);
@@ -101,7 +101,7 @@ function Container({ initValue = new Date(), onChange }: Iprops) {
       <div className={`${NAME_SPACE}__input-container`}>
         <input
           type="text"
-          value={getFormatDatetime(activeDate, 'YYYY-MM-DD')}
+          value={getFormatDatetime(value, 'YYYY-MM-DD')}
           readOnly
           onFocus={handleFocus}
         />
@@ -116,7 +116,7 @@ function Container({ initValue = new Date(), onChange }: Iprops) {
           />
           <div className={`${NAME_SPACE}__datepicker`}>
             {viewType === 'month' && (
-              <ViewMonth monthPage={monthPage} setActiveDate={setActiveDate} />
+              <ViewMonth monthPage={monthPage} setValue={setValue} />
             )}
             {viewType === 'year' && (
               <ViewYear
