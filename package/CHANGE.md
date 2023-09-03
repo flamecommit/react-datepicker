@@ -1,3 +1,9 @@
+## 1.1.2
+
+### Fix
+
+- datepicker-container - added z-index value 1000.
+
 ## 1.1.1
 
 ### What's New?
