@@ -4,16 +4,23 @@ import * as React from 'react';
 import { NAME_SPACE } from '../constants/core';
 
 interface IProps {
+  value: Date;
   decadePage: number;
   setViewDateByType: (value: string, type: 'year') => void;
   setViewType: (value: 'year') => void;
 }
 
-function ViewDecade({ decadePage, setViewDateByType, setViewType }: IProps) {
+function ViewDecade({
+  value,
+  decadePage,
+  setViewDateByType,
+  setViewType,
+}: IProps) {
   const handleViewDateType = (year: string) => {
     setViewDateByType(year, 'year');
     setViewType('year');
   };
+  const valueYear = value.getFullYear();
 
   return (
     <div className={`${NAME_SPACE}__decade-view`}>
@@ -26,6 +33,7 @@ function ViewDecade({ decadePage, setViewDateByType, setViewType }: IProps) {
             className={`${NAME_SPACE}__datepicker-button`}
             key={i}
             onClick={() => handleViewDateType(year)}
+            data-active={valueYear === Number(year)}
           >
             {year}
           </button>

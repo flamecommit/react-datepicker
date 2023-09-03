@@ -4,7 +4,12 @@ import '../../assets/ReactDatepicker.css';
 import * as React from 'react';
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { getFormatDatetime } from '../utils/datetime';
-import { setCenturyPage, setDecadePage, setMonthPage } from '../utils/page';
+import {
+  setCenturyPage,
+  setDecadePage,
+  setYearPage,
+  setMonthPage,
+} from '../utils/page';
 import ViewCentury from './view/Century';
 import { NAME_SPACE } from './constants/core';
 import Controller from './Controller';
@@ -32,7 +37,7 @@ function Container({ initValue = new Date(), onChange }: Iprops) {
 
   const centuryPage = useMemo(() => setCenturyPage(viewDate), [viewDate]);
   const decadePage = useMemo(() => setDecadePage(viewDate), [viewDate]);
-  // const yearPage = useMemo(() => setYearPage(viewDate), [viewDate]);
+  const yearPage = useMemo(() => setYearPage(viewDate), [viewDate]);
   const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
   const container = useRef(null);
 
@@ -80,10 +85,11 @@ function Container({ initValue = new Date(), onChange }: Iprops) {
 
   useEffect(() => {
     setIsVisible(false);
+    setViewDate(getFormatDatetime(value, 'YYYY-MM-DD'));
     if (onChange) {
       onChange(value);
     }
-  }, [value, onChange]);
+  }, [value, onChange, setViewDate]);
 
   return (
     <div className={`${NAME_SPACE}__wrapper`}>
@@ -106,19 +112,22 @@ function Container({ initValue = new Date(), onChange }: Iprops) {
           <div className={`${NAME_SPACE}__datepicker`}>
             {viewType === 'month' && (
               <ViewMonth
-                monthPage={monthPage}
                 value={value}
+                monthPage={monthPage}
                 setValue={setValue}
               />
             )}
             {viewType === 'year' && (
               <ViewYear
+                value={value}
+                yearPage={yearPage}
                 setViewDateByType={setViewDateByType}
                 setViewType={setViewType}
               />
             )}
             {viewType === 'decade' && (
               <ViewDecade
+                value={value}
                 decadePage={decadePage}
                 setViewDateByType={setViewDateByType}
                 setViewType={setViewType}
@@ -126,6 +135,7 @@ function Container({ initValue = new Date(), onChange }: Iprops) {
             )}
             {viewType === 'century' && (
               <ViewCentury
+                value={value}
                 centuryPage={centuryPage}
                 setViewDateByType={setViewDateByType}
                 setViewType={setViewType}

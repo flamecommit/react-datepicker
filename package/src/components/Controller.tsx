@@ -83,8 +83,6 @@ function Controller({
   };
 
   const handleControl = (action: string) => {
-    console.log(viewDate);
-
     const isExtra = action.startsWith('extra');
     const unit = viewType === 'month' && !isExtra ? 'month' : 'year';
 
