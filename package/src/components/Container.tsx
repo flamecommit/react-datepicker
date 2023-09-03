@@ -4,12 +4,7 @@ import '../../assets/ReactDatepicker.css';
 import * as React from 'react';
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { getFormatDatetime } from '../utils/datetime';
-import {
-  setCenturyPage,
-  setDecadePage,
-  setYearPage,
-  setMonthPage,
-} from '../utils/page';
+import { setCenturyPage, setDecadePage, setMonthPage } from '../utils/page';
 import ViewCentury from './view/Century';
 import { NAME_SPACE } from './constants/core';
 import Controller from './Controller';
@@ -19,12 +14,16 @@ import ViewMonth from './view/Month';
 import { addLeadingZero } from '../utils/string';
 import useOutsideClick from '../hooks/useOutsideClick';
 
-function Container() {
+interface Iprops {
+  initValue?: Date;
+  onChange?: (activeDate: Date) => void;
+}
+
+function Container({ initValue = new Date(), onChange }: Iprops) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
-  const NEW_DATE = new Date();
-  const [activeDate, setActiveDate] = useState<Date>(NEW_DATE);
+  const [activeDate, setActiveDate] = useState<Date>(initValue);
   const [viewDate, setViewDate] = useState<string>(
-    getFormatDatetime(NEW_DATE, 'YYYY-MM-DD')
+    getFormatDatetime(initValue, 'YYYY-MM-DD')
   );
   const [viewType, setViewType] = useState<
     'century' | 'decade' | 'year' | 'month'
@@ -33,7 +32,7 @@ function Container() {
 
   const centuryPage = useMemo(() => setCenturyPage(viewDate), [viewDate]);
   const decadePage = useMemo(() => setDecadePage(viewDate), [viewDate]);
-  const yearPage = useMemo(() => setYearPage(viewDate), [viewDate]);
+  // const yearPage = useMemo(() => setYearPage(viewDate), [viewDate]);
   const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
   const container = useRef(null);
 
@@ -76,13 +75,15 @@ function Container() {
   };
 
   const handleFocus = () => {
-    console.log('handleFocus');
     setIsVisible(true);
   };
 
   useEffect(() => {
     setIsVisible(false);
-  }, [activeDate]);
+    if (onChange) {
+      onChange(activeDate);
+    }
+  }, [activeDate, onChange]);
 
   // const [centuryPage, setCenturyPage] = useState<number>(0);
   // const [decadePage, setDecadePage] = useState<number>(0);

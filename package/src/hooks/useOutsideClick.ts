@@ -8,7 +8,6 @@ const useOutsideClick = (
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLDivElement;
       if (targetRef.current && !targetRef.current.contains(target)) {
-        console.log('click outside');
         callback();
       }
     };
