@@ -13,6 +13,7 @@ function App() {
           console.log('value', value);
         }}
       />
+      <Datepicker />
     </div>
   );
 }

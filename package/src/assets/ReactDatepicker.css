@@ -70,6 +70,10 @@
   height: 36px;
   cursor: pointer;
 }
+.react-datepicker__datepicker-button[data-active='true'] {
+  background-color: #333;
+  color: #fff;
+}
 .react-datepicker__datepicker-button:hover {
   background-color: #f7f7f7;
 }

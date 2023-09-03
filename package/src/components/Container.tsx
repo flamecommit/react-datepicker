@@ -85,17 +85,6 @@ function Container({ initValue = new Date(), onChange }: Iprops) {
     }
   }, [value, onChange]);
 
-  // const [centuryPage, setCenturyPage] = useState<number>(0);
-  // const [decadePage, setDecadePage] = useState<number>(0);
-  // const [yearPage, setYearPage] = useState<number>(0);
-  // const [monthPage, setMonthPage] = useState<number>(0);
-
-  // 2041-07-15
-  // centuryPage 21
-  // decadePage 205
-  // yearPage 2041
-  // monthPage 24487
-
   return (
     <div className={`${NAME_SPACE}__wrapper`}>
       <div className={`${NAME_SPACE}__input-container`}>
@@ -116,7 +105,11 @@ function Container({ initValue = new Date(), onChange }: Iprops) {
           />
           <div className={`${NAME_SPACE}__datepicker`}>
             {viewType === 'month' && (
-              <ViewMonth monthPage={monthPage} setValue={setValue} />
+              <ViewMonth
+                monthPage={monthPage}
+                value={value}
+                setValue={setValue}
+              />
             )}
             {viewType === 'year' && (
               <ViewYear
