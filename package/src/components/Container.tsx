@@ -1,5 +1,6 @@
 'use client';
 
+import '../../assets/ReactDatepicker.css';
 import * as React from 'react';
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { getFormatDatetime } from '../utils/datetime';
@@ -27,7 +28,7 @@ function Container() {
   );
   const [viewType, setViewType] = useState<
     'century' | 'decade' | 'year' | 'month'
-  >('century');
+  >('month');
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const centuryPage = useMemo(() => setCenturyPage(viewDate), [viewDate]);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Datepicker from '@shinyongjun/react-datepicker';
+import { Datepicker } from '@shinyongjun/react-datepicker';
 
 function App() {
   return (
