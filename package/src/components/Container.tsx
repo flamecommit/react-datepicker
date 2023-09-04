@@ -3,7 +3,7 @@
 import '../../assets/ReactDatepicker.css';
 import * as React from 'react';
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { devFormatDate, formatDate } from '../utils/datetime';
+import { formatDate } from '../utils/datetime';
 import {
   setCenturyPage,
   setDecadePage,
