@@ -2,15 +2,16 @@
 
 import * as React from 'react';
 import { NAME_SPACE } from '../constants/core';
-import { getFormatDatetime } from '../../utils/datetime';
+import { formatDate } from '../../utils/datetime';
 
 interface Iprops {
   value: Date | null;
+  valueFormat: string;
   monthPage: number;
   setValue: (value: Date) => void;
 }
 
-function ViewMonth({ monthPage, value, setValue }: Iprops) {
+function ViewMonth({ value, valueFormat, monthPage, setValue }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
   const firstDay = new Date(year, month - 1, 1).getDay(); // 이달 1일의 요일
@@ -18,7 +19,7 @@ function ViewMonth({ monthPage, value, setValue }: Iprops) {
   const lastDate = lastDateValue.getDate(); // 이달 말 일
   const lastDay = lastDateValue.getDay(); // 이달 말 일의 요일
   const prevLastDate = new Date(year, month - 1, 0).getDate(); // 이전달의 말 일
-  const formatedValue = getFormatDatetime(value, 'YYYY-MM-DD');
+  const formatedValue = formatDate(value, valueFormat);
 
   const renderDateButton = (
     date: number,
@@ -26,7 +27,7 @@ function ViewMonth({ monthPage, value, setValue }: Iprops) {
     classNameModifier = ''
   ) => {
     const day = thisValue.getDay();
-    const formatedThisValue = getFormatDatetime(thisValue, 'YYYY-MM-DD');
+    const formatedThisValue = formatDate(thisValue, valueFormat);
 
     return (
       <button

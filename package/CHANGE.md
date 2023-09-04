@@ -1,3 +1,10 @@
+## 1.3.0
+
+### What's New?
+
+- New Props - valueFormat
+- New Props - labelFormat
+
 ## 1.2.0
 
 ### What's New?

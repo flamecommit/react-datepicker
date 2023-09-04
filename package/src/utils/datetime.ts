@@ -10,20 +10,37 @@ export const toLocalISOString = (date: Date): string => {
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
 };
 
-export const getFormatDatetime = (datetime: Date | null, format: string) => {
-  if (!datetime) return '';
-  const origin = toLocalISOString(datetime).split('T')[0] as string;
+export const formatDate = (dateObj: Date | null, format: string) => {
+  if (!dateObj) return '';
+  const dateStr = toLocalISOString(dateObj).split('T')[0] as string;
 
-  const year = origin.split('-')[0];
-  const month = origin.split('-')[1];
-  const date = origin.split('-')[2];
+  const year = dateStr.split('-')[0];
+  const month = dateStr.split('-')[1];
+  const date = dateStr.split('-')[2];
 
-  const result = format
-    .replace(/YYYY/g, String(year))
-    .replace(/MM/g, String(month))
-    .replace(/DD/g, String(date));
+  if (
+    /.*YYYY.*/.test(format) &&
+    /.*MM.*/.test(format) &&
+    /.*DD.*/.test(format)
+  ) {
+    return format
+      .replace(/YYYY/g, String(year))
+      .replace(/MM/g, String(month))
+      .replace(/DD/g, String(date));
+  }
 
-  return result;
+  return dateStr;
+};
+
+export const formatLabel = (label: string, format: string) => {
+  const year = label.split('-')[0];
+  const month = label.split('-')[1];
+
+  if (/.*YYYY.*/.test(format) && /.*MM.*/.test(format)) {
+    return format.replace(/YYYY/g, String(year)).replace(/MM/g, String(month));
+  }
+
+  return label;
 };
 
 export const getMonthArray = (year: number, month: number) => {
@@ -32,7 +49,7 @@ export const getMonthArray = (year: number, month: number) => {
 
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(year, month - 1, day, 12, 0, 0);
-    const formattedDate = getFormatDatetime(date, 'YYYY-MM-DD');
+    const formattedDate = formatDate(date, 'YYYY-MM-DD');
     const dayValue = date.getDate();
     const dayOfWeek = date.getDay();
 
@@ -45,3 +62,17 @@ export const getMonthArray = (year: number, month: number) => {
 
   return monthArray;
 };
+
+// export const get;
+
+/**
+ * most pupolar date format
+ * YYYY-MM-DD - 국제 표준
+ * DD/MM/YYYY
+ * DD-MM-YYYY
+ * MM/DD/YYYY
+ * MM-DD-YYYY
+ * YYYY년 MM월 DD일 (한국 스타일)
+ * DD Month YYYY (영국 스타일) - 04 September 2023
+ * Month DD, YYYY (미국 스타일) - September 04, 2023
+ */

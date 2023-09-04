@@ -3,7 +3,7 @@
 import '../../assets/ReactDatepicker.css';
 import * as React from 'react';
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { getFormatDatetime } from '../utils/datetime';
+import { devFormatDate, formatDate } from '../utils/datetime';
 import {
   setCenturyPage,
   setDecadePage,
@@ -22,19 +22,23 @@ import useOutsideClick from '../hooks/useOutsideClick';
 interface Iprops {
   initValue?: Date | null;
   isClearButton?: boolean;
+  valueFormat?: string;
+  labelFormat?: string;
   onChange?: (activeDate: Date | null) => void;
 }
 
 function Container({
   initValue = null,
   isClearButton = false,
+  valueFormat = 'YYYY-MM-DD',
+  labelFormat = 'YYYY / MM',
   onChange,
 }: Iprops) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
   const NEW_DATE = new Date();
   const [value, setValue] = useState<Date | null>(initValue);
   const [viewDate, setViewDate] = useState<string>(
-    getFormatDatetime(value || NEW_DATE, 'YYYY-MM-DD')
+    formatDate(value || NEW_DATE, 'YYYY-MM-DD')
   );
   const [viewType, setViewType] = useState<
     'century' | 'decade' | 'year' | 'month'
@@ -91,7 +95,7 @@ function Container({
 
   useEffect(() => {
     setIsVisible(false);
-    setViewDate(getFormatDatetime(value || NEW_DATE, 'YYYY-MM-DD'));
+    setViewDate(formatDate(value || NEW_DATE, 'YYYY-MM-DD'));
     if (onChange) {
       onChange(value);
     }
@@ -104,7 +108,7 @@ function Container({
         <input
           className={`${NAME_SPACE}__input`}
           type="text"
-          value={getFormatDatetime(value, 'YYYY-MM-DD')}
+          value={formatDate(value, valueFormat)}
           readOnly
           onFocus={handleFocus}
         />
@@ -123,12 +127,14 @@ function Container({
             viewType={viewType}
             setViewType={setViewType}
             viewDate={viewDate}
+            labelFormat={labelFormat}
             setViewDateByType={setViewDateByType}
           />
           <div className={`${NAME_SPACE}__datepicker`}>
             {viewType === 'month' && (
               <ViewMonth
                 value={value}
+                valueFormat={valueFormat}
                 monthPage={monthPage}
                 setValue={setValue}
               />

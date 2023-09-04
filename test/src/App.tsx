@@ -15,6 +15,8 @@ function App() {
       />
       <Datepicker />
       <Datepicker isClearButton />
+      <Datepicker valueFormat="MM/DD/YYYY" />
+      <Datepicker labelFormat="YYYY년 MM월" />
     </div>
   );
 }

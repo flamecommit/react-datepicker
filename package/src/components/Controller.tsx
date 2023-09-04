@@ -10,6 +10,7 @@ import {
   setYearPage,
 } from '../utils/page';
 import { addLeadingZero } from '../utils/string';
+import { formatLabel } from '../utils/datetime';
 
 type TviewType = 'century' | 'decade' | 'year' | 'month';
 
@@ -17,6 +18,7 @@ interface IProps {
   viewType: TviewType;
   setViewType: (value: TviewType) => void;
   viewDate: string;
+  labelFormat: string;
   setViewDateByType: (
     value: string | number,
     type: 'year' | 'month' | 'date'
@@ -26,6 +28,7 @@ interface IProps {
 function Controller({
   viewDate,
   viewType,
+  labelFormat,
   setViewType,
   setViewDateByType,
 }: IProps) {
@@ -54,7 +57,7 @@ function Controller({
       const year = Math.ceil(monthPage / 12);
       const month = addLeadingZero(monthPage % 12 || 12);
 
-      return `${year}-${month}`;
+      return formatLabel(`${year}-${month}`, labelFormat);
     }
     return '';
   };
