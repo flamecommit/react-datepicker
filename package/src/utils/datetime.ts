@@ -10,7 +10,8 @@ export const toLocalISOString = (date: Date): string => {
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
 };
 
-export const getFormatDatetime = (datetime: Date, format: string) => {
+export const getFormatDatetime = (datetime: Date | null, format: string) => {
+  if (!datetime) return '';
   const origin = toLocalISOString(datetime).split('T')[0] as string;
 
   const year = origin.split('-')[0];

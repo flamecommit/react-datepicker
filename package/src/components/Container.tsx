@@ -20,15 +20,21 @@ import { addLeadingZero } from '../utils/string';
 import useOutsideClick from '../hooks/useOutsideClick';
 
 interface Iprops {
-  initValue?: Date;
-  onChange?: (activeDate: Date) => void;
+  initValue?: Date | null;
+  isClearButton?: boolean;
+  onChange?: (activeDate: Date | null) => void;
 }
 
-function Container({ initValue = new Date(), onChange }: Iprops) {
+function Container({
+  initValue = null,
+  isClearButton = false,
+  onChange,
+}: Iprops) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
-  const [value, setValue] = useState<Date>(initValue);
+  const NEW_DATE = new Date();
+  const [value, setValue] = useState<Date | null>(initValue);
   const [viewDate, setViewDate] = useState<string>(
-    getFormatDatetime(initValue, 'YYYY-MM-DD')
+    getFormatDatetime(value || NEW_DATE, 'YYYY-MM-DD')
   );
   const [viewType, setViewType] = useState<
     'century' | 'decade' | 'year' | 'month'
@@ -85,21 +91,31 @@ function Container({ initValue = new Date(), onChange }: Iprops) {
 
   useEffect(() => {
     setIsVisible(false);
-    setViewDate(getFormatDatetime(value, 'YYYY-MM-DD'));
+    setViewDate(getFormatDatetime(value || NEW_DATE, 'YYYY-MM-DD'));
     if (onChange) {
       onChange(value);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, onChange, setViewDate]);
 
   return (
     <div className={`${NAME_SPACE}__wrapper`}>
       <div className={`${NAME_SPACE}__input-container`}>
         <input
+          className={`${NAME_SPACE}__input`}
           type="text"
           value={getFormatDatetime(value, 'YYYY-MM-DD')}
           readOnly
           onFocus={handleFocus}
         />
+        {isClearButton && value && (
+          <button
+            className={`${NAME_SPACE}__clear`}
+            onClick={() => setValue(null)}
+          >
+            Clear
+          </button>
+        )}
       </div>
       {isVisible && (
         <div className={`${NAME_SPACE}__datepicker-container`} ref={container}>

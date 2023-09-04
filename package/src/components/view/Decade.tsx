@@ -4,7 +4,7 @@ import * as React from 'react';
 import { NAME_SPACE } from '../constants/core';
 
 interface IProps {
-  value: Date;
+  value: Date | null;
   decadePage: number;
   setViewDateByType: (value: string, type: 'year') => void;
   setViewType: (value: 'year') => void;
@@ -20,7 +20,7 @@ function ViewDecade({
     setViewDateByType(year, 'year');
     setViewType('year');
   };
-  const valueYear = value.getFullYear();
+  const valueYear = value?.getFullYear();
 
   return (
     <div className={`${NAME_SPACE}__decade-view`}>

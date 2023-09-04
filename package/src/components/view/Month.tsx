@@ -5,7 +5,7 @@ import { NAME_SPACE } from '../constants/core';
 import { getFormatDatetime } from '../../utils/datetime';
 
 interface Iprops {
-  value: Date;
+  value: Date | null;
   monthPage: number;
   setValue: (value: Date) => void;
 }

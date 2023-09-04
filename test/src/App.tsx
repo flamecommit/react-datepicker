@@ -14,6 +14,7 @@ function App() {
         }}
       />
       <Datepicker />
+      <Datepicker isClearButton />
     </div>
   );
 }

@@ -134,14 +134,14 @@ function Controller({
         className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-next`}
         onClick={() => handleControl('next')}
       >
-        Extra Next
+        Next
       </button>
       {viewType !== 'century' && (
         <button
           className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-extra-next`}
           onClick={() => handleControl('extraNext')}
         >
-          Next
+          Extra Next
         </button>
       )}
     </div>

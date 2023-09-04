@@ -5,7 +5,7 @@ import { NAME_SPACE } from '../constants/core';
 import { addLeadingZero } from '../../utils/string';
 
 interface Iprops {
-  value: Date;
+  value: Date | null;
   yearPage: number;
   setViewDateByType: (value: string, type: 'month') => void;
   setViewType: (value: 'month') => void;
@@ -17,8 +17,8 @@ function ViewYear({ value, yearPage, setViewDateByType, setViewType }: Iprops) {
     setViewType('month');
   };
 
-  const valueYear = value.getFullYear();
-  const valueMonth = value.getMonth();
+  const valueYear = value?.getFullYear();
+  const valueMonth = value?.getMonth();
 
   return (
     <div className={`${NAME_SPACE}__year-view`}>

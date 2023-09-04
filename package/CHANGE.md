@@ -1,3 +1,9 @@
+## 1.2.0
+
+### What's New?
+
+- New Props - isClearButton
+
 ## 1.1.2
 
 ### Fix

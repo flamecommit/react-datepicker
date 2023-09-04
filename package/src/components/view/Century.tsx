@@ -4,7 +4,7 @@ import * as React from 'react';
 import { NAME_SPACE } from '../constants/core';
 
 interface IProps {
-  value: Date;
+  value: Date | null;
   centuryPage: number;
   setViewDateByType: (value: string, type: 'year') => void;
   setViewType: (value: 'decade') => void;
@@ -20,7 +20,7 @@ function ViewCentury({
     setViewDateByType(year, 'year');
     setViewType('decade');
   };
-  const valueYear = value.getFullYear();
+  const valueYear = value?.getFullYear();
 
   return (
     <div className={`${NAME_SPACE}__century-view`}>
@@ -36,7 +36,9 @@ function ViewCentury({
             key={i}
             onClick={() => handleViewDateType(startYear)}
             data-active={
-              valueYear >= Number(startYear) && valueYear <= Number(endYear)
+              valueYear &&
+              valueYear >= Number(startYear) &&
+              valueYear <= Number(endYear)
             }
           >
             {startYear} - {endYear}
