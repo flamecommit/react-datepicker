@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { useMemo } from 'react';
 import { NAME_SPACE } from '../constants/core';
 import {
   setCenturyPage,
@@ -19,6 +18,7 @@ interface IProps {
   setViewType: (value: TviewType) => void;
   viewDate: string;
   labelFormat: string;
+  isMultipleCalendar: boolean;
   setViewDateByType: (
     value: string | number,
     type: 'year' | 'month' | 'date'
@@ -30,8 +30,17 @@ function Controller({
   viewType,
   labelFormat,
   setViewType,
+  isMultipleCalendar,
   setViewDateByType,
 }: IProps) {
+  const setMonthLabel = (date: string, addMonth = 0) => {
+    const monthPage = setMonthPage(date);
+    const year = Math.ceil((monthPage + addMonth) / 12);
+    const month = addLeadingZero((monthPage + addMonth) % 12 || 12);
+
+    return formatLabel(`${year}-${month}`, labelFormat);
+  };
+
   const setLabel = (date: string, type: TviewType): string => {
     if (type === 'century') {
       const centuryPage = setCenturyPage(date);
@@ -53,19 +62,10 @@ function Controller({
       return `${yearPage}`;
     }
     if (type === 'month') {
-      const monthPage = setMonthPage(date);
-      const year = Math.ceil(monthPage / 12);
-      const month = addLeadingZero(monthPage % 12 || 12);
-
-      return formatLabel(`${year}-${month}`, labelFormat);
+      return setMonthLabel(date);
     }
     return '';
   };
-
-  const label = useMemo(
-    () => setLabel(viewDate, viewType),
-    [viewDate, viewType]
-  );
 
   const handleLabelClick = () => {
     if (viewType === 'decade') {
@@ -111,14 +111,14 @@ function Controller({
 
   return (
     <div className={`${NAME_SPACE}__controller`}>
-      {viewType !== 'century' && (
+      {/* {viewType !== 'century' && (
         <button
           className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-extra-prev`}
           onClick={() => handleControl('extraPrev')}
         >
           Extra Previous
         </button>
-      )}
+      )} */}
       <button
         className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-prev`}
         onClick={() => handleControl('prev')}
@@ -131,22 +131,31 @@ function Controller({
         onClick={handleLabelClick}
         disabled={viewType === 'century'}
       >
-        {label}
+        {setLabel(viewDate, viewType)}
       </button>
+      {isMultipleCalendar && viewType === 'month' && (
+        <button
+          type="button"
+          className={`${NAME_SPACE}__label`}
+          onClick={handleLabelClick}
+        >
+          {setMonthLabel(viewDate, 1)}
+        </button>
+      )}
       <button
         className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-next`}
         onClick={() => handleControl('next')}
       >
         Next
       </button>
-      {viewType !== 'century' && (
+      {/* {viewType !== 'century' && (
         <button
           className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-extra-next`}
           onClick={() => handleControl('extraNext')}
         >
           Extra Next
         </button>
-      )}
+      )} */}
     </div>
   );
 }

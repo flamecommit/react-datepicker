@@ -1,3 +1,10 @@
+## 1.4.0
+
+### What's New?
+
+- remove ExtraController
+- New Props = isMultipleCalendar
+
 ## 1.3.0
 
 ### What's New?

@@ -14,6 +14,7 @@ function App() {
         }}
       />
       <Datepicker />
+      <Datepicker isMultipleCalendar />
       <Datepicker isClearButton />
       <Datepicker valueFormat="MM/DD/YYYY" />
       <Datepicker labelFormat="YYYY년 MM월" />

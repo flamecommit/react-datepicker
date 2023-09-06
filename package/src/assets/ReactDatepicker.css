@@ -35,7 +35,6 @@
 }
 .react-datepicker__datepicker-container {
   position: absolute;
-  width: 252px;
   top: 50px;
   left: 0;
   z-index: 1000;
@@ -85,19 +84,25 @@
 .react-datepicker__controller-next {
   background-image: url(./next.svg);
 }
+.react-datepicker__datepicker {
+  display: flex;
+}
 .react-datepicker__century-view,
 .react-datepicker__decade-view,
 .react-datepicker__year-view {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  width: 252px;
 }
 .react-datepicker__month-view {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  width: 252px;
 }
 .react-datepicker__datepicker-button {
   border: none;
   background-color: transparent;
+  flex-basis: 100%;
   height: 36px;
   cursor: pointer;
 }

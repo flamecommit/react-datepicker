@@ -22,6 +22,7 @@ import useOutsideClick from '../hooks/useOutsideClick';
 interface Iprops {
   initValue?: Date | null;
   isClearButton?: boolean;
+  isMultipleCalendar?: boolean;
   valueFormat?: string;
   labelFormat?: string;
   onChange?: (activeDate: Date | null) => void;
@@ -30,6 +31,7 @@ interface Iprops {
 function Datepicker({
   initValue = null,
   isClearButton = false,
+  isMultipleCalendar = false,
   valueFormat = 'YYYY-MM-DD',
   labelFormat = 'YYYY / MM',
   onChange,
@@ -128,16 +130,27 @@ function Datepicker({
             setViewType={setViewType}
             viewDate={viewDate}
             labelFormat={labelFormat}
+            isMultipleCalendar={isMultipleCalendar}
             setViewDateByType={setViewDateByType}
           />
           <div className={`${NAME_SPACE}__datepicker`}>
             {viewType === 'month' && (
-              <ViewMonth
-                value={value}
-                valueFormat={valueFormat}
-                monthPage={monthPage}
-                setValue={setValue}
-              />
+              <>
+                <ViewMonth
+                  value={value}
+                  valueFormat={valueFormat}
+                  monthPage={monthPage}
+                  setValue={setValue}
+                />
+                {isMultipleCalendar && (
+                  <ViewMonth
+                    value={value}
+                    valueFormat={valueFormat}
+                    monthPage={monthPage + 1}
+                    setValue={setValue}
+                  />
+                )}
+              </>
             )}
             {viewType === 'year' && (
               <ViewYear
