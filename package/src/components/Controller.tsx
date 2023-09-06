@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useMemo } from 'react';
-import { NAME_SPACE } from './constants/core';
+import { NAME_SPACE } from '../constants/core';
 import {
   setCenturyPage,
   setDecadePage,

@@ -11,7 +11,7 @@ import {
   setMonthPage,
 } from '../utils/page';
 import ViewCentury from './view/Century';
-import { NAME_SPACE } from './constants/core';
+import { NAME_SPACE } from '../constants/core';
 import Controller from './Controller';
 import ViewDecade from './view/Decade';
 import ViewYear from './view/Year';

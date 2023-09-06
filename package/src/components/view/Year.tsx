@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { NAME_SPACE } from '../constants/core';
+import { NAME_SPACE } from '../../constants/core';
 import { addLeadingZero } from '../../utils/string';
 
 interface Iprops {

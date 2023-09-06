@@ -1,1 +1,1 @@
-export { default as Datepicker } from './components/Container';
+export { default as Datepicker } from './components/Datepicker';
