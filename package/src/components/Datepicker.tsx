@@ -27,7 +27,7 @@ interface Iprops {
   onChange?: (activeDate: Date | null) => void;
 }
 
-function Container({
+function Datepicker({
   initValue = null,
   isClearButton = false,
   valueFormat = 'YYYY-MM-DD',
@@ -170,4 +170,4 @@ function Container({
   );
 }
 
-export default Container;
+export default Datepicker;
