@@ -11,11 +11,11 @@ import {
 import { addLeadingZero } from '../utils/string';
 import { formatLabel } from '../utils/datetime';
 
-type TviewType = 'century' | 'decade' | 'year' | 'month';
+type TViewType = 'century' | 'decade' | 'year' | 'month';
 
 interface IProps {
-  viewType: TviewType;
-  setViewType: (value: TviewType) => void;
+  viewType: TViewType;
+  setViewType: (value: TViewType) => void;
   viewDate: string;
   labelFormat: string;
   isMultipleCalendar: boolean;
@@ -41,7 +41,7 @@ function Controller({
     return formatLabel(`${year}-${month}`, labelFormat);
   };
 
-  const setLabel = (date: string, type: TviewType): string => {
+  const setLabel = (date: string, type: TViewType): string => {
     if (type === 'century') {
       const centuryPage = setCenturyPage(date);
       const start = centuryPage * 100 - 99;

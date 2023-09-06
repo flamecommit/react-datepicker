@@ -19,7 +19,7 @@ import ViewMonth from './view/Month';
 import { addLeadingZero } from '../utils/string';
 import useOutsideClick from '../hooks/useOutsideClick';
 
-interface Iprops {
+interface IProps {
   initValue?: Date | null;
   isClearButton?: boolean;
   isMultipleCalendar?: boolean;
@@ -35,7 +35,7 @@ function Datepicker({
   valueFormat = 'YYYY-MM-DD',
   labelFormat = 'YYYY / MM',
   onChange,
-}: Iprops) {
+}: IProps) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
   const NEW_DATE = new Date();
   const [value, setValue] = useState<Date | null>(initValue);
@@ -61,8 +61,8 @@ function Datepicker({
     value: string | number,
     type: 'year' | 'month' | 'date'
   ) => {
-    type Tsplit = string | number;
-    const split = viewDate.split('-') as [Tsplit, Tsplit, Tsplit];
+    type TSplit = string | number;
+    const split: TSplit[] = viewDate.split('-');
     const valueNum = Number(value);
 
     if (type === 'year') {
@@ -84,7 +84,7 @@ function Datepicker({
       } else {
         split[1] = valueNum;
       }
-      split[1] = addLeadingZero(split[1]);
+      split[1] = addLeadingZero(split[1] as string);
     }
     if (type === 'date') split[2] = addLeadingZero(valueNum);
 
