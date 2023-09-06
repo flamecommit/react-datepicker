@@ -20,6 +20,7 @@ function App() {
       <Datepicker labelFormat="YYYY년 MM월" />
       <Rangepicker />
       <Rangepicker showsMultipleCalendar />
+      <Rangepicker closesAfterChange={false} />
     </div>
   );
 }

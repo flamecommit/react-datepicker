@@ -20,6 +20,7 @@ interface IProps {
   showsMultipleCalendar?: boolean;
   valueFormat?: string;
   labelFormat?: string;
+  closesAfterChange?: boolean;
   onChange?: (activeDate: Date | null) => void;
 }
 
@@ -29,6 +30,7 @@ function Datepicker({
   showsMultipleCalendar = false,
   valueFormat = 'YYYY-MM-DD',
   labelFormat = 'YYYY / MM',
+  closesAfterChange = true,
   onChange,
 }: IProps) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
@@ -50,8 +52,10 @@ function Datepicker({
   });
 
   useEffect(() => {
-    setIsVisible(false);
-    setViewDate(formatDate(value || NEW_DATE, 'YYYY-MM-DD'));
+    // setViewDate(formatDate(value || NEW_DATE, 'YYYY-MM-DD'));
+    if (closesAfterChange) {
+      setIsVisible(false);
+    }
     if (onChange) {
       onChange(value);
     }

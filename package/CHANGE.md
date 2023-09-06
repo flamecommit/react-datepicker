@@ -1,3 +1,10 @@
+## 1.6.0
+
+### What's New?
+
+- add props - closesAfterChange
+- rangepicker default value
+
 ## 1.5.0
 
 ### What's New?

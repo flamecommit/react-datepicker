@@ -20,6 +20,7 @@ interface IProps {
   showsMultipleCalendar?: boolean;
   valueFormat?: string;
   labelFormat?: string;
+  closesAfterChange?: boolean;
   onChange?: (activeDate: Date | null) => void;
 }
 
@@ -29,6 +30,7 @@ function Rangepicker({
   showsMultipleCalendar = false,
   valueFormat = 'YYYY-MM-DD',
   labelFormat = 'YYYY / MM',
+  closesAfterChange = true,
   onChange,
 }: IProps) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
@@ -52,9 +54,10 @@ function Rangepicker({
   });
 
   useEffect(() => {
-    if (endValue !== null) {
+    if (closesAfterChange && endValue !== null) {
+      setIsVisible(false);
       // setIsVisible(false);
-      setViewDate(formatDate(startValue || NEW_DATE, 'YYYY-MM-DD'));
+      // setViewDate(formatDate(startValue || NEW_DATE, 'YYYY-MM-DD'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endValue, onChange, setViewDate]);

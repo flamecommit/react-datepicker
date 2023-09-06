@@ -27,11 +27,16 @@ function InputRange({
     setIsVisible(true);
   };
 
-  const setRangeValue = () =>
-    `${formatDate(startValue, valueFormat)} - ${formatDate(
-      endValue,
-      valueFormat
-    )}`;
+  const setRangeValue = () => {
+    if (startValue === null && endValue === null) {
+      return '';
+    } else {
+      return `${formatDate(startValue, valueFormat)} - ${formatDate(
+        endValue,
+        valueFormat
+      )}`;
+    }
+  };
 
   const clearValue = () => {
     setStartValue(null);
