@@ -86,6 +86,7 @@
 }
 .react-datepicker__datepicker {
   display: flex;
+  align-items: flex-start;
 }
 .react-datepicker__century-view,
 .react-datepicker__decade-view,
