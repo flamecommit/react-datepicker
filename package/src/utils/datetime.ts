@@ -1,3 +1,5 @@
+import { addLeadingZero } from './string';
+
 export const toLocalISOString = (date: Date): string => {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -63,7 +65,40 @@ export const getMonthArray = (year: number, month: number) => {
   return monthArray;
 };
 
-// export const get;
+export const setViewDateByType = (
+  origin: string,
+  value: string | number,
+  type: 'year' | 'month' | 'date'
+) => {
+  type TSplit = string | number;
+  const split: TSplit[] = origin.split('-');
+  const valueNum = Number(value);
+
+  if (type === 'year') {
+    if (valueNum < 1) {
+      split[0] = 1;
+    } else {
+      split[0] = valueNum;
+    }
+  }
+  if (type === 'month') {
+    if (valueNum === 0) {
+      if (Number(split[0]) > 1) {
+        split[0] = Number(split[0]) - 1;
+        split[1] = 12;
+      }
+    } else if (valueNum === 13) {
+      split[0] = Number(split[0]) + 1;
+      split[1] = 1;
+    } else {
+      split[1] = valueNum;
+    }
+    split[1] = addLeadingZero(split[1] as string);
+  }
+  if (type === 'date') split[2] = addLeadingZero(valueNum);
+
+  return split.join('-');
+};
 
 /**
  * most pupolar date format

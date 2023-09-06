@@ -1,26 +1,26 @@
 'use client';
 
 import * as React from 'react';
+import { useMemo } from 'react';
+import { setCenturyPage } from '../../utils/page';
 import { NAME_SPACE } from '../../constants/core';
+import { setViewDateByType } from '../../utils/datetime';
 
 interface IProps {
   value: Date | null;
-  centuryPage: number;
-  setViewDateByType: (value: string, type: 'year') => void;
+  viewDate: string;
+  setViewDate: (value: string) => void;
   setViewType: (value: 'decade') => void;
 }
 
-function ViewCentury({
-  value,
-  centuryPage,
-  setViewDateByType,
-  setViewType,
-}: IProps) {
+function ViewCentury({ value, viewDate, setViewDate, setViewType }: IProps) {
+  const centuryPage = useMemo(() => setCenturyPage(viewDate), [viewDate]);
+  const valueYear = value?.getFullYear();
+
   const handleViewDateType = (year: string) => {
-    setViewDateByType(year, 'year');
+    setViewDate(setViewDateByType(viewDate, year, 'year'));
     setViewType('decade');
   };
-  const valueYear = value?.getFullYear();
 
   return (
     <div className={`${NAME_SPACE}__century-view`}>

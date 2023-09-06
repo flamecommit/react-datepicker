@@ -1,26 +1,26 @@
 'use client';
 
 import * as React from 'react';
+import { useMemo } from 'react';
+import { setDecadePage } from '../../utils/page';
 import { NAME_SPACE } from '../../constants/core';
+import { setViewDateByType } from '../../utils/datetime';
 
 interface IProps {
   value: Date | null;
-  decadePage: number;
-  setViewDateByType: (value: string, type: 'year') => void;
+  viewDate: string;
+  setViewDate: (value: string) => void;
   setViewType: (value: 'year') => void;
 }
 
-function ViewDecade({
-  value,
-  decadePage,
-  setViewDateByType,
-  setViewType,
-}: IProps) {
+function ViewDecade({ value, viewDate, setViewDate, setViewType }: IProps) {
+  const decadePage = useMemo(() => setDecadePage(viewDate), [viewDate]);
+  const valueYear = value?.getFullYear();
+
   const handleViewDateType = (year: string) => {
-    setViewDateByType(year, 'year');
+    setViewDate(setViewDateByType(viewDate, year, 'year'));
     setViewType('year');
   };
-  const valueYear = value?.getFullYear();
 
   return (
     <div className={`${NAME_SPACE}__decade-view`}>
