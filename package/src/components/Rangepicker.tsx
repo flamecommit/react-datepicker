@@ -6,16 +6,16 @@ import { useState, useMemo, useRef, useEffect } from 'react';
 import { formatDate } from '../utils/datetime';
 import { setMonthPage } from '../utils/page';
 import { NAME_SPACE } from '../constants/core';
-import DatepickerMonth from './datepicker/Month';
+import RangepickerMonth from './rangepicker/Month';
 import DatepickerYear from './datepicker/Year';
 import DatepickerDecade from './datepicker/Decade';
 import DatepickerCentury from './datepicker/Century';
 import useOutsideClick from '../hooks/useOutsideClick';
 import ControllerContainer from './controller/Container';
-import InputDate from './input/Date';
+import InputRange from './input/Range';
 
 interface IProps {
-  initValue?: Date | null;
+  // initValue?: Date | null;
   useClearButton?: boolean;
   showsMultipleCalendar?: boolean;
   valueFormat?: string;
@@ -23,8 +23,8 @@ interface IProps {
   onChange?: (activeDate: Date | null) => void;
 }
 
-function Datepicker({
-  initValue = null,
+function Rangepicker({
+  // initValue = null,
   useClearButton = false,
   showsMultipleCalendar = false,
   valueFormat = 'YYYY-MM-DD',
@@ -33,9 +33,11 @@ function Datepicker({
 }: IProps) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
   const NEW_DATE = new Date();
-  const [value, setValue] = useState<Date | null>(initValue);
+  const [startValue, setStartValue] = useState<Date | null>(null);
+  const [endValue, setEndValue] = useState<Date | null>(null);
+  const [hoverValue, setHoverValue] = useState<Date | null>(null);
   const [viewDate, setViewDate] = useState<string>(
-    formatDate(value || NEW_DATE, 'YYYY-MM-DD')
+    formatDate(startValue || NEW_DATE, 'YYYY-MM-DD')
   );
   const [viewType, setViewType] = useState<
     'century' | 'decade' | 'year' | 'month'
@@ -50,22 +52,23 @@ function Datepicker({
   });
 
   useEffect(() => {
-    setIsVisible(false);
-    setViewDate(formatDate(value || NEW_DATE, 'YYYY-MM-DD'));
-    if (onChange) {
-      onChange(value);
+    if (endValue !== null) {
+      // setIsVisible(false);
+      setViewDate(formatDate(startValue || NEW_DATE, 'YYYY-MM-DD'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, onChange, setViewDate]);
+  }, [endValue, onChange, setViewDate]);
 
   return (
     <div className={`${NAME_SPACE}__wrapper`}>
-      <InputDate
-        value={value}
-        setValue={setValue}
+      <InputRange
+        startValue={startValue}
+        endValue={endValue}
         valueFormat={valueFormat}
-        setIsVisible={setIsVisible}
         useClearButton={useClearButton}
+        setIsVisible={setIsVisible}
+        setStartValue={setStartValue}
+        setEndValue={setEndValue}
       />
       {isVisible && (
         <div className={`${NAME_SPACE}__datepicker-container`} ref={container}>
@@ -80,25 +83,33 @@ function Datepicker({
           <div className={`${NAME_SPACE}__datepicker`}>
             {viewType === 'month' && (
               <>
-                <DatepickerMonth
-                  value={value}
+                <RangepickerMonth
+                  startValue={startValue}
+                  endValue={endValue}
+                  hoverValue={hoverValue}
                   valueFormat={valueFormat}
                   monthPage={monthPage}
-                  setValue={setValue}
+                  setStartValue={setStartValue}
+                  setEndValue={setEndValue}
+                  setHoverValue={setHoverValue}
                 />
                 {showsMultipleCalendar && (
-                  <DatepickerMonth
-                    value={value}
+                  <RangepickerMonth
+                    startValue={startValue}
+                    endValue={endValue}
+                    hoverValue={hoverValue}
                     valueFormat={valueFormat}
                     monthPage={monthPage + 1}
-                    setValue={setValue}
+                    setStartValue={setStartValue}
+                    setEndValue={setEndValue}
+                    setHoverValue={setHoverValue}
                   />
                 )}
               </>
             )}
             {viewType === 'year' && (
               <DatepickerYear
-                value={value}
+                value={startValue}
                 viewDate={viewDate}
                 setViewDate={setViewDate}
                 setViewType={setViewType}
@@ -106,7 +117,7 @@ function Datepicker({
             )}
             {viewType === 'decade' && (
               <DatepickerDecade
-                value={value}
+                value={startValue}
                 viewDate={viewDate}
                 setViewDate={setViewDate}
                 setViewType={setViewType}
@@ -114,7 +125,7 @@ function Datepicker({
             )}
             {viewType === 'century' && (
               <DatepickerCentury
-                value={value}
+                value={startValue}
                 viewDate={viewDate}
                 setViewDate={setViewDate}
                 setViewType={setViewType}
@@ -127,4 +138,4 @@ function Datepicker({
   );
 }
 
-export default Datepicker;
+export default Rangepicker;

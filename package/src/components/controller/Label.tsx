@@ -17,7 +17,7 @@ interface IProps {
   viewDate: string;
   viewType: TViewType;
   labelFormat: string;
-  isMultipleCalendar: boolean;
+  showsMultipleCalendar: boolean;
   setViewType: (value: TViewType) => void;
 }
 
@@ -25,7 +25,7 @@ function ControllerLabel({
   viewDate,
   viewType,
   labelFormat,
-  isMultipleCalendar,
+  showsMultipleCalendar,
   setViewType,
 }: IProps) {
   const setMonthLabel = (date: string, addMonth = 0) => {
@@ -84,7 +84,7 @@ function ControllerLabel({
       >
         {setLabel(viewDate, viewType)}
       </button>
-      {isMultipleCalendar && viewType === 'month' && (
+      {showsMultipleCalendar && viewType === 'month' && (
         <button
           type="button"
           className={`${NAME_SPACE}__label`}

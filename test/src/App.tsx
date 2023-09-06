@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Datepicker } from '@shinyongjun/react-datepicker';
+import { Datepicker, Rangepicker } from '@shinyongjun/react-datepicker';
 import { useState } from 'react';
 
 function App() {
@@ -14,10 +14,12 @@ function App() {
         }}
       />
       <Datepicker />
-      <Datepicker isMultipleCalendar />
-      <Datepicker isClearButton />
+      <Datepicker showsMultipleCalendar />
+      <Datepicker useClearButton />
       <Datepicker valueFormat="MM/DD/YYYY" />
       <Datepicker labelFormat="YYYY년 MM월" />
+      <Rangepicker />
+      <Rangepicker showsMultipleCalendar />
     </div>
   );
 }

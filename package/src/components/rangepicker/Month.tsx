@@ -5,13 +5,26 @@ import { NAME_SPACE } from '../../constants/core';
 import { formatDate } from '../../utils/datetime';
 
 interface Iprops {
-  value: Date | null;
+  startValue: Date | null;
+  endValue: Date | null;
+  hoverValue: Date | null;
   valueFormat: string;
   monthPage: number;
-  setValue: (value: Date) => void;
+  setStartValue: (value: Date | null) => void;
+  setEndValue: (value: Date | null) => void;
+  setHoverValue: (value: Date | null) => void;
 }
 
-function ViewMonth({ value, valueFormat, monthPage, setValue }: Iprops) {
+function RangepicerMonth({
+  startValue,
+  endValue,
+  hoverValue,
+  valueFormat,
+  monthPage,
+  setStartValue,
+  setEndValue,
+  setHoverValue,
+}: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
   const firstDay = new Date(year, month - 1, 1).getDay(); // 이달 1일의 요일
@@ -19,7 +32,27 @@ function ViewMonth({ value, valueFormat, monthPage, setValue }: Iprops) {
   const lastDate = lastDateValue.getDate(); // 이달 말 일
   const lastDay = lastDateValue.getDay(); // 이달 말 일의 요일
   const prevLastDate = new Date(year, month - 1, 0).getDate(); // 이전달의 말 일
-  const formatedValue = formatDate(value, valueFormat);
+  const formatedStartValue = formatDate(startValue, valueFormat);
+  const formatedEndValue = formatDate(endValue, valueFormat);
+
+  const clickHandler = (thisValue: Date) => {
+    if (startValue && endValue) {
+      // 이미 값이 존재 한다면
+      setStartValue(thisValue);
+      setEndValue(null);
+    } else if (startValue && thisValue < startValue) {
+      // startValue보다 이전 날짜 선택 했다면
+      setStartValue(thisValue);
+    } else if (startValue && thisValue > startValue) {
+      setEndValue(thisValue);
+    } else {
+      setStartValue(thisValue);
+    }
+  };
+
+  const mouseEnterHandler = (thisValue: Date) => {
+    setHoverValue(thisValue);
+  };
 
   const renderDateButton = (
     date: number,
@@ -36,8 +69,23 @@ function ViewMonth({ value, valueFormat, monthPage, setValue }: Iprops) {
         key={date}
         title={formatedThisValue}
         data-day={day}
-        data-active={formatedValue === formatedThisValue}
-        onClick={() => setValue(thisValue)}
+        data-hover-active={
+          startValue &&
+          hoverValue &&
+          endValue === null &&
+          thisValue > startValue &&
+          thisValue <= hoverValue
+        }
+        data-range-active={
+          startValue &&
+          endValue &&
+          thisValue > startValue &&
+          thisValue < endValue
+        }
+        data-start-active={formatedStartValue === formatedThisValue}
+        data-end-active={formatedEndValue === formatedThisValue}
+        onClick={() => clickHandler(thisValue)}
+        onMouseEnter={() => mouseEnterHandler(thisValue)}
       >
         {date}
       </button>
@@ -76,4 +124,4 @@ function ViewMonth({ value, valueFormat, monthPage, setValue }: Iprops) {
   );
 }
 
-export default ViewMonth;
+export default RangepicerMonth;

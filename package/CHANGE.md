@@ -1,3 +1,10 @@
+## 1.5.0
+
+### What's New?
+
+- add Rangepicker
+- change props name - isMultipleCalendar > showsMultipleCalendar, isClearButton > useClearButton
+
 ## 1.4.0
 
 ### What's New?

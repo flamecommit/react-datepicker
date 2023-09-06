@@ -5,22 +5,37 @@ import { formatDate } from '../../utils/datetime';
 import { NAME_SPACE } from '../../constants/core';
 
 interface IProps {
-  value: Date | null;
+  startValue: Date | null;
+  endValue: Date | null;
   valueFormat: string;
   useClearButton: boolean;
-  setValue: (value: Date | null) => void;
+  setStartValue: (value: Date | null) => void;
+  setEndValue: (value: Date | null) => void;
   setIsVisible: (value: boolean) => void;
 }
 
-function InputDate({
-  value,
+function InputRange({
+  startValue,
+  endValue,
   valueFormat,
   useClearButton,
-  setValue,
+  setStartValue,
+  setEndValue,
   setIsVisible,
 }: IProps) {
   const handleFocus = () => {
     setIsVisible(true);
+  };
+
+  const setRangeValue = () =>
+    `${formatDate(startValue, valueFormat)} - ${formatDate(
+      endValue,
+      valueFormat
+    )}`;
+
+  const clearValue = () => {
+    setStartValue(null);
+    setEndValue(null);
   };
 
   return (
@@ -28,15 +43,12 @@ function InputDate({
       <input
         className={`${NAME_SPACE}__input`}
         type="text"
-        value={formatDate(value, valueFormat)}
+        value={setRangeValue()}
         readOnly
         onFocus={handleFocus}
       />
-      {useClearButton && value && (
-        <button
-          className={`${NAME_SPACE}__clear`}
-          onClick={() => setValue(null)}
-        >
+      {useClearButton && (startValue || endValue) && (
+        <button className={`${NAME_SPACE}__clear`} onClick={clearValue}>
           Clear
         </button>
       )}
@@ -44,4 +56,4 @@ function InputDate({
   );
 }
 
-export default InputDate;
+export default InputRange;

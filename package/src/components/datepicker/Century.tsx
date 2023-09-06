@@ -13,7 +13,12 @@ interface IProps {
   setViewType: (value: 'decade') => void;
 }
 
-function ViewCentury({ value, viewDate, setViewDate, setViewType }: IProps) {
+function DatepickerCentury({
+  value,
+  viewDate,
+  setViewDate,
+  setViewType,
+}: IProps) {
   const centuryPage = useMemo(() => setCenturyPage(viewDate), [viewDate]);
   const valueYear = value?.getFullYear();
 
@@ -49,4 +54,4 @@ function ViewCentury({ value, viewDate, setViewDate, setViewType }: IProps) {
   );
 }
 
-export default ViewCentury;
+export default DatepickerCentury;

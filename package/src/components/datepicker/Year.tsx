@@ -14,7 +14,7 @@ interface Iprops {
   setViewType: (value: 'month') => void;
 }
 
-function ViewYear({ value, viewDate, setViewDate, setViewType }: Iprops) {
+function DatepickerYear({ value, viewDate, setViewDate, setViewType }: Iprops) {
   const yearPage = useMemo(() => setYearPage(viewDate), [viewDate]);
   const valueYear = value?.getFullYear();
   const valueMonth = value?.getMonth();
@@ -44,4 +44,4 @@ function ViewYear({ value, viewDate, setViewDate, setViewType }: Iprops) {
   );
 }
 
-export default ViewYear;
+export default DatepickerYear;

@@ -11,7 +11,7 @@ interface IProps {
   viewDate: string;
   viewType: TViewType;
   labelFormat: string;
-  isMultipleCalendar: boolean;
+  showsMultipleCalendar: boolean;
   setViewType: (value: TViewType) => void;
   setViewDate: (value: string) => void;
 }
@@ -20,7 +20,7 @@ function ControllerContainer({
   viewDate,
   viewType,
   labelFormat,
-  isMultipleCalendar,
+  showsMultipleCalendar,
   setViewType,
   setViewDate,
 }: IProps) {
@@ -35,7 +35,7 @@ function ControllerContainer({
       <ControllerLabel
         viewDate={viewDate}
         viewType={viewType}
-        isMultipleCalendar={isMultipleCalendar}
+        showsMultipleCalendar={showsMultipleCalendar}
         labelFormat={labelFormat}
         setViewType={setViewType}
       />
