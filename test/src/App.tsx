@@ -21,6 +21,11 @@ function App() {
       <Rangepicker />
       <Rangepicker showsMultipleCalendar />
       <Rangepicker closesAfterChange={false} />
+      <Rangepicker
+        weekdayLabels={['일', '월', '화', '수', '목', '금', '토']}
+        showsMultipleCalendar
+        closesAfterChange={false}
+      />
     </div>
   );
 }

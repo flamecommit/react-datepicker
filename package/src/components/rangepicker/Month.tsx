@@ -10,6 +10,7 @@ interface Iprops {
   hoverValue: Date | null;
   valueFormat: string;
   monthPage: number;
+  weekdayLabels: string[];
   setStartValue: (value: Date | null) => void;
   setEndValue: (value: Date | null) => void;
   setHoverValue: (value: Date | null) => void;
@@ -21,6 +22,7 @@ function RangepicerMonth({
   hoverValue,
   valueFormat,
   monthPage,
+  weekdayLabels,
   setStartValue,
   setEndValue,
   setHoverValue,
@@ -94,6 +96,11 @@ function RangepicerMonth({
 
   return (
     <div className={`${NAME_SPACE}__month-view`}>
+      {weekdayLabels.map((day, index) => (
+        <div className={`${NAME_SPACE}__weekday`} data-day={index} key={day}>
+          {day}
+        </div>
+      ))}
       {Array.apply(0, Array(firstDay)).map((x, i) => {
         const date = prevLastDate - (firstDay - i - 1);
         const thisValue = new Date(-1, monthPage + 22, date);

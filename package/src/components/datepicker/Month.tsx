@@ -8,10 +8,17 @@ interface Iprops {
   value: Date | null;
   valueFormat: string;
   monthPage: number;
+  weekdayLabels: string[];
   setValue: (value: Date) => void;
 }
 
-function DatepicerMonth({ value, valueFormat, monthPage, setValue }: Iprops) {
+function DatepicerMonth({
+  value,
+  valueFormat,
+  monthPage,
+  weekdayLabels,
+  setValue,
+}: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
   const firstDay = new Date(year, month - 1, 1).getDay(); // 이달 1일의 요일
@@ -46,6 +53,11 @@ function DatepicerMonth({ value, valueFormat, monthPage, setValue }: Iprops) {
 
   return (
     <div className={`${NAME_SPACE}__month-view`}>
+      {weekdayLabels.map((day, index) => (
+        <div className={`${NAME_SPACE}__weekday`} data-day={index} key={day}>
+          {day}
+        </div>
+      ))}
       {Array.apply(0, Array(firstDay)).map((x, i) => {
         const date = prevLastDate - (firstDay - i - 1);
         const thisValue = new Date(-1, monthPage + 22, date);

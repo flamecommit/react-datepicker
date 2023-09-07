@@ -1,3 +1,9 @@
+## 1.7.0
+
+### What's New?
+
+- add props weekdayLabels - An option that allows you to label the day of the week in any format that you want.
+
 ## 1.6.0
 
 ### What's New?

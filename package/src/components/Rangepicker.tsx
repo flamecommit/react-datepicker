@@ -21,6 +21,7 @@ interface IProps {
   valueFormat?: string;
   labelFormat?: string;
   closesAfterChange?: boolean;
+  weekdayLabels?: string[];
   onChange?: (activeDate: Date | null) => void;
 }
 
@@ -31,6 +32,7 @@ function Rangepicker({
   valueFormat = 'YYYY-MM-DD',
   labelFormat = 'YYYY / MM',
   closesAfterChange = true,
+  weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
   onChange,
 }: IProps) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
@@ -92,6 +94,7 @@ function Rangepicker({
                   hoverValue={hoverValue}
                   valueFormat={valueFormat}
                   monthPage={monthPage}
+                  weekdayLabels={weekdayLabels}
                   setStartValue={setStartValue}
                   setEndValue={setEndValue}
                   setHoverValue={setHoverValue}
@@ -103,6 +106,7 @@ function Rangepicker({
                     hoverValue={hoverValue}
                     valueFormat={valueFormat}
                     monthPage={monthPage + 1}
+                    weekdayLabels={weekdayLabels}
                     setStartValue={setStartValue}
                     setEndValue={setEndValue}
                     setHoverValue={setHoverValue}
