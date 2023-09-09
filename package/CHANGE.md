@@ -1,3 +1,11 @@
+## 1.8.0
+
+### What's New?
+
+- add props `initStartValue` of `Rangepicker`
+- add props `initEndValue` of `Rangepicker`
+- add props `onChange` of `Rangepicker`
+
 ## 1.7.0
 
 ### What's New?
