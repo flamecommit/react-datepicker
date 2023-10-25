@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Datepicker, Rangepicker } from '@shinyongjun/react-datepicker';
+import '@shinyongjun/react-datepicker/css';
 import { useState } from 'react';
 
 function App() {

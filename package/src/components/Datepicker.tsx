@@ -1,6 +1,5 @@
 'use client';
 
-import '../../assets/ReactDatepicker.css';
 import * as React from 'react';
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { formatDate } from '../utils/datetime';

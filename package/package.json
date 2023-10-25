@@ -1,6 +1,6 @@
 {
   "name": "@shinyongjun/react-datepicker",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "source": "./src/index.tsx",
@@ -12,7 +12,8 @@
     ".": {
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
-    }
+    },
+    "./css": "./dist/assets/ReactDatepicker.css"
   },
   "description": "Datepicker component in React App.",
   "keywords": [
