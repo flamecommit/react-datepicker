@@ -15,27 +15,32 @@ import InputRange from './input/Range';
 
 interface IProps {
   // initValue?: Date | null;
+  initStartValue?: Date | null;
+  initEndValue?: Date | null;
   useClearButton?: boolean;
   showsMultipleCalendar?: boolean;
   valueFormat?: string;
   labelFormat?: string;
   closesAfterChange?: boolean;
-  onChange?: (activeDate: Date | null) => void;
+  weekdayLabels?: string[];
+  onChange?: (startDate: Date | null, endDate: Date | null) => void;
 }
 
 function Rangepicker({
-  // initValue = null,
+  initStartValue = null,
+  initEndValue = null,
   useClearButton = false,
   showsMultipleCalendar = false,
   valueFormat = 'YYYY-MM-DD',
   labelFormat = 'YYYY / MM',
   closesAfterChange = true,
+  weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
   onChange,
 }: IProps) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
   const NEW_DATE = new Date();
-  const [startValue, setStartValue] = useState<Date | null>(null);
-  const [endValue, setEndValue] = useState<Date | null>(null);
+  const [startValue, setStartValue] = useState<Date | null>(initStartValue);
+  const [endValue, setEndValue] = useState<Date | null>(initEndValue);
   const [hoverValue, setHoverValue] = useState<Date | null>(null);
   const [viewDate, setViewDate] = useState<string>(
     formatDate(startValue || NEW_DATE, 'YYYY-MM-DD')
@@ -60,6 +65,12 @@ function Rangepicker({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endValue, onChange, setViewDate]);
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(startValue, endValue);
+    }
+  }, [startValue, endValue, onChange]);
 
   return (
     <div className={`${NAME_SPACE}__wrapper`}>
@@ -91,6 +102,7 @@ function Rangepicker({
                   hoverValue={hoverValue}
                   valueFormat={valueFormat}
                   monthPage={monthPage}
+                  weekdayLabels={weekdayLabels}
                   setStartValue={setStartValue}
                   setEndValue={setEndValue}
                   setHoverValue={setHoverValue}
@@ -102,6 +114,7 @@ function Rangepicker({
                     hoverValue={hoverValue}
                     valueFormat={valueFormat}
                     monthPage={monthPage + 1}
+                    weekdayLabels={weekdayLabels}
                     setStartValue={setStartValue}
                     setEndValue={setEndValue}
                     setHoverValue={setHoverValue}

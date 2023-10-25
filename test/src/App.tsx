@@ -22,6 +22,23 @@ function App() {
       <Rangepicker />
       <Rangepicker showsMultipleCalendar />
       <Rangepicker closesAfterChange={false} />
+      <Rangepicker
+        weekdayLabels={['일', '월', '화', '수', '목', '금', '토']}
+        showsMultipleCalendar
+        closesAfterChange={false}
+      />
+      <Rangepicker
+        weekdayLabels={['일', '월', '화', '수', '목', '금', '토']}
+        showsMultipleCalendar
+        closesAfterChange={false}
+        onChange={(startDate, endDate) => {
+          console.log(startDate, endDate);
+        }}
+      />
+      <Rangepicker
+        initStartValue={new Date(2023, 7, 1)}
+        initEndValue={new Date(2023, 8, 7)}
+      />
     </div>
   );
 }

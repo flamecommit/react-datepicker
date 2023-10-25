@@ -20,6 +20,7 @@ interface IProps {
   valueFormat?: string;
   labelFormat?: string;
   closesAfterChange?: boolean;
+  weekdayLabels?: string[];
   onChange?: (activeDate: Date | null) => void;
 }
 
@@ -30,6 +31,7 @@ function Datepicker({
   valueFormat = 'YYYY-MM-DD',
   labelFormat = 'YYYY / MM',
   closesAfterChange = true,
+  weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
   onChange,
 }: IProps) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
@@ -87,6 +89,7 @@ function Datepicker({
                   value={value}
                   valueFormat={valueFormat}
                   monthPage={monthPage}
+                  weekdayLabels={weekdayLabels}
                   setValue={setValue}
                 />
                 {showsMultipleCalendar && (
@@ -94,6 +97,7 @@ function Datepicker({
                     value={value}
                     valueFormat={valueFormat}
                     monthPage={monthPage + 1}
+                    weekdayLabels={weekdayLabels}
                     setValue={setValue}
                   />
                 )}
