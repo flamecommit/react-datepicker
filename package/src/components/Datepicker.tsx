@@ -21,6 +21,9 @@ interface IProps {
   labelFormat?: string;
   closesAfterChange?: boolean;
   weekdayLabels?: string[];
+  className?: string;
+  placeholder?: string;
+  disabled?: boolean;
   onChange?: (activeDate: Date | null) => void;
 }
 
@@ -32,6 +35,9 @@ function Datepicker({
   labelFormat = 'YYYY / MM',
   closesAfterChange = true,
   weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+  className = '',
+  placeholder = '',
+  disabled = false,
   onChange,
 }: IProps) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
@@ -64,13 +70,15 @@ function Datepicker({
   }, [value, onChange, setViewDate]);
 
   return (
-    <div className={`${NAME_SPACE}__wrapper`}>
+    <div className={`${NAME_SPACE}__wrapper ${className}`}>
       <InputDate
         value={value}
-        setValue={setValue}
         valueFormat={valueFormat}
-        setIsVisible={setIsVisible}
         useClearButton={useClearButton}
+        placeholder={placeholder}
+        disabled={disabled}
+        setValue={setValue}
+        setIsVisible={setIsVisible}
       />
       {isVisible && (
         <div className={`${NAME_SPACE}__datepicker-container`} ref={container}>

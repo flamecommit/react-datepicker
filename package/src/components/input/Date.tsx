@@ -8,6 +8,8 @@ interface IProps {
   value: Date | null;
   valueFormat: string;
   useClearButton: boolean;
+  placeholder: string;
+  disabled: boolean;
   setValue: (value: Date | null) => void;
   setIsVisible: (value: boolean) => void;
 }
@@ -16,6 +18,8 @@ function InputDate({
   value,
   valueFormat,
   useClearButton,
+  placeholder,
+  disabled,
   setValue,
   setIsVisible,
 }: IProps) {
@@ -30,6 +34,8 @@ function InputDate({
         type="text"
         value={formatDate(value, valueFormat)}
         readOnly
+        placeholder={placeholder}
+        disabled={disabled}
         onFocus={handleFocus}
       />
       {useClearButton && value && (

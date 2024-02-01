@@ -39,6 +39,13 @@ function App() {
         initStartValue={new Date(2023, 7, 1)}
         initEndValue={new Date(2023, 8, 7)}
       />
+      <div style={{ marginTop: 100 }}>
+        <Datepicker className="test" />
+        <Datepicker placeholder="YYYY-MM-DD" />
+        <Rangepicker placeholder="YYYY-MM-DD - YYYY-MM-DD" />
+        <Datepicker disabled={true} />
+        <Rangepicker disabled={true} />
+      </div>
     </div>
   );
 }
