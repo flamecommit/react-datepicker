@@ -1,18 +1,18 @@
 'use client';
 
-import '../../assets/ReactDatepicker.css';
 import * as React from 'react';
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { NAME_SPACE } from '../constants/core';
+import useOutsideClick from '../hooks/useOutsideClick';
 import { formatDate } from '../utils/datetime';
 import { setMonthPage } from '../utils/page';
-import { NAME_SPACE } from '../constants/core';
-import RangepickerMonth from './rangepicker/Month';
-import DatepickerYear from './datepicker/Year';
-import DatepickerDecade from './datepicker/Decade';
-import DatepickerCentury from './datepicker/Century';
-import useOutsideClick from '../hooks/useOutsideClick';
+import Layer from './common/Layer';
 import ControllerContainer from './controller/Container';
+import DatepickerCentury from './datepicker/Century';
+import DatepickerDecade from './datepicker/Decade';
+import DatepickerYear from './datepicker/Year';
 import InputRange from './input/Range';
+import RangepickerMonth from './rangepicker/Month';
 
 interface IProps {
   // initValue?: Date | null;
@@ -24,6 +24,7 @@ interface IProps {
   labelFormat?: string;
   closesAfterChange?: boolean;
   weekdayLabels?: string[];
+  withPortal?: boolean;
   onChange?: (startDate: Date | null, endDate: Date | null) => void;
 }
 
@@ -36,6 +37,7 @@ function Rangepicker({
   labelFormat = 'YYYY / MM',
   closesAfterChange = true,
   weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+  withPortal = false,
   onChange,
 }: IProps) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
@@ -52,9 +54,9 @@ function Rangepicker({
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
-  const container = useRef(null);
+  const layer = useRef(null);
 
-  useOutsideClick(container, () => {
+  useOutsideClick(layer, () => {
     setIsVisible(false);
   });
 
@@ -84,8 +86,12 @@ function Rangepicker({
         setStartValue={setStartValue}
         setEndValue={setEndValue}
       />
-      {isVisible && (
-        <div className={`${NAME_SPACE}__datepicker-container`} ref={container}>
+      <Layer
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        withPortal={withPortal}
+      >
+        <div className={`${NAME_SPACE}__datepicker-container`}>
           <ControllerContainer
             viewDate={viewDate}
             viewType={viewType}
@@ -149,7 +155,7 @@ function Rangepicker({
             )}
           </div>
         </div>
-      )}
+      </Layer>
     </div>
   );
 }

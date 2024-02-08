@@ -33,13 +33,28 @@
 .react-datepicker__clear:hover {
   background-color: #f7f7f7;
 }
-.react-datepicker__datepicker-container {
+.react-datepicker__layer {
   position: absolute;
   top: 50px;
   left: 0;
   z-index: 1000;
-  background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+}
+.react-datepicker__portal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.react-datepicker__portal .react-datepicker__layer {
+  position: relative;
+  inset: auto;
+}
+.react-datepicker__datepicker-container {
+  background-color: #fff;
 }
 
 /* controller */
