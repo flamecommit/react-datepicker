@@ -25,6 +25,9 @@ interface IProps {
   closesAfterChange?: boolean;
   weekdayLabels?: string[];
   withPortal?: boolean;
+  className?: string;
+  placeholder?: string;
+  disabled?: boolean;
   onChange?: (startDate: Date | null, endDate: Date | null) => void;
 }
 
@@ -38,6 +41,9 @@ function Rangepicker({
   closesAfterChange = true,
   weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
   withPortal = false,
+  className = '',
+  placeholder = '',
+  disabled = false,
   onChange,
 }: IProps) {
   // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
@@ -76,12 +82,14 @@ function Rangepicker({
   }, [startValue, endValue, onChange]);
 
   return (
-    <div className={`${NAME_SPACE}__wrapper`}>
+    <div className={`${NAME_SPACE}__wrapper ${className}`}>
       <InputRange
         startValue={startValue}
         endValue={endValue}
         valueFormat={valueFormat}
         useClearButton={useClearButton}
+        placeholder={placeholder}
+        disabled={disabled}
         setIsVisible={setIsVisible}
         setStartValue={setStartValue}
         setEndValue={setEndValue}

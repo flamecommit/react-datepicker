@@ -9,6 +9,8 @@ interface IProps {
   endValue: Date | null;
   valueFormat: string;
   useClearButton: boolean;
+  placeholder: string;
+  disabled: boolean;
   setStartValue: (value: Date | null) => void;
   setEndValue: (value: Date | null) => void;
   setIsVisible: (value: boolean) => void;
@@ -19,6 +21,8 @@ function InputRange({
   endValue,
   valueFormat,
   useClearButton,
+  placeholder,
+  disabled,
   setStartValue,
   setEndValue,
   setIsVisible,
@@ -50,6 +54,8 @@ function InputRange({
         type="text"
         value={setRangeValue()}
         readOnly
+        placeholder={placeholder}
+        disabled={disabled}
         onFocus={handleFocus}
       />
       {useClearButton && (startValue || endValue) && (
