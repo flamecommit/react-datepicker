@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { NAME_SPACE } from '../../constants/core';
 import { ITimeValue, ITimeselector } from '../../types/props';
 import { addLeadingZero } from '../../utils/string';
@@ -20,12 +20,10 @@ function TimeselectorSelectorList({
   setTimeValue,
 }: IProps) {
   const listRef = useRef<HTMLDivElement>(null);
-  const [isSetCenter, setIsSetCenter] = useState<boolean>(false);
 
   useEffect(() => {
     // Scroll 가운데 정렬
     if (!listRef.current) return;
-    if (isSetCenter) return;
     const clientHeight = listRef.current?.clientHeight;
     const scrollHeight = listRef.current?.scrollHeight;
     const itemsCount = items.length;
@@ -34,8 +32,7 @@ function TimeselectorSelectorList({
     listRef.current?.scrollTo({
       top: activeIndex * itemHeight - (clientHeight - itemHeight) / 2,
     });
-    setIsSetCenter(true);
-  }, [isSetCenter, items, timeKey, timeValue]);
+  }, [items, timeKey, timeValue]);
 
   return (
     <div className={`${NAME_SPACE}__timeselector-list`} ref={listRef}>
