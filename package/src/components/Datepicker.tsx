@@ -126,9 +126,9 @@ function Datepicker({
       dateValue.year,
       dateValue.month,
       dateValue.date,
-      value?.getHours() || 0,
-      value?.getMinutes() || 0,
-      value?.getSeconds() || 0
+      timeValue.hour,
+      timeValue.minute,
+      timeValue.second
     );
 
     setValue(newDate);
