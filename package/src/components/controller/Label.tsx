@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { NAME_SPACE } from '../../constants/core';
+import { formatLabel } from '../../utils/datetime';
 import {
   setCenturyPage,
   setDecadePage,
@@ -9,7 +10,6 @@ import {
   setYearPage,
 } from '../../utils/page';
 import { addLeadingZero } from '../../utils/string';
-import { formatLabel } from '../../utils/datetime';
 
 type TViewType = 'century' | 'decade' | 'year' | 'month';
 
@@ -78,7 +78,7 @@ function ControllerLabel({
     <>
       <button
         type="button"
-        className={`${NAME_SPACE}__label`}
+        className={`${NAME_SPACE}__controller-label`}
         onClick={handleLabelClick}
         disabled={viewType === 'century'}
       >
@@ -87,7 +87,7 @@ function ControllerLabel({
       {showsMultipleCalendar && viewType === 'month' && (
         <button
           type="button"
-          className={`${NAME_SPACE}__label`}
+          className={`${NAME_SPACE}__controller-label`}
           onClick={handleLabelClick}
         >
           {setMonthLabel(viewDate, 1)}

@@ -14,24 +14,33 @@ export const toLocalISOString = (date: Date): string => {
 
 export const formatDate = (dateObj: Date | null, format: string) => {
   if (!dateObj) return '';
-  const dateStr = toLocalISOString(dateObj).split('T')[0] as string;
+  let result = format;
 
-  const year = dateStr.split('-')[0];
-  const month = dateStr.split('-')[1];
-  const date = dateStr.split('-')[2];
+  const localDate = toLocalISOString(dateObj);
+  const [dateStr, timeStr] = localDate.split('T') as [string, string];
+  const [year, month, date] = dateStr.split('-');
+  const removeMS = timeStr.split('.')[0] as string;
+  const [hour, minute, second] = removeMS.split(':');
 
-  if (
-    /.*YYYY.*/.test(format) &&
-    /.*MM.*/.test(format) &&
-    /.*DD.*/.test(format)
-  ) {
-    return format
-      .replace(/YYYY/g, String(year))
-      .replace(/MM/g, String(month))
-      .replace(/DD/g, String(date));
-  }
+  if (/.*YYYY.*/.test(format)) result = result.replace(/YYYY/g, String(year));
+  if (/.*MM.*/.test(format)) result = result.replace(/MM/g, String(month));
+  if (/.*DD.*/.test(format)) result = result.replace(/DD/g, String(date));
+  if (/.*HH.*/.test(format)) result = result.replace(/HH/g, String(hour));
+  if (/.*mm.*/.test(format)) result = result.replace(/mm/g, String(minute));
+  if (/.*ss.*/.test(format)) result = result.replace(/ss/g, String(second));
 
-  return dateStr;
+  // if (
+  //   /.*YYYY.*/.test(format) &&
+  //   /.*MM.*/.test(format) &&
+  //   /.*DD.*/.test(format)
+  // ) {
+  //   return format
+  //     .replace(/YYYY/g, String(year))
+  //     .replace(/MM/g, String(month))
+  //     .replace(/DD/g, String(date));
+  // }
+
+  return result;
 };
 
 export const formatLabel = (label: string, format: string) => {

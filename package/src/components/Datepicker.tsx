@@ -1,9 +1,11 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
+import { useElementSize } from '../hooks/useElementSize';
 import useOutsideClick from '../hooks/useOutsideClick';
+import { IDateValue, ITimeValue, ITimeselector } from '../types/props';
 import { formatDate } from '../utils/datetime';
 import { setMonthPage } from '../utils/page';
 import Layer from './common/Layer';
@@ -13,6 +15,8 @@ import DatepickerDecade from './datepicker/Decade';
 import DatepickerMonth from './datepicker/Month';
 import DatepickerYear from './datepicker/Year';
 import InputDate from './input/Date';
+import TimeselectorHeader from './timeselector/Header';
+import TimeselectorSelector from './timeselector/Selector';
 
 interface IProps {
   initValue?: Date | null;
@@ -26,6 +30,10 @@ interface IProps {
   className?: string;
   placeholder?: string;
   disabled?: boolean;
+  timeselector?: false | ITimeselector;
+  hourStep?: number;
+  minuteStep?: number;
+  secondStep?: number;
   onChange?: (activeDate: Date | null) => void;
 }
 
@@ -33,7 +41,7 @@ function Datepicker({
   initValue = null,
   useClearButton = false,
   showsMultipleCalendar = false,
-  valueFormat = 'YYYY-MM-DD',
+  valueFormat = '',
   labelFormat = 'YYYY / MM',
   closesAfterChange = true,
   weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
@@ -41,11 +49,28 @@ function Datepicker({
   className = '',
   placeholder = '',
   disabled = false,
+  timeselector = false,
+  hourStep = 1,
+  minuteStep = 1,
+  secondStep = 1,
   onChange,
 }: IProps) {
-  // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
   const NEW_DATE = new Date();
+  const initialValueFormat = timeselector
+    ? 'YYYY-MM-DD HH:mm:ss'
+    : 'YYYY-MM-DD';
+  const comValueFormat = valueFormat ? valueFormat : initialValueFormat;
   const [value, setValue] = useState<Date | null>(initValue);
+  const [timeValue, setTimeValue] = useState<ITimeValue>({
+    hour: initValue?.getHours() || 0,
+    minute: initValue?.getMinutes() || 0,
+    second: initValue?.getSeconds() || 0,
+  });
+  const [dateValue, setDateValue] = useState<IDateValue>({
+    year: initValue?.getFullYear() || null,
+    month: initValue?.getMonth() || null,
+    date: initValue?.getDate() || null,
+  });
   const [viewDate, setViewDate] = useState<string>(
     formatDate(value || NEW_DATE, 'YYYY-MM-DD')
   );
@@ -56,14 +81,15 @@ function Datepicker({
 
   const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
   const layer = useRef(null);
+  const [, datepickerContainerRef, { height: datepickerContainerHeight }] =
+    useElementSize();
 
   useOutsideClick(layer, () => {
     setIsVisible(false);
   });
 
   useEffect(() => {
-    // setViewDate(formatDate(value || NEW_DATE, 'YYYY-MM-DD'));
-    if (closesAfterChange) {
+    if (closesAfterChange && !timeselector) {
       setIsVisible(false);
     }
     if (onChange) {
@@ -72,11 +98,48 @@ function Datepicker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, onChange, setViewDate]);
 
+  useEffect(() => {
+    if (!value) return;
+
+    const newDate = new Date(
+      value.getFullYear(),
+      value.getMonth(),
+      value.getDate(),
+      timeValue.hour,
+      timeValue.minute,
+      timeValue.second
+    );
+
+    setValue(newDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeValue]);
+
+  useEffect(() => {
+    if (
+      dateValue.year === null ||
+      dateValue.month === null ||
+      dateValue.date === null
+    )
+      return;
+
+    const newDate = new Date(
+      dateValue.year,
+      dateValue.month,
+      dateValue.date,
+      value?.getHours() || 0,
+      value?.getMinutes() || 0,
+      value?.getSeconds() || 0
+    );
+
+    setValue(newDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dateValue]);
+
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
       <InputDate
         value={value}
-        valueFormat={valueFormat}
+        valueFormat={comValueFormat}
         useClearButton={useClearButton}
         placeholder={placeholder}
         disabled={disabled}
@@ -88,7 +151,10 @@ function Datepicker({
         setIsVisible={setIsVisible}
         withPortal={withPortal}
       >
-        <div className={`${NAME_SPACE}__datepicker-container`}>
+        <div
+          className={`${NAME_SPACE}__datepicker-container`}
+          ref={datepickerContainerRef}
+        >
           <ControllerContainer
             viewDate={viewDate}
             viewType={viewType}
@@ -98,26 +164,20 @@ function Datepicker({
             setViewDate={setViewDate}
           />
           <div className={`${NAME_SPACE}__datepicker`}>
-            {viewType === 'month' && (
-              <>
-                <DatepickerMonth
-                  value={value}
-                  valueFormat={valueFormat}
-                  monthPage={monthPage}
-                  weekdayLabels={weekdayLabels}
-                  setValue={setValue}
-                />
-                {showsMultipleCalendar && (
-                  <DatepickerMonth
-                    value={value}
-                    valueFormat={valueFormat}
-                    monthPage={monthPage + 1}
-                    weekdayLabels={weekdayLabels}
-                    setValue={setValue}
-                  />
-                )}
-              </>
-            )}
+            {viewType === 'month' &&
+              [true, showsMultipleCalendar].map((isShow, index) => (
+                <Fragment key={index}>
+                  {isShow && (
+                    <DatepickerMonth
+                      dateValue={dateValue}
+                      setDateValue={setDateValue}
+                      valueFormat={comValueFormat}
+                      monthPage={monthPage + index}
+                      weekdayLabels={weekdayLabels}
+                    />
+                  )}
+                </Fragment>
+              ))}
             {viewType === 'year' && (
               <DatepickerYear
                 value={value}
@@ -144,6 +204,27 @@ function Datepicker({
             )}
           </div>
         </div>
+        {timeselector && (
+          <div
+            className={`${NAME_SPACE}__timeselector-container`}
+            style={{
+              height: datepickerContainerHeight,
+            }}
+          >
+            <TimeselectorHeader
+              timeValue={timeValue}
+              timeselector={timeselector}
+            />
+            <TimeselectorSelector
+              timeValue={timeValue}
+              setTimeValue={setTimeValue}
+              timeselector={timeselector}
+              hourStep={hourStep}
+              minuteStep={minuteStep}
+              secondStep={secondStep}
+            />
+          </div>
+        )}
       </Layer>
     </div>
   );

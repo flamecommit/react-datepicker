@@ -33,13 +33,8 @@
 .react-datepicker__clear:hover {
   background-color: #f7f7f7;
 }
-.react-datepicker__layer {
-  position: absolute;
-  top: 50px;
-  left: 0;
-  z-index: 1000;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
-}
+
+/* portal */
 .react-datepicker__portal {
   position: fixed;
   inset: 0;
@@ -53,25 +48,39 @@
   position: relative;
   inset: auto;
 }
-.react-datepicker__datepicker-container {
+
+/* layer */
+.react-datepicker__layer {
+  display: flex;
+  align-items: flex-start;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  z-index: 1000;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+  border: 1px solid #ddd;
   background-color: #fff;
 }
 
-/* controller */
+/* datepicker */
+.react-datepicker__datepicker-container {
+  /* flex-grow: 1; */
+}
 .react-datepicker__controller {
   display: flex;
+  border-bottom: 1px solid #ddd;
 }
-.react-datepicker__label {
+.react-datepicker__controller-label {
   height: 36px;
   flex-grow: 1;
   border: none;
   background-color: transparent;
   cursor: pointer;
 }
-.react-datepicker__label:not(:disabled):hover {
+.react-datepicker__controller-label:not(:disabled):hover {
   background-color: #f7f7f7;
 }
-.react-datepicker__label:disabled {
+.react-datepicker__controller-label:disabled {
   cursor: default;
 }
 .react-datepicker__controller-arrow {
@@ -142,7 +151,7 @@
   background-color: #f7f7f7;
 }
 .react-datepicker__datepicker-button[data-active='true'] {
-  background-color: #999;
+  background-color: #333;
   color: #fff;
 }
 .react-datepicker__datepicker-button[data-hover-active='true'] {
@@ -152,12 +161,66 @@
   background-color: #eee;
 }
 .react-datepicker__datepicker-button[data-start-active='true'] {
-  background-color: #999;
+  background-color: #333;
   color: #fff;
   border-radius: 6px 0 0 6px;
 }
 .react-datepicker__datepicker-button[data-end-active='true'] {
-  background-color: #999;
+  background-color: #333;
   color: #fff;
   border-radius: 0 6px 6px 0;
+}
+
+/* timeselector */
+.react-datepicker__timeselector-container {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  border-left: 1px solid #ddd;
+}
+.react-datepicker__timeselector-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #ddd;
+}
+.react-datepicker__timeselector-selector {
+  overflow: hidden;
+  display: flex;
+}
+.react-datepicker__timeselector-selector .react-datepicker__timeselector-list {
+  overflow-y: auto;
+  width: 40px;
+  /* -ms-overflow-style: none;
+  scrollbar-width: none; */
+  scrollbar-width: thin;
+}
+/* .react-datepicker__timeselector-selector
+  .react-datepicker__timeselector-list::-webkit-scrollbar {
+  scrollbar-width: thin;
+} */
+.react-datepicker__timeselector-selector
+  .react-datepicker__timeselector-list-item {
+  display: block;
+}
+.react-datepicker__timeselector-selector
+  .react-datepicker__timeselector-list-button {
+  display: block;
+  width: 100%;
+  height: 36px;
+  background: none;
+  border: none;
+  border-radius: none;
+  cursor: pointer;
+}
+.react-datepicker__timeselector-selector
+  .react-datepicker__timeselector-list-button:hover {
+  background-color: #f7f7f7;
+}
+.react-datepicker__timeselector-selector
+  .react-datepicker__timeselector-list-button[data-active='true'] {
+  background-color: #333;
+  color: #fff;
 }

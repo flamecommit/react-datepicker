@@ -2,22 +2,23 @@
 
 import * as React from 'react';
 import { NAME_SPACE } from '../../constants/core';
+import { IDateValue } from '../../types/props';
 import { formatDate } from '../../utils/datetime';
 
 interface Iprops {
-  value: Date | null;
+  dateValue: IDateValue;
   valueFormat: string;
   monthPage: number;
   weekdayLabels: string[];
-  setValue: (value: Date) => void;
+  setDateValue: (value: IDateValue) => void;
 }
 
 function DatepicerMonth({
-  value,
+  dateValue,
+  setDateValue,
   valueFormat,
   monthPage,
   weekdayLabels,
-  setValue,
 }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
@@ -26,15 +27,23 @@ function DatepicerMonth({
   const lastDate = lastDateValue.getDate(); // 이달 말 일
   const lastDay = lastDateValue.getDay(); // 이달 말 일의 요일
   const prevLastDate = new Date(year, month - 1, 0).getDate(); // 이전달의 말 일
-  const formatedValue = formatDate(value, valueFormat);
+  const formatedValue = formatDate(
+    dateValue.year !== null &&
+      dateValue.month !== null &&
+      dateValue.date !== null
+      ? new Date(dateValue.year, dateValue.month, dateValue.date)
+      : null,
+    valueFormat
+  );
 
   const renderDateButton = (
+    month: number,
     date: number,
-    thisValue: Date,
     classNameModifier = ''
   ) => {
-    const day = thisValue.getDay();
-    const formatedThisValue = formatDate(thisValue, valueFormat);
+    const buttonDate = new Date(-1, month, date);
+    const day = buttonDate.getDay();
+    const formatedThisValue = formatDate(buttonDate, valueFormat);
 
     return (
       <button
@@ -44,7 +53,13 @@ function DatepicerMonth({
         title={formatedThisValue}
         data-day={day}
         data-active={formatedValue === formatedThisValue}
-        onClick={() => setValue(thisValue)}
+        onClick={() =>
+          setDateValue({
+            year: buttonDate.getFullYear(),
+            month: buttonDate.getMonth(),
+            date: buttonDate.getDate(),
+          })
+        }
       >
         {date}
       </button>
@@ -60,27 +75,24 @@ function DatepicerMonth({
       ))}
       {Array.apply(0, Array(firstDay)).map((x, i) => {
         const date = prevLastDate - (firstDay - i - 1);
-        const thisValue = new Date(-1, monthPage + 22, date);
 
         return renderDateButton(
+          monthPage + 22,
           date,
-          thisValue,
           `${NAME_SPACE}__neighbor-button`
         );
       })}
       {Array.apply(0, Array(lastDate)).map((x, i) => {
         const date = i + 1;
-        const thisValue = new Date(-1, monthPage + 23, date);
 
-        return renderDateButton(date, thisValue);
+        return renderDateButton(monthPage + 23, date);
       })}
       {Array.apply(0, Array(6 - lastDay)).map((x, i) => {
         const date = i + 1;
-        const thisValue = new Date(-1, monthPage + 24, date);
 
         return renderDateButton(
+          monthPage + 24,
           date,
-          thisValue,
           `${NAME_SPACE}__neighbor-button`
         );
       })}

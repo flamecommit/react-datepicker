@@ -53,6 +53,7 @@ function ControllerArrow({
 
   return (
     <button
+      type="button"
       className={`${NAME_SPACE}__controller-arrow ${NAME_SPACE}__controller-${direction}`}
       onClick={() => handleControl(direction)}
     >

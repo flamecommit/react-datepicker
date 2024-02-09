@@ -8,8 +8,48 @@ function App() {
   return (
     <div>
       <section>
+        <h3>Timeselector</h3>
+        <Datepicker
+          timeselector={{
+            hour: true,
+            minute: true,
+            second: true,
+          }}
+          hourStep={1}
+          minuteStep={10}
+          secondStep={10}
+        />
+      </section>
+      <section>
+        <h3>Timeselector</h3>
+        <Datepicker
+          timeselector={{
+            hour: true,
+            minute: true,
+            second: true,
+          }}
+          useClearButton
+          initValue={new Date('2001-11-11 20:13:12')}
+          valueFormat="YYYY-MM-DD HH:mm:ss"
+          withPortal
+        />
+      </section>
+      <section>
+        <h3>Timeselector</h3>
+        <Datepicker
+          timeselector={{
+            hour: true,
+            minute: true,
+            second: true,
+          }}
+          useClearButton
+          initValue={new Date('2001-11-11 1:2:3')}
+          valueFormat="YYYY-MM-DD HH:mm:ss"
+        />
+      </section>
+      <section>
         <h3>Datepicker</h3>
-        <Datepicker />
+        <Datepicker valueFormat="YYYY-MM-DD HH/mm/ss" />
       </section>
       <section>
         <h3>initValue</h3>
@@ -30,7 +70,10 @@ function App() {
       </section>
       <section>
         <h3>valueFormat=MM/DD/YYYY</h3>
-        <Datepicker valueFormat="MM/DD/YYYY" />
+        <Datepicker
+          valueFormat="MM/DD/YYYY"
+          initValue={new Date('2001-11-11 14:13:12')}
+        />
       </section>
       <section>
         <h3>labelFormat=YYYY년 MM월</h3>
