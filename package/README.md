@@ -44,13 +44,13 @@ import '@shinyongjun/react-datepicker/css';
 
 ## API 문서
 
-라이브러리의 주요 API들에 대한 문서를 [여기](https://shinyongjun.gitbook.io/react-datepicker/)에서 확인할 수 있습니다.
+라이브러리의 주요 API들에 대한 문서를 <a href="https://shinyongjun.gitbook.io/react-datepicker/" target="_blank">여기</a>에서 확인할 수 있습니다.
 
 ## 실제 사용 사례
 
-라이브러리의 데모는 [여기](https://shinyongjun.vercel.app/library/react-datepicker)에서 만나볼 수 있습니다.
+라이브러리의 데모는 <a href="https://shinyongjun.com/library/react-datepicker" target="_blank">여기</a>에서 만나볼 수 있습니다.
 ​
 
 ## 피드백 및 지원
 
-라이브러리에 대한 피드백이나 문제 신고는 [Github Issues 페이지](https://github.com/shinyj1991/react-datepicker/issues) 에서 제공합니다.
+라이브러리에 대한 피드백이나 문제 신고는 <a href="https://github.com/shinyj1991/react-datepicker/issues" target="_blank">Github Issues 페이지</a> 에서 제공합니다.
