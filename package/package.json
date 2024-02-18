@@ -1,6 +1,6 @@
 {
   "name": "@shinyongjun/react-datepicker",
-  "version": "1.12.4",
+  "version": "1.12.5",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "source": "./src/index.tsx",
@@ -21,7 +21,7 @@
     "datepicker",
     "scroll"
   ],
-  "homepage": "https://shinyongjun.com/react-datepicker/document",
+  "homepage": "https://shinyongjun.gitbook.io/react-datepicker",
   "bugs": {
     "url": "https://github.com/shinyj1991/react-datepicker/issues",
     "email": "shinyj1991@gmail.com"
