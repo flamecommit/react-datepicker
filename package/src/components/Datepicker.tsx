@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
 import { useElementSize } from '../hooks/useElementSize';

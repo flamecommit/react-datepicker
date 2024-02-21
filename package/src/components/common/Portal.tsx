@@ -1,7 +1,8 @@
+import { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 interface IProps {
-  children: React.ReactNode;
+  children: ReactNode;
   selector: string;
 }
 

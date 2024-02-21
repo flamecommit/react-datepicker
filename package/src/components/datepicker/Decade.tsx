@@ -1,10 +1,9 @@
 'use client';
 
-import * as React from 'react';
 import { useMemo } from 'react';
-import { setDecadePage } from '../../utils/page';
 import { NAME_SPACE } from '../../constants/core';
 import { setViewDateByType } from '../../utils/datetime';
+import { setDecadePage } from '../../utils/page';
 
 interface IProps {
   value: Date | null;

@@ -1,7 +1,9 @@
+import { ReactNode } from 'react';
+
 interface IProps {
   condition: boolean;
-  wrapper: (children: React.ReactNode) => React.ReactNode;
-  children: React.ReactNode;
+  wrapper: (children: ReactNode) => ReactNode;
+  children: ReactNode;
 }
 
 export default function ConditionalWrapper({

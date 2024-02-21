@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { NAME_SPACE } from '../../constants/core';
 import { formatLabel } from '../../utils/datetime';
 import {

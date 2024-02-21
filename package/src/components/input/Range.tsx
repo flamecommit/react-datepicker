@@ -1,8 +1,7 @@
 'use client';
 
-import * as React from 'react';
-import { formatDate } from '../../utils/datetime';
 import { NAME_SPACE } from '../../constants/core';
+import { formatDate } from '../../utils/datetime';
 
 interface IProps {
   startValue: Date | null;

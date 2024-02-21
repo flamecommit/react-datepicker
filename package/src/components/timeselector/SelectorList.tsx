@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { NAME_SPACE } from '../../constants/core';
 import { ITimeValue, ITimeselector } from '../../types/props';

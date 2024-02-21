@@ -1,7 +1,6 @@
 'use client';
 
-import * as React from 'react';
-import { useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import { NAME_SPACE } from '../../constants/core';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import ConditionalWrapper from './ConditionalWrapper';
@@ -11,7 +10,7 @@ interface IProps {
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
   withPortal: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 function Layer({ isVisible, setIsVisible, withPortal, children }: IProps) {

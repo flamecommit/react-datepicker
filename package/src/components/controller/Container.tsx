@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { NAME_SPACE } from '../../constants/core';
 import ControllerArrow from './Arrow';
 import ControllerLabel from './Label';

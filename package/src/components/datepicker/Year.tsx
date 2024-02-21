@@ -1,11 +1,10 @@
 'use client';
 
-import * as React from 'react';
 import { useMemo } from 'react';
-import { setYearPage } from '../../utils/page';
 import { NAME_SPACE } from '../../constants/core';
-import { addLeadingZero } from '../../utils/string';
 import { setViewDateByType } from '../../utils/datetime';
+import { setYearPage } from '../../utils/page';
+import { addLeadingZero } from '../../utils/string';
 
 interface Iprops {
   value: Date | null;

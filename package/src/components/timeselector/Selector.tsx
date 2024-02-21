@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { Fragment } from 'react';
 import { NAME_SPACE } from '../../constants/core';
 import { ITimeValue, ITimeselector } from '../../types/props';
