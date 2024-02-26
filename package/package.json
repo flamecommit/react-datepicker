@@ -1,6 +1,6 @@
 {
   "name": "@shinyongjun/react-datepicker",
-  "version": "1.12.6",
+  "version": "1.12.8",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "source": "./src/index.tsx",
