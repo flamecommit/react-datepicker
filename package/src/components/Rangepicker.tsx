@@ -78,7 +78,8 @@ function Rangepicker({
     if (onChange) {
       onChange(startValue, endValue);
     }
-  }, [startValue, endValue, onChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [endValue]);
 
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>

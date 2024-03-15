@@ -1,3 +1,7 @@
+## 1.12.10
+
+- onChange Dependencies 수정 (value의 변화만 감지하도록 변경)
+
 ## 1.12.8
 
 - CSS 종속성 제거

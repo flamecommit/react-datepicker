@@ -95,7 +95,7 @@ function Datepicker({
       onChange(value);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, onChange, setViewDate]);
+  }, [value]);
 
   useEffect(() => {
     if (!value) return;
