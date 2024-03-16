@@ -57,9 +57,15 @@ function Rangepicker({
     'century' | 'decade' | 'year' | 'month'
   >('month');
   const [isVisible, setIsVisible] = useState<boolean>(false);
-
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
   const layer = useRef(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsMounted(true);
+    }, 1);
+  }, []);
 
   useOutsideClick(layer, () => {
     setIsVisible(false);
@@ -75,7 +81,7 @@ function Rangepicker({
   }, [endValue, onChange, setViewDate]);
 
   useEffect(() => {
-    if (onChange) {
+    if (onChange && isMounted) {
       onChange(startValue, endValue);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

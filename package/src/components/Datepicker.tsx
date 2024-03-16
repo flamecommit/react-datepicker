@@ -77,7 +77,7 @@ function Datepicker({
     'century' | 'decade' | 'year' | 'month'
   >('month');
   const [isVisible, setIsVisible] = useState<boolean>(false);
-
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
   const layer = useRef(null);
   const [, datepickerContainerRef, { height: datepickerContainerHeight }] =
@@ -91,11 +91,17 @@ function Datepicker({
     if (closesAfterChange && !timeselector) {
       setIsVisible(false);
     }
-    if (onChange) {
+    if (onChange && isMounted) {
       onChange(value);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsMounted(true);
+    }, 1);
+  }, []);
 
   useEffect(() => {
     if (!value) return;
