@@ -14,6 +14,7 @@ import DatepickerDecade from './datepicker/Decade';
 import DatepickerMonth from './datepicker/Month';
 import DatepickerYear from './datepicker/Year';
 import InputDate from './input/Date';
+import InputNewDate from './input/NewDate';
 import TimeselectorHeader from './timeselector/Header';
 import TimeselectorSelector from './timeselector/Selector';
 
@@ -151,6 +152,7 @@ function Datepicker({
         setValue={setValue}
         setIsVisible={setIsVisible}
       />
+      <InputNewDate value={value} valueFormat={comValueFormat} />
       <Layer
         isVisible={isVisible}
         setIsVisible={setIsVisible}
