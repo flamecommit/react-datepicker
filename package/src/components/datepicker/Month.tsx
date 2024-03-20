@@ -30,7 +30,11 @@ function DatepicerMonth({
     dateValue.year !== null &&
       dateValue.month !== null &&
       dateValue.date !== null
-      ? new Date(dateValue.year, dateValue.month, dateValue.date)
+      ? new Date(
+          Number(dateValue.year),
+          Number(dateValue.month),
+          Number(dateValue.date)
+        )
       : null,
     valueFormat
   );

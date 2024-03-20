@@ -29,18 +29,34 @@ export const formatDate = (dateObj: Date | null, format: string) => {
   if (/.*mm.*/.test(format)) result = result.replace(/mm/g, String(minute));
   if (/.*ss.*/.test(format)) result = result.replace(/ss/g, String(second));
 
-  // if (
-  //   /.*YYYY.*/.test(format) &&
-  //   /.*MM.*/.test(format) &&
-  //   /.*DD.*/.test(format)
-  // ) {
-  //   return format
-  //     .replace(/YYYY/g, String(year))
-  //     .replace(/MM/g, String(month))
-  //     .replace(/DD/g, String(date));
-  // }
-
   return result;
+};
+
+export const getValueUnit = (value: Date | null, unit: string): string => {
+  if (!value) return unit;
+
+  const localDate = toLocalISOString(value);
+  const [dateStr, timeStr] = localDate.split('T') as [string, string];
+  const [year, month, date] = dateStr.split('-');
+  const removeMS = timeStr.split('.')[0] as string;
+  const [hour, minute, second] = removeMS.split(':');
+
+  switch (unit) {
+    case 'YYYY':
+      return year || 'YYYY';
+    case 'MM':
+      return month || 'MM';
+    case 'DD':
+      return date || 'DD';
+    case 'HH':
+      return hour || 'HH';
+    case 'mm':
+      return minute || 'mm';
+    case 'ss':
+      return second || 'ss';
+    default:
+      return '';
+  }
 };
 
 export const formatLabel = (label: string, format: string) => {

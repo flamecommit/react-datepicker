@@ -11,7 +11,7 @@ export interface ITimeValue {
 }
 
 export interface IDateValue {
-  year: number | null;
-  month: number | null;
-  date: number | null;
+  year: number | string | null;
+  month: number | string | null;
+  date: number | string | null;
 }

@@ -37,6 +37,8 @@ interface IProps {
   onChange?: (activeDate: Date | null) => void;
 }
 
+const NEW_DATE = new Date();
+
 function Datepicker({
   initValue = null,
   useClearButton = false,
@@ -55,7 +57,6 @@ function Datepicker({
   secondStep = 1,
   onChange,
 }: IProps) {
-  const NEW_DATE = new Date();
   const initialValueFormat = timeselector
     ? 'YYYY-MM-DD HH:mm:ss'
     : 'YYYY-MM-DD';
@@ -129,9 +130,9 @@ function Datepicker({
       return;
 
     const newDate = new Date(
-      dateValue.year,
-      dateValue.month,
-      dateValue.date,
+      Number(dateValue.year),
+      Number(dateValue.month),
+      Number(dateValue.date),
       timeValue.hour,
       timeValue.minute,
       timeValue.second
@@ -140,6 +141,10 @@ function Datepicker({
     setValue(newDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateValue]);
+
+  useEffect(() => {
+    setViewDate(formatDate(value || NEW_DATE, 'YYYY-MM-DD'));
+  }, [value]);
 
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
@@ -152,7 +157,12 @@ function Datepicker({
         setValue={setValue}
         setIsVisible={setIsVisible}
       />
-      <InputNewDate value={value} valueFormat={comValueFormat} />
+      <InputNewDate
+        value={value}
+        valueFormat={comValueFormat}
+        dateValue={dateValue}
+        setDateValue={setDateValue}
+      />
       <Layer
         isVisible={isVisible}
         setIsVisible={setIsVisible}
