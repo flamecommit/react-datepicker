@@ -162,6 +162,8 @@ function Datepicker({
         valueFormat={comValueFormat}
         dateValue={dateValue}
         setDateValue={setDateValue}
+        timeValue={timeValue}
+        setTimeValue={setTimeValue}
       />
       <Layer
         isVisible={isVisible}

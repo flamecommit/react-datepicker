@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue } from '../../types/props';
+import { IDateValue, ITimeValue } from '../../types/props';
 import { getValueUnit } from '../../utils/datetime';
 
 interface IProps {
@@ -10,6 +10,8 @@ interface IProps {
   type: string;
   dateValue: IDateValue;
   setDateValue: (value: IDateValue) => void;
+  timeValue: ITimeValue;
+  setTimeValue: (value: ITimeValue) => void;
 }
 
 // Function to select text
@@ -27,9 +29,16 @@ function selectText(element: HTMLDivElement) {
 
 const VALUE_TYPES = ['YYYY', 'MM', 'DD', 'HH', 'mm', 'ss'];
 
-function InputUnit({ value, type, dateValue, setDateValue }: IProps) {
+function InputUnit({
+  value,
+  type,
+  dateValue,
+  setDateValue,
+  timeValue,
+  setTimeValue,
+}: IProps) {
   const isValue = useMemo(() => VALUE_TYPES.includes(type), [type]);
-  const [text, setText] = useState<string | null>();
+  const [text, setText] = useState<string | number | null>();
   const displayUnit = useMemo((): string => {
     switch (type) {
       case 'YYYY':
@@ -51,9 +60,9 @@ function InputUnit({ value, type, dateValue, setDateValue }: IProps) {
     month,
     date,
   }: {
-    year?: string | null;
-    month?: string | null;
-    date?: string | null;
+    year?: string | number | null;
+    month?: string | number | null;
+    date?: string | number | null;
   }) => {
     setDateValue({
       year: year ? year : dateValue.year,
@@ -62,22 +71,48 @@ function InputUnit({ value, type, dateValue, setDateValue }: IProps) {
     });
   };
 
-  const setValue = () => {
-    console.log(text);
+  const utilSetTimeValue = ({
+    hour,
+    minute,
+    second,
+  }: {
+    hour?: number;
+    minute?: number;
+    second?: number;
+  }) => {
+    setTimeValue({
+      hour: hour || timeValue.hour,
+      minute: minute || timeValue.minute,
+      second: second || timeValue.second,
+    });
+  };
+
+  const setValue = (element: HTMLDivElement) => {
+    let newData = '';
+
     switch (type) {
       case 'YYYY':
         utilSetDateValue({ year: text });
         return;
       case 'MM':
-        utilSetDateValue({ month: text });
+        newData = Number(text) > 12 ? '12' : `${Number(text)}`;
+        element.innerText = newData;
+        utilSetDateValue({ month: newData });
         return;
       case 'DD':
-        utilSetDateValue({ date: text });
+        newData = Number(text) > 31 ? '31' : `${Number(text)}`;
+        element.innerText = newData;
+        utilSetDateValue({ date: newData });
         return;
       case 'HH':
+        utilSetTimeValue({ hour: Number(text) });
+        return;
       case 'mm':
+        utilSetTimeValue({ minute: Number(text) });
+        return;
       case 'ss':
-        return getValueUnit(value, type);
+        utilSetTimeValue({ second: Number(text) });
+        return;
       case ' ':
         return '&nbsp;';
       default:
@@ -93,7 +128,7 @@ function InputUnit({ value, type, dateValue, setDateValue }: IProps) {
       suppressContentEditableWarning={true}
       onInput={(e) => setText(e.currentTarget.textContent)}
       onFocus={(e) => selectText(e.target)}
-      onBlur={() => setValue()}
+      onBlur={(e) => setValue(e.target)}
     />
   );
 }

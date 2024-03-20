@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue } from '../../types/props';
+import { IDateValue, ITimeValue } from '../../types/props';
 import InputUnit from './InputUnit';
 
 interface IProps {
@@ -10,6 +10,8 @@ interface IProps {
   valueFormat: string;
   dateValue: IDateValue;
   setDateValue: (value: IDateValue) => void;
+  timeValue: ITimeValue;
+  setTimeValue: (value: ITimeValue) => void;
 }
 
 function splitString(str: string): string[] {
@@ -17,7 +19,14 @@ function splitString(str: string): string[] {
   return str.split(regex);
 }
 
-function InputNewDate({ value, valueFormat, dateValue, setDateValue }: IProps) {
+function InputNewDate({
+  value,
+  valueFormat,
+  dateValue,
+  setDateValue,
+  timeValue,
+  setTimeValue,
+}: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
   return (
@@ -29,6 +38,8 @@ function InputNewDate({ value, valueFormat, dateValue, setDateValue }: IProps) {
             value={value}
             dateValue={dateValue}
             setDateValue={setDateValue}
+            timeValue={timeValue}
+            setTimeValue={setTimeValue}
             type={o}
           />
         );
