@@ -1,9 +1,10 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { NAME_SPACE } from '../../constants/core';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { NAME_SPACE, VALUE_TYPES } from '../../constants/core';
 import { IDateValue, ITimeValue } from '../../types/props';
 import { getValueUnit } from '../../utils/datetime';
+import { addLeadingZero, isNumeric } from '../../utils/string';
 
 interface IProps {
   value: Date | null;
@@ -27,8 +28,6 @@ function selectText(element: HTMLDivElement) {
   }
 }
 
-const VALUE_TYPES = ['YYYY', 'MM', 'DD', 'HH', 'mm', 'ss'];
-
 function InputUnit({
   value,
   type,
@@ -37,6 +36,8 @@ function InputUnit({
   timeValue,
   setTimeValue,
 }: IProps) {
+  const inputRef = useRef<HTMLDivElement>(null);
+  const nextRef = useRef<HTMLElement>();
   const isValue = useMemo(() => VALUE_TYPES.includes(type), [type]);
   const [text, setText] = useState<string | number | null>();
   const displayUnit = useMemo((): string => {
@@ -76,42 +77,53 @@ function InputUnit({
     minute,
     second,
   }: {
-    hour?: number;
-    minute?: number;
-    second?: number;
+    hour?: string | number | null;
+    minute?: string | number | null;
+    second?: string | number | null;
   }) => {
     setTimeValue({
-      hour: hour || timeValue.hour,
-      minute: minute || timeValue.minute,
-      second: second || timeValue.second,
+      hour: hour ? Number(hour) : timeValue.hour,
+      minute: minute ? Number(minute) : timeValue.minute,
+      second: second ? Number(second) : timeValue.second,
     });
   };
 
+  // Input에서 Focus가 사라졌을 때 입력된 값을 타입에 맞게 value에 저장
   const setValue = (element: HTMLDivElement) => {
-    let newData = '';
+    if (!element.textContent || !isNumeric(element.textContent)) return;
+
+    let value: string | number = element.textContent;
 
     switch (type) {
       case 'YYYY':
-        utilSetDateValue({ year: text });
+        value = Number(value) > 9999 ? '9999' : addLeadingZero(value);
+        setText(value);
+        element.innerText = value;
         return;
       case 'MM':
-        newData = Number(text) > 12 ? '12' : `${Number(text)}`;
-        element.innerText = newData;
-        utilSetDateValue({ month: newData });
+        value = Number(value) > 12 ? '12' : addLeadingZero(value);
+        setText(value);
+        element.innerText = value;
         return;
       case 'DD':
-        newData = Number(text) > 31 ? '31' : `${Number(text)}`;
-        element.innerText = newData;
-        utilSetDateValue({ date: newData });
+        value = Number(value) > 31 ? '31' : addLeadingZero(value);
+        setText(value);
+        element.innerText = value;
         return;
       case 'HH':
-        utilSetTimeValue({ hour: Number(text) });
+        value = Number(value) > 23 ? '23' : addLeadingZero(value);
+        setText(value);
+        element.innerText = value;
         return;
       case 'mm':
-        utilSetTimeValue({ minute: Number(text) });
+        value = Number(value) > 59 ? '59' : addLeadingZero(value);
+        setText(value);
+        element.innerText = value;
         return;
       case 'ss':
-        utilSetTimeValue({ second: Number(text) });
+        value = Number(value) > 59 ? '59' : addLeadingZero(value);
+        setText(value);
+        element.innerText = value;
         return;
       case ' ':
         return '&nbsp;';
@@ -120,15 +132,128 @@ function InputUnit({
     }
   };
 
+  // Text의 변화를 감지하여 Value에 최종 저장
+  useEffect(() => {
+    switch (type) {
+      case 'YYYY':
+        utilSetDateValue({ year: text });
+        return;
+      case 'MM':
+        utilSetDateValue({ month: text });
+        return;
+      case 'DD':
+        utilSetDateValue({ date: text });
+        return;
+      case 'HH':
+        utilSetTimeValue({ hour: text });
+        return;
+      case 'mm':
+        utilSetTimeValue({ minute: text });
+        return;
+      case 'ss':
+        utilSetTimeValue({ second: text });
+        return;
+      default:
+        return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text]);
+
+  // Type마다 특정 자리수 입력 시 다음 Input으로 focusing
+  const handleInput = (e: FormEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement;
+    const count = target.textContent?.length || 0;
+
+    if (type === 'YYYY' && count >= 4) {
+      if (nextRef.current) {
+        nextRef.current.focus();
+      } else {
+        inputRef.current?.blur();
+      }
+    }
+
+    if (type === 'MM' && count >= 2) {
+      if (nextRef.current) {
+        nextRef.current.focus();
+      } else {
+        inputRef.current?.blur();
+      }
+    }
+
+    if (type === 'DD' && count >= 2) {
+      if (nextRef.current) {
+        nextRef.current.focus();
+      } else {
+        inputRef.current?.blur();
+      }
+    }
+
+    if (type === 'HH' && count >= 2) {
+      if (nextRef.current) {
+        nextRef.current.focus();
+      } else {
+        inputRef.current?.blur();
+      }
+    }
+
+    if (type === 'mm' && count >= 2) {
+      if (nextRef.current) {
+        nextRef.current.focus();
+      } else {
+        inputRef.current?.blur();
+      }
+    }
+
+    if (type === 'ss' && count >= 2) {
+      if (nextRef.current) {
+        nextRef.current.focus();
+      } else {
+        inputRef.current?.blur();
+      }
+    }
+  };
+
+  // 형제 Input Element중 NextInputElement를 검색.
+  function getNextSiblingsWithDataValueTrue(
+    currentElement: HTMLElement
+  ): HTMLElement[] {
+    const siblingElements: HTMLElement[] = [];
+    let nextSibling = currentElement.nextElementSibling as HTMLElement | null;
+
+    while (nextSibling) {
+      if (nextSibling.dataset.value === 'true') {
+        siblingElements.push(nextSibling);
+      }
+      nextSibling = nextSibling.nextElementSibling as HTMLElement;
+    }
+
+    return siblingElements;
+  }
+
+  // 다음 Input Unit을 nextRef에 저장.
+  useEffect(() => {
+    if (inputRef.current) {
+      const nextSiblings = getNextSiblingsWithDataValueTrue(inputRef.current);
+
+      if (nextSiblings.length) {
+        nextRef.current = nextSiblings[0];
+      }
+    }
+  }, []);
+
   return (
     <div
+      ref={inputRef}
+      data-value={isValue}
       className={`${NAME_SPACE}__input-unit`}
       dangerouslySetInnerHTML={{ __html: displayUnit }}
       contentEditable={isValue}
       suppressContentEditableWarning={true}
-      onInput={(e) => setText(e.currentTarget.textContent)}
-      onFocus={(e) => selectText(e.target)}
-      onBlur={(e) => setValue(e.target)}
+      onFocus={(e) => setTimeout(() => selectText(e.target), 1)}
+      onInput={handleInput}
+      onBlur={(e) => {
+        setValue(e.target);
+      }}
     />
   );
 }

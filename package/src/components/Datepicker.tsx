@@ -13,7 +13,6 @@ import DatepickerCentury from './datepicker/Century';
 import DatepickerDecade from './datepicker/Decade';
 import DatepickerMonth from './datepicker/Month';
 import DatepickerYear from './datepicker/Year';
-import InputDate from './input/Date';
 import InputNewDate from './input/NewDate';
 import TimeselectorHeader from './timeselector/Header';
 import TimeselectorSelector from './timeselector/Selector';
@@ -148,7 +147,7 @@ function Datepicker({
 
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
-      <InputDate
+      {/* <InputDate
         value={value}
         valueFormat={comValueFormat}
         useClearButton={useClearButton}
@@ -156,7 +155,7 @@ function Datepicker({
         disabled={disabled}
         setValue={setValue}
         setIsVisible={setIsVisible}
-      />
+      /> */}
       <InputNewDate
         value={value}
         valueFormat={comValueFormat}
@@ -164,6 +163,10 @@ function Datepicker({
         setDateValue={setDateValue}
         timeValue={timeValue}
         setTimeValue={setTimeValue}
+        useClearButton={useClearButton}
+        placeholder={placeholder}
+        disabled={disabled}
+        setIsVisible={setIsVisible}
       />
       <Layer
         isVisible={isVisible}

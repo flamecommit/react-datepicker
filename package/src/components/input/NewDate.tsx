@@ -12,6 +12,10 @@ interface IProps {
   setDateValue: (value: IDateValue) => void;
   timeValue: ITimeValue;
   setTimeValue: (value: ITimeValue) => void;
+  useClearButton: boolean;
+  placeholder: string;
+  disabled: boolean;
+  setIsVisible: (value: boolean) => void;
 }
 
 function splitString(str: string): string[] {
@@ -26,12 +30,22 @@ function InputNewDate({
   setDateValue,
   timeValue,
   setTimeValue,
+  setIsVisible,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
   return (
     <div className={`${NAME_SPACE}__input-container`}>
-      {formatArray.map((o, i) => {
+      <button
+        type="button"
+        className={`${NAME_SPACE}__trigger-button`}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            setIsVisible(true);
+          }
+        }}
+      ></button>
+      {formatArray.map((type, i) => {
         return (
           <InputUnit
             key={i}
@@ -40,7 +54,7 @@ function InputNewDate({
             setDateValue={setDateValue}
             timeValue={timeValue}
             setTimeValue={setTimeValue}
-            type={o}
+            type={type}
           />
         );
       })}

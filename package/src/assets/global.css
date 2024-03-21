@@ -6,15 +6,21 @@
 .react-datepicker__input-container {
   position: relative;
   display: inline-flex;
+  align-items: center;
   width: 200px;
-}
-.react-datepicker__input {
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
   height: 36px;
   padding: 0 10px;
   border: 1px solid #ccc;
+}
+.react-datepicker__trigger-button {
+  position: absolute;
+  inset: 0;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+.react-datepicker__input-unit {
+  position: relative;
 }
 .react-datepicker__clear {
   position: absolute;
