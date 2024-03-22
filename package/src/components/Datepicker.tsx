@@ -3,7 +3,12 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
 import { useElementSize } from '../hooks/useElementSize';
-import { IDateValue, ITimeValue, ITimeselector } from '../types/props';
+import {
+  IDateValue,
+  ITimeValue,
+  ITimeselector,
+  TIsVisible,
+} from '../types/props';
 import { formatDate } from '../utils/datetime';
 import { setMonthPage } from '../utils/page';
 import Layer from './common/Layer';
@@ -76,7 +81,7 @@ function Datepicker({
   const [viewType, setViewType] = useState<
     'century' | 'decade' | 'year' | 'month'
   >('month');
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<TIsVisible>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
   const [, datepickerContainerRef, { height: datepickerContainerHeight }] =

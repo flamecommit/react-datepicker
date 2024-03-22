@@ -11,6 +11,18 @@ function App() {
         <Datepicker />
       </section>
       <section>
+        <h3>initStartValue, initEndValue</h3>
+        <Rangepicker
+          initStartValue={new Date('2001-11-11 20:13:12')}
+          initEndValue={new Date('2001-11-19 20:13:12')}
+          timeselector={{
+            hour: true,
+            minute: true,
+            second: true,
+          }}
+        />
+      </section>
+      <section>
         <h3>Timeselector</h3>
         <Datepicker
           timeselector={{
@@ -108,17 +120,6 @@ function App() {
             console.log(startDate, endDate);
           }}
         />
-      </section>
-      <section>
-        <h3>initStartValue, initEndValue</h3>
-        <Rangepicker
-          initStartValue={new Date(2023, 7, 1)}
-          initEndValue={new Date(2023, 8, 7)}
-        />
-      </section>
-      <section>
-        <h3>withPortal</h3>
-        <Datepicker withPortal={true} closesAfterChange={false} />
       </section>
       <section>
         <h3>datetime-local</h3>

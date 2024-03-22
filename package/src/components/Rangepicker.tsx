@@ -1,20 +1,27 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
-import useOutsideClick from '../hooks/useOutsideClick';
+import { useElementSize } from '../hooks/useElementSize';
+import {
+  IDateValue,
+  ITimeValue,
+  ITimeselector,
+  TIsVisible,
+} from '../types/props';
 import { formatDate } from '../utils/datetime';
 import { setMonthPage } from '../utils/page';
 import Layer from './common/Layer';
 import ControllerContainer from './controller/Container';
 import DatepickerCentury from './datepicker/Century';
 import DatepickerDecade from './datepicker/Decade';
+import DatepickerMonth from './datepicker/Month';
 import DatepickerYear from './datepicker/Year';
-import InputRange from './input/Range';
-import RangepickerMonth from './rangepicker/Month';
+import RangepickerInput from './input/RangepickerInput';
+import TimeselectorHeader from './timeselector/Header';
+import TimeselectorSelector from './timeselector/Selector';
 
 interface IProps {
-  // initValue?: Date | null;
   initStartValue?: Date | null;
   initEndValue?: Date | null;
   useClearButton?: boolean;
@@ -27,15 +34,21 @@ interface IProps {
   className?: string;
   placeholder?: string;
   disabled?: boolean;
+  timeselector?: false | ITimeselector;
+  hourStep?: number;
+  minuteStep?: number;
+  secondStep?: number;
   onChange?: (startDate: Date | null, endDate: Date | null) => void;
 }
 
-function Rangepicker({
+const NEW_DATE = new Date();
+
+export default function Rangepicker({
   initStartValue = null,
   initEndValue = null,
   useClearButton = false,
   showsMultipleCalendar = false,
-  valueFormat = 'YYYY-MM-DD',
+  valueFormat = '',
   labelFormat = 'YYYY / MM',
   closesAfterChange = true,
   weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
@@ -43,23 +56,67 @@ function Rangepicker({
   className = '',
   placeholder = '',
   disabled = false,
+  timeselector = false,
+  hourStep = 1,
+  minuteStep = 1,
+  secondStep = 1,
   onChange,
 }: IProps) {
-  // 인수가 없을 땐 LOCAL 기준 현재 시간을 반환한다.
-  const NEW_DATE = new Date();
+  const initialValueFormat = timeselector
+    ? 'YYYY-MM-DD HH:mm:ss'
+    : 'YYYY-MM-DD';
+  const comValueFormat = valueFormat ? valueFormat : initialValueFormat;
   const [startValue, setStartValue] = useState<Date | null>(initStartValue);
   const [endValue, setEndValue] = useState<Date | null>(initEndValue);
-  const [hoverValue, setHoverValue] = useState<Date | null>(null);
-  const [viewDate, setViewDate] = useState<string>(
+  const [timeStartValue, setTimeStartValue] = useState<ITimeValue>({
+    hour: initStartValue?.getHours() || 0,
+    minute: initStartValue?.getMinutes() || 0,
+    second: initStartValue?.getSeconds() || 0,
+  });
+  const [dateStartValue, setDateStartValue] = useState<IDateValue>({
+    year: initStartValue?.getFullYear() || null,
+    month: initStartValue?.getMonth() || null,
+    date: initStartValue?.getDate() || null,
+  });
+  const [timeEndValue, setTimeEndValue] = useState<ITimeValue>({
+    hour: initEndValue?.getHours() || 0,
+    minute: initEndValue?.getMinutes() || 0,
+    second: initEndValue?.getSeconds() || 0,
+  });
+  const [dateEndValue, setDateEndValue] = useState<IDateValue>({
+    year: initEndValue?.getFullYear() || null,
+    month: initEndValue?.getMonth() || null,
+    date: initEndValue?.getDate() || null,
+  });
+  const [viewStartDate, setViewStartDate] = useState<string>(
     formatDate(startValue || NEW_DATE, 'YYYY-MM-DD')
+  );
+  const [viewEndDate, setViewEndDate] = useState<string>(
+    formatDate(endValue || NEW_DATE, 'YYYY-MM-DD')
   );
   const [viewType, setViewType] = useState<
     'century' | 'decade' | 'year' | 'month'
   >('month');
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<TIsVisible>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
-  const layer = useRef(null);
+  const startMonthPage = useMemo(
+    () => setMonthPage(viewStartDate),
+    [viewStartDate]
+  );
+  const endMonthPage = useMemo(() => setMonthPage(viewEndDate), [viewEndDate]);
+  const [, datepickerContainerRef, { height: datepickerContainerHeight }] =
+    useElementSize();
+  const inputRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (closesAfterChange && !timeselector && endValue !== null) {
+      setIsVisible(false);
+    }
+    if (onChange && isMounted && endValue !== null) {
+      onChange(startValue, endValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [endValue]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -67,111 +124,213 @@ function Rangepicker({
     }, 1);
   }, []);
 
-  useOutsideClick(layer, () => {
-    setIsVisible(false);
-  });
+  useEffect(() => {
+    if (!startValue) return;
+
+    const newDate = new Date(
+      startValue.getFullYear(),
+      startValue.getMonth(),
+      startValue.getDate(),
+      timeStartValue.hour,
+      timeStartValue.minute,
+      timeStartValue.second
+    );
+
+    setStartValue(newDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeStartValue]);
 
   useEffect(() => {
-    if (closesAfterChange && endValue !== null) {
-      setIsVisible(false);
-      // setIsVisible(false);
-      // setViewDate(formatDate(startValue || NEW_DATE, 'YYYY-MM-DD'));
-    }
+    if (
+      dateStartValue.year === null ||
+      dateStartValue.month === null ||
+      dateStartValue.date === null
+    )
+      return;
+
+    const newDate = new Date(
+      Number(dateStartValue.year),
+      Number(dateStartValue.month),
+      Number(dateStartValue.date),
+      timeStartValue.hour,
+      timeStartValue.minute,
+      timeStartValue.second
+    );
+
+    setStartValue(newDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [endValue, onChange, setViewDate]);
+  }, [dateStartValue]);
 
   useEffect(() => {
-    if (onChange && isMounted) {
-      onChange(startValue, endValue);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setViewStartDate(formatDate(startValue || NEW_DATE, 'YYYY-MM-DD'));
+  }, [startValue]);
+
+  useEffect(() => {
+    setViewEndDate(formatDate(endValue || NEW_DATE, 'YYYY-MM-DD'));
   }, [endValue]);
+
+  useEffect(() => {
+    if (!endValue) return;
+
+    const newDate = new Date(
+      endValue.getFullYear(),
+      endValue.getMonth(),
+      endValue.getDate(),
+      timeEndValue.hour,
+      timeEndValue.minute,
+      timeEndValue.second
+    );
+
+    setEndValue(newDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeEndValue]);
+
+  useEffect(() => {
+    if (
+      dateEndValue.year === null ||
+      dateEndValue.month === null ||
+      dateEndValue.date === null
+    )
+      return;
+
+    const newDate = new Date(
+      Number(dateEndValue.year),
+      Number(dateEndValue.month),
+      Number(dateEndValue.date),
+      timeEndValue.hour,
+      timeEndValue.minute,
+      timeEndValue.second
+    );
+
+    setEndValue(newDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dateEndValue]);
+
+  console.log(isVisible);
 
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
-      <InputRange
+      <RangepickerInput
+        valueFormat={comValueFormat}
         startValue={startValue}
+        dateStartValue={dateStartValue}
+        setDateStartValue={setDateStartValue}
+        timeStartValue={timeStartValue}
+        setTimeStartValue={setTimeStartValue}
         endValue={endValue}
-        valueFormat={valueFormat}
+        dateEndValue={dateEndValue}
+        setDateEndValue={setDateEndValue}
+        timeEndValue={timeEndValue}
+        setTimeEndValue={setTimeEndValue}
         useClearButton={useClearButton}
         placeholder={placeholder}
         disabled={disabled}
         setIsVisible={setIsVisible}
-        setStartValue={setStartValue}
-        setEndValue={setEndValue}
+        viewStartDate={viewStartDate}
+        setViewStartDate={setViewStartDate}
+        viewEndDate={viewEndDate}
+        setViewEndDate={setViewEndDate}
+        inputRef={inputRef}
       />
       <Layer
+        inputRef={inputRef}
         isVisible={isVisible}
         setIsVisible={setIsVisible}
         withPortal={withPortal}
       >
-        <div className={`${NAME_SPACE}__datepicker-container`}>
+        <div
+          className={`${NAME_SPACE}__datepicker-container`}
+          ref={datepickerContainerRef}
+        >
           <ControllerContainer
-            viewDate={viewDate}
             viewType={viewType}
             labelFormat={labelFormat}
             showsMultipleCalendar={showsMultipleCalendar}
             setViewType={setViewType}
-            setViewDate={setViewDate}
+            viewDate={isVisible === 'start' ? viewStartDate : viewEndDate}
+            setViewDate={
+              isVisible === 'start' ? setViewStartDate : setViewEndDate
+            }
           />
           <div className={`${NAME_SPACE}__datepicker`}>
-            {viewType === 'month' && (
-              <>
-                <RangepickerMonth
-                  startValue={startValue}
-                  endValue={endValue}
-                  hoverValue={hoverValue}
-                  valueFormat={valueFormat}
-                  monthPage={monthPage}
-                  weekdayLabels={weekdayLabels}
-                  setStartValue={setStartValue}
-                  setEndValue={setEndValue}
-                  setHoverValue={setHoverValue}
-                />
-                {showsMultipleCalendar && (
-                  <RangepickerMonth
-                    startValue={startValue}
-                    endValue={endValue}
-                    hoverValue={hoverValue}
-                    valueFormat={valueFormat}
-                    monthPage={monthPage + 1}
-                    weekdayLabels={weekdayLabels}
-                    setStartValue={setStartValue}
-                    setEndValue={setEndValue}
-                    setHoverValue={setHoverValue}
-                  />
-                )}
-              </>
-            )}
+            {viewType === 'month' &&
+              [true, showsMultipleCalendar].map((isShow, index) => (
+                <Fragment key={index}>
+                  {isShow && (
+                    <DatepickerMonth
+                      dateValue={
+                        isVisible === 'start' ? dateStartValue : dateEndValue
+                      }
+                      setDateValue={
+                        isVisible === 'start'
+                          ? setDateStartValue
+                          : setDateEndValue
+                      }
+                      valueFormat={comValueFormat}
+                      monthPage={
+                        (isVisible === 'start'
+                          ? startMonthPage
+                          : endMonthPage) + index
+                      }
+                      weekdayLabels={weekdayLabels}
+                    />
+                  )}
+                </Fragment>
+              ))}
             {viewType === 'year' && (
               <DatepickerYear
                 value={startValue}
-                viewDate={viewDate}
-                setViewDate={setViewDate}
                 setViewType={setViewType}
+                viewDate={isVisible === 'start' ? viewStartDate : viewEndDate}
+                setViewDate={
+                  isVisible === 'start' ? setViewStartDate : setViewEndDate
+                }
               />
             )}
             {viewType === 'decade' && (
               <DatepickerDecade
                 value={startValue}
-                viewDate={viewDate}
-                setViewDate={setViewDate}
                 setViewType={setViewType}
+                viewDate={isVisible === 'start' ? viewStartDate : viewEndDate}
+                setViewDate={
+                  isVisible === 'start' ? setViewStartDate : setViewEndDate
+                }
               />
             )}
             {viewType === 'century' && (
               <DatepickerCentury
                 value={startValue}
-                viewDate={viewDate}
-                setViewDate={setViewDate}
                 setViewType={setViewType}
+                viewDate={isVisible === 'start' ? viewStartDate : viewEndDate}
+                setViewDate={
+                  isVisible === 'start' ? setViewStartDate : setViewEndDate
+                }
               />
             )}
           </div>
         </div>
+        {timeselector && (
+          <div
+            className={`${NAME_SPACE}__timeselector-container`}
+            style={{
+              height: datepickerContainerHeight,
+            }}
+          >
+            <TimeselectorHeader
+              timeValue={timeStartValue}
+              timeselector={timeselector}
+            />
+            <TimeselectorSelector
+              timeValue={timeStartValue}
+              setTimeValue={setTimeStartValue}
+              timeselector={timeselector}
+              hourStep={hourStep}
+              minuteStep={minuteStep}
+              secondStep={secondStep}
+            />
+          </div>
+        )}
       </Layer>
     </div>
   );
 }
-
-export default Rangepicker;

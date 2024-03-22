@@ -3,12 +3,13 @@
 import { ReactNode, RefObject, useRef } from 'react';
 import { NAME_SPACE } from '../../constants/core';
 import useOutsideClick from '../../hooks/useOutsideClick';
+import { TIsVisible } from '../../types/props';
 import ConditionalWrapper from './ConditionalWrapper';
 import Portal from './Portal';
 
 interface IProps {
-  isVisible: boolean;
-  setIsVisible: (isVisible: boolean) => void;
+  isVisible: TIsVisible;
+  setIsVisible: (isVisible: TIsVisible) => void;
   withPortal: boolean;
   children: ReactNode;
   inputRef: RefObject<HTMLDivElement>;

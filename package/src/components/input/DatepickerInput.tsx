@@ -2,7 +2,7 @@
 
 import { RefObject, useMemo } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue, ITimeValue } from '../../types/props';
+import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
 import { splitString } from '../../utils/string';
 import InputUnit from './InputUnit';
 
@@ -16,7 +16,7 @@ interface IProps {
   useClearButton: boolean;
   placeholder: string;
   disabled: boolean;
-  setIsVisible: (value: boolean) => void;
+  setIsVisible: (value: TIsVisible) => void;
   viewDate: string;
   setViewDate: (value: string) => void;
   inputRef: RefObject<HTMLDivElement>;

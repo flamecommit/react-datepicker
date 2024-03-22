@@ -9,18 +9,19 @@ import {
   useState,
 } from 'react';
 import { NAME_SPACE, VALUE_TYPES } from '../../constants/core';
-import { IDateValue, ITimeValue } from '../../types/props';
+import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
 import { getValueUnit } from '../../utils/datetime';
 import { addLeadingZero, isNumeric } from '../../utils/string';
 
 interface IProps {
+  visibleType?: TIsVisible;
   value: Date | null;
   type: string;
   dateValue: IDateValue;
   setDateValue: (value: IDateValue) => void;
   timeValue: ITimeValue;
   setTimeValue: (value: ITimeValue) => void;
-  setIsVisible: (value: boolean) => void;
+  setIsVisible: (value: TIsVisible) => void;
   viewDate: string;
   setViewDate: (value: string) => void;
 }
@@ -39,6 +40,7 @@ function selectText(element: HTMLElement) {
 }
 
 function InputUnit({
+  visibleType = true,
   value,
   type,
   dateValue,
@@ -287,7 +289,7 @@ function InputUnit({
       suppressContentEditableWarning={true}
       onFocus={(e) => {
         setTimeout(() => {
-          setIsVisible(true);
+          setIsVisible(visibleType);
           selectText(e.target);
         }, 1);
       }}

@@ -15,3 +15,5 @@ export interface IDateValue {
   month: number | string | null;
   date: number | string | null;
 }
+
+export type TIsVisible = boolean | 'start' | 'end';
