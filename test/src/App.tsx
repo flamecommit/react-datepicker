@@ -4,20 +4,11 @@ import { useState } from 'react';
 
 function App() {
   const [dateValue] = useState<Date>(new Date('2001-11-11'));
-  const [state, setState] = useState(0);
-
-  const handleChange = () => {
-    console.log('handleChange');
-  };
 
   return (
     <div>
       <section>
-        <input type="text" onChange={handleChange} />
-        <Datepicker onChange={handleChange} />
-        <button type="button" onClick={() => setState(state + 1)}>
-          더하기
-        </button>
+        <Datepicker />
       </section>
       <section>
         <h3>Timeselector</h3>
@@ -55,7 +46,7 @@ function App() {
             second: true,
           }}
           useClearButton
-          initValue={new Date('2001-11-11 1:2:3')}
+          initValue={new Date('2001-11-11 01:02:03')}
           valueFormat="YYYY-MM-DD HH:mm:ss"
         />
       </section>

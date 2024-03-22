@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo } from 'react';
+import { RefObject, useMemo } from 'react';
 import { NAME_SPACE } from '../../constants/core';
 import { IDateValue, ITimeValue } from '../../types/props';
+import { splitString } from '../../utils/string';
 import InputUnit from './InputUnit';
 
 interface IProps {
@@ -18,14 +19,10 @@ interface IProps {
   setIsVisible: (value: boolean) => void;
   viewDate: string;
   setViewDate: (value: string) => void;
+  inputRef: RefObject<HTMLDivElement>;
 }
 
-function splitString(str: string): string[] {
-  const regex = /([^\w])/g; // 정규식으로 문자열을 분할
-  return str.split(regex);
-}
-
-function InputNewDate({
+export default function DatepickerInput({
   value,
   valueFormat,
   dateValue,
@@ -35,20 +32,12 @@ function InputNewDate({
   setIsVisible,
   viewDate,
   setViewDate,
+  inputRef,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
   return (
-    <div className={`${NAME_SPACE}__input-container`}>
-      <button
-        type="button"
-        className={`${NAME_SPACE}__trigger-button`}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            setIsVisible(true);
-          }
-        }}
-      ></button>
+    <div className={`${NAME_SPACE}__input-container`} ref={inputRef}>
       {formatArray.map((type, i) => {
         return (
           <InputUnit
@@ -68,5 +57,3 @@ function InputNewDate({
     </div>
   );
 }
-
-export default InputNewDate;

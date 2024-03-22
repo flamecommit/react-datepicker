@@ -26,7 +26,7 @@ interface IProps {
 }
 
 // Function to select text
-function selectText(element: HTMLDivElement) {
+function selectText(element: HTMLElement) {
   const selection = window.getSelection();
   const range = document.createRange();
 
@@ -162,22 +162,73 @@ function InputUnit({
   const handleInput = (e: FormEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
     const count = target.textContent?.length || 0;
+    const value = Number(target.textContent);
 
-    const conditions = {
-      YYYY: 4,
-      MM: 2,
-      DD: 2,
-      HH: 2,
-      mm: 2,
-      ss: 2,
-    };
+    // 숫자 외 입력 방어 코드
+    if (target.textContent?.match(/[^0-9]/g)) {
+      setText(type);
+      target.innerText = type;
+      selectText(target);
+      return;
+    }
 
-    if (count >= conditions[type as keyof typeof conditions]) {
-      if (nextRef.current) {
-        nextRef.current.focus();
-      } else {
-        inputRef.current?.blur();
-      }
+    switch (type) {
+      case 'YYYY':
+        if (count >= 4) {
+          if (nextRef.current) {
+            nextRef.current.focus();
+          } else {
+            inputRef.current?.blur();
+          }
+        }
+        return;
+      case 'MM':
+        if (value >= 2 || count >= 2) {
+          if (nextRef.current) {
+            nextRef.current.focus();
+          } else {
+            inputRef.current?.blur();
+          }
+        }
+        return;
+      case 'DD':
+        if (value >= 4 || count >= 2) {
+          if (nextRef.current) {
+            nextRef.current.focus();
+          } else {
+            inputRef.current?.blur();
+          }
+        }
+        return;
+      case 'HH':
+        if (value >= 3 || count >= 2) {
+          if (nextRef.current) {
+            nextRef.current.focus();
+          } else {
+            inputRef.current?.blur();
+          }
+        }
+        return;
+      case 'mm':
+        if (value >= 6 || count >= 2) {
+          if (nextRef.current) {
+            nextRef.current.focus();
+          } else {
+            inputRef.current?.blur();
+          }
+        }
+        return;
+      case 'ss':
+        if (value >= 6 || count >= 2) {
+          if (nextRef.current) {
+            nextRef.current.focus();
+          } else {
+            inputRef.current?.blur();
+          }
+        }
+        return;
+      default:
+        return;
     }
   };
 
@@ -239,6 +290,11 @@ function InputUnit({
           setIsVisible(true);
           selectText(e.target);
         }, 1);
+      }}
+      onClick={(e) => {
+        if (!isValue) return;
+        const target = e.target as HTMLElement;
+        selectText(target);
       }}
       onInput={handleInput}
       onKeyDown={numberChecker}

@@ -8,3 +8,9 @@ export function isNumeric(text: string | null): boolean {
   if (text === null) return false;
   return /^[0-9]+$/.test(text);
 }
+
+// 정규식으로 문자열을 분할
+export function splitString(str: string): string[] {
+  const regex = /([^\w])/g;
+  return str.split(regex);
+}

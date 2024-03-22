@@ -3,7 +3,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
 import { useElementSize } from '../hooks/useElementSize';
-import useOutsideClick from '../hooks/useOutsideClick';
 import { IDateValue, ITimeValue, ITimeselector } from '../types/props';
 import { formatDate } from '../utils/datetime';
 import { setMonthPage } from '../utils/page';
@@ -13,7 +12,7 @@ import DatepickerCentury from './datepicker/Century';
 import DatepickerDecade from './datepicker/Decade';
 import DatepickerMonth from './datepicker/Month';
 import DatepickerYear from './datepicker/Year';
-import InputNewDate from './input/NewDate';
+import DatepickerInput from './input/DatepickerInput';
 import TimeselectorHeader from './timeselector/Header';
 import TimeselectorSelector from './timeselector/Selector';
 
@@ -80,13 +79,9 @@ function Datepicker({
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
-  const layer = useRef(null);
   const [, datepickerContainerRef, { height: datepickerContainerHeight }] =
     useElementSize();
-
-  useOutsideClick(layer, () => {
-    setIsVisible(false);
-  });
+  const inputRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (closesAfterChange && !timeselector) {
@@ -147,16 +142,7 @@ function Datepicker({
 
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
-      {/* <InputDate
-        value={value}
-        valueFormat={comValueFormat}
-        useClearButton={useClearButton}
-        placeholder={placeholder}
-        disabled={disabled}
-        setValue={setValue}
-        setIsVisible={setIsVisible}
-      /> */}
-      <InputNewDate
+      <DatepickerInput
         value={value}
         valueFormat={comValueFormat}
         dateValue={dateValue}
@@ -169,8 +155,10 @@ function Datepicker({
         setIsVisible={setIsVisible}
         viewDate={viewDate}
         setViewDate={setViewDate}
+        inputRef={inputRef}
       />
       <Layer
+        inputRef={inputRef}
         isVisible={isVisible}
         setIsVisible={setIsVisible}
         withPortal={withPortal}

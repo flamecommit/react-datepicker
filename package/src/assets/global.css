@@ -7,7 +7,6 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: 200px;
   height: 36px;
   padding: 0 10px;
   border: 1px solid #ccc;
@@ -21,6 +20,7 @@
 }
 .react-datepicker__input-unit {
   position: relative;
+  outline: none;
 }
 .react-datepicker__clear {
   position: absolute;

@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useRef } from 'react';
+import { ReactNode, RefObject, useRef } from 'react';
 import { NAME_SPACE } from '../../constants/core';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import ConditionalWrapper from './ConditionalWrapper';
@@ -11,13 +11,25 @@ interface IProps {
   setIsVisible: (isVisible: boolean) => void;
   withPortal: boolean;
   children: ReactNode;
+  inputRef: RefObject<HTMLDivElement>;
 }
 
-function Layer({ isVisible, setIsVisible, withPortal, children }: IProps) {
+function Layer({
+  isVisible,
+  setIsVisible,
+  withPortal,
+  children,
+  inputRef,
+}: IProps) {
   const layer = useRef(null);
 
-  useOutsideClick(layer, () => {
-    setIsVisible(false);
+  useOutsideClick(layer, (e) => {
+    setTimeout(() => {
+      const target = e.target as HTMLElement;
+      if (inputRef.current && !inputRef.current.contains(target)) {
+        setIsVisible(false);
+      }
+    }, 1);
   });
 
   return (
