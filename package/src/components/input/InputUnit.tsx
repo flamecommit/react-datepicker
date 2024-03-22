@@ -1,6 +1,13 @@
 'use client';
 
-import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  FormEvent,
+  KeyboardEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { NAME_SPACE, VALUE_TYPES } from '../../constants/core';
 import { IDateValue, ITimeValue } from '../../types/props';
 import { getValueUnit } from '../../utils/datetime';
@@ -13,6 +20,9 @@ interface IProps {
   setDateValue: (value: IDateValue) => void;
   timeValue: ITimeValue;
   setTimeValue: (value: ITimeValue) => void;
+  setIsVisible: (value: boolean) => void;
+  viewDate: string;
+  setViewDate: (value: string) => void;
 }
 
 // Function to select text
@@ -35,6 +45,9 @@ function InputUnit({
   setDateValue,
   timeValue,
   setTimeValue,
+  setIsVisible,
+  viewDate,
+  setViewDate,
 }: IProps) {
   const inputRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLElement>();
@@ -90,56 +103,42 @@ function InputUnit({
 
   // Input에서 Focus가 사라졌을 때 입력된 값을 타입에 맞게 value에 저장
   const setValue = (element: HTMLDivElement) => {
-    if (!element.textContent || !isNumeric(element.textContent)) return;
+    const value = element.textContent || type;
 
-    let value: string | number = element.textContent;
-
-    switch (type) {
-      case 'YYYY':
-        value = Number(value) > 9999 ? '9999' : addLeadingZero(value);
-        setText(value);
-        element.innerText = value;
-        return;
-      case 'MM':
-        value = Number(value) > 12 ? '12' : addLeadingZero(value);
-        setText(value);
-        element.innerText = value;
-        return;
-      case 'DD':
-        value = Number(value) > 31 ? '31' : addLeadingZero(value);
-        setText(value);
-        element.innerText = value;
-        return;
-      case 'HH':
-        value = Number(value) > 23 ? '23' : addLeadingZero(value);
-        setText(value);
-        element.innerText = value;
-        return;
-      case 'mm':
-        value = Number(value) > 59 ? '59' : addLeadingZero(value);
-        setText(value);
-        element.innerText = value;
-        return;
-      case 'ss':
-        value = Number(value) > 59 ? '59' : addLeadingZero(value);
-        setText(value);
-        element.innerText = value;
-        return;
-      case ' ':
-        return '&nbsp;';
-      default:
-        return type;
+    if (!isNumeric(value)) {
+      return setText(type);
     }
+
+    const conditions = {
+      YYYY: Number(value) > 9999 ? '9999' : addLeadingZero(value),
+      MM: Number(value) > 12 ? '12' : addLeadingZero(value),
+      DD: Number(value) > 31 ? '31' : addLeadingZero(value),
+      HH: Number(value) > 23 ? '23' : addLeadingZero(value),
+      mm: Number(value) > 59 ? '59' : addLeadingZero(value),
+      ss: Number(value) > 59 ? '59' : addLeadingZero(value),
+    };
+
+    const processedValue = conditions[type as keyof typeof conditions] || value;
+    setText(processedValue);
+    element.innerText = processedValue;
   };
 
   // Text의 변화를 감지하여 Value에 최종 저장
   useEffect(() => {
+    if (!isNumeric(text as string)) return;
+
     switch (type) {
       case 'YYYY':
         utilSetDateValue({ year: text });
+        setViewDate(
+          `${text}-${viewDate.split('-')[1]}-${viewDate.split('-')[2]}`
+        );
         return;
       case 'MM':
         utilSetDateValue({ month: text });
+        setViewDate(
+          `${viewDate.split('-')[0]}-${text}-${viewDate.split('-')[2]}`
+        );
         return;
       case 'DD':
         utilSetDateValue({ date: text });
@@ -164,47 +163,16 @@ function InputUnit({
     const target = e.target as HTMLDivElement;
     const count = target.textContent?.length || 0;
 
-    if (type === 'YYYY' && count >= 4) {
-      if (nextRef.current) {
-        nextRef.current.focus();
-      } else {
-        inputRef.current?.blur();
-      }
-    }
+    const conditions = {
+      YYYY: 4,
+      MM: 2,
+      DD: 2,
+      HH: 2,
+      mm: 2,
+      ss: 2,
+    };
 
-    if (type === 'MM' && count >= 2) {
-      if (nextRef.current) {
-        nextRef.current.focus();
-      } else {
-        inputRef.current?.blur();
-      }
-    }
-
-    if (type === 'DD' && count >= 2) {
-      if (nextRef.current) {
-        nextRef.current.focus();
-      } else {
-        inputRef.current?.blur();
-      }
-    }
-
-    if (type === 'HH' && count >= 2) {
-      if (nextRef.current) {
-        nextRef.current.focus();
-      } else {
-        inputRef.current?.blur();
-      }
-    }
-
-    if (type === 'mm' && count >= 2) {
-      if (nextRef.current) {
-        nextRef.current.focus();
-      } else {
-        inputRef.current?.blur();
-      }
-    }
-
-    if (type === 'ss' && count >= 2) {
+    if (count >= conditions[type as keyof typeof conditions]) {
       if (nextRef.current) {
         nextRef.current.focus();
       } else {
@@ -241,19 +209,43 @@ function InputUnit({
     }
   }, []);
 
+  // 허용된 입력 외 prevent
+  const numberChecker = (e: KeyboardEvent) => {
+    const allowKeys = [
+      'Backspace',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowDown',
+      'ArrowUp',
+      'Tab',
+    ];
+
+    if (!allowKeys.includes(e.key) && !(e.key >= '0' && e.key <= '9')) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <div
+      role="presentation"
       ref={inputRef}
       data-value={isValue}
       className={`${NAME_SPACE}__input-unit`}
       dangerouslySetInnerHTML={{ __html: displayUnit }}
       contentEditable={isValue}
       suppressContentEditableWarning={true}
-      onFocus={(e) => setTimeout(() => selectText(e.target), 1)}
+      onFocus={(e) => {
+        setTimeout(() => {
+          setIsVisible(true);
+          selectText(e.target);
+        }, 1);
+      }}
       onInput={handleInput}
+      onKeyDown={numberChecker}
       onBlur={(e) => {
         setValue(e.target);
       }}
+      inputMode="numeric"
     />
   );
 }

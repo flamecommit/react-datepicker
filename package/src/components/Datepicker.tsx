@@ -167,6 +167,8 @@ function Datepicker({
         placeholder={placeholder}
         disabled={disabled}
         setIsVisible={setIsVisible}
+        viewDate={viewDate}
+        setViewDate={setViewDate}
       />
       <Layer
         isVisible={isVisible}

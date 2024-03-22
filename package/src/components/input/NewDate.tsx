@@ -16,6 +16,8 @@ interface IProps {
   placeholder: string;
   disabled: boolean;
   setIsVisible: (value: boolean) => void;
+  viewDate: string;
+  setViewDate: (value: string) => void;
 }
 
 function splitString(str: string): string[] {
@@ -31,6 +33,8 @@ function InputNewDate({
   timeValue,
   setTimeValue,
   setIsVisible,
+  viewDate,
+  setViewDate,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
@@ -54,7 +58,10 @@ function InputNewDate({
             setDateValue={setDateValue}
             timeValue={timeValue}
             setTimeValue={setTimeValue}
+            setIsVisible={setIsVisible}
             type={type}
+            viewDate={viewDate}
+            setViewDate={setViewDate}
           />
         );
       })}
