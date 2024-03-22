@@ -27,6 +27,7 @@ interface IProps {
   viewEndDate: string;
   setViewEndDate: (value: string) => void;
   inputRef: RefObject<HTMLDivElement>;
+  isVisible: TIsVisible;
 }
 
 export default function RangepickerInput({
@@ -47,46 +48,57 @@ export default function RangepickerInput({
   viewEndDate,
   setViewEndDate,
   inputRef,
+  isVisible,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
   return (
     <div className={`${NAME_SPACE}__input-container`} ref={inputRef}>
-      {formatArray.map((type, i) => {
-        return (
-          <InputUnit
-            key={i}
-            visibleType="start"
-            value={startValue}
-            dateValue={dateStartValue}
-            setDateValue={setDateStartValue}
-            timeValue={timeStartValue}
-            setTimeValue={setTimeStartValue}
-            setIsVisible={setIsVisible}
-            type={type}
-            viewDate={viewStartDate}
-            setViewDate={setViewStartDate}
-          />
-        );
-      })}
-      <div> ~ </div>
-      {formatArray.map((type, i) => {
-        return (
-          <InputUnit
-            key={i}
-            visibleType="end"
-            value={endValue}
-            dateValue={dateEndValue}
-            setDateValue={setDateEndValue}
-            timeValue={timeEndValue}
-            setTimeValue={setTimeEndValue}
-            setIsVisible={setIsVisible}
-            type={type}
-            viewDate={viewEndDate}
-            setViewDate={setViewEndDate}
-          />
-        );
-      })}
+      <div
+        className={`${NAME_SPACE}__input-range-container`}
+        data-active={isVisible === 'start'}
+      >
+        {formatArray.map((type, i) => {
+          return (
+            <InputUnit
+              key={i}
+              visibleType="start"
+              value={startValue}
+              dateValue={dateStartValue}
+              setDateValue={setDateStartValue}
+              timeValue={timeStartValue}
+              setTimeValue={setTimeStartValue}
+              setIsVisible={setIsVisible}
+              type={type}
+              viewDate={viewStartDate}
+              setViewDate={setViewStartDate}
+            />
+          );
+        })}
+      </div>
+      <div className={`${NAME_SPACE}__input-range-separator`}> ~ </div>
+      <div
+        className={`${NAME_SPACE}__input-range-container`}
+        data-active={isVisible === 'end'}
+      >
+        {formatArray.map((type, i) => {
+          return (
+            <InputUnit
+              key={i}
+              visibleType="end"
+              value={endValue}
+              dateValue={dateEndValue}
+              setDateValue={setDateEndValue}
+              timeValue={timeEndValue}
+              setTimeValue={setTimeEndValue}
+              setIsVisible={setIsVisible}
+              type={type}
+              viewDate={viewEndDate}
+              setViewDate={setViewEndDate}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }

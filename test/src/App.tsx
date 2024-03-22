@@ -8,7 +8,7 @@ function App() {
   return (
     <div>
       <section>
-        <Datepicker />
+        <Rangepicker />
       </section>
       <section>
         <h3>initStartValue, initEndValue</h3>

@@ -2,7 +2,7 @@
 
 import { NAME_SPACE } from '../../constants/core';
 import { IDateValue } from '../../types/props';
-import { formatDate } from '../../utils/datetime';
+import { formatDate, formatDateValue } from '../../utils/datetime';
 
 interface Iprops {
   dateValue: IDateValue;
@@ -26,18 +26,7 @@ function DatepicerMonth({
   const lastDate = lastDateValue.getDate(); // 이달 말 일
   const lastDay = lastDateValue.getDay(); // 이달 말 일의 요일
   const prevLastDate = new Date(year, month - 1, 0).getDate(); // 이전달의 말 일
-  const formatedValue = formatDate(
-    dateValue.year !== null &&
-      dateValue.month !== null &&
-      dateValue.date !== null
-      ? new Date(
-          Number(dateValue.year),
-          Number(dateValue.month),
-          Number(dateValue.date)
-        )
-      : null,
-    valueFormat
-  );
+  const formatedValue = formatDateValue(dateValue, valueFormat);
 
   const renderDateButton = (
     month: number,

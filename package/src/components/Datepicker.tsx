@@ -2,7 +2,6 @@
 
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
-import { useElementSize } from '../hooks/useElementSize';
 import {
   IDateValue,
   ITimeValue,
@@ -84,9 +83,13 @@ function Datepicker({
   const [isVisible, setIsVisible] = useState<TIsVisible>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
-  const [, datepickerContainerRef, { height: datepickerContainerHeight }] =
-    useElementSize();
   const inputRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerHeight, setContainerHeight] = useState<number>(0);
+
+  useEffect(() => {
+    setContainerHeight(containerRef.current?.offsetHeight || 0);
+  }, [isVisible, viewDate]);
 
   useEffect(() => {
     if (closesAfterChange && !timeselector) {
@@ -170,7 +173,7 @@ function Datepicker({
       >
         <div
           className={`${NAME_SPACE}__datepicker-container`}
-          ref={datepickerContainerRef}
+          ref={containerRef}
         >
           <ControllerContainer
             viewDate={viewDate}
@@ -225,7 +228,7 @@ function Datepicker({
           <div
             className={`${NAME_SPACE}__timeselector-container`}
             style={{
-              height: datepickerContainerHeight,
+              height: containerHeight,
             }}
           >
             <TimeselectorHeader

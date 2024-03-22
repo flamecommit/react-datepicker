@@ -11,6 +11,17 @@
   padding: 0 10px;
   border: 1px solid #ccc;
 }
+.react-datepicker__input-range-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  &[data-active='true'] {
+    background-color: #ddd;
+  }
+}
+.react-datepicker__input-range-separator {
+  margin-inline: 4px;
+}
 .react-datepicker__trigger-button {
   position: absolute;
   inset: 0;
@@ -176,6 +187,9 @@
   background-color: #333;
   color: #fff;
   border-radius: 0 6px 6px 0;
+}
+.react-datepicker__datepicker-button[data-start-active='true'][data-end-active='true'] {
+  border-radius: 6px;
 }
 
 /* timeselector */

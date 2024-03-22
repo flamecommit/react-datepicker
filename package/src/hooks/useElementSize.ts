@@ -19,6 +19,7 @@ export function useElementSize<T extends HTMLElement = HTMLDivElement>(): [
   });
 
   const handleSize = useCallback(() => {
+    console.log('handleSize');
     setSize({
       width: ref?.offsetWidth || 0,
       height: ref?.offsetHeight || 0,

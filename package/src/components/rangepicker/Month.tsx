@@ -1,30 +1,30 @@
 'use client';
 
+import { useMemo } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { formatDate } from '../../utils/datetime';
+import { IDateValue, TIsVisible } from '../../types/props';
+import { formatDate, formatDateValue } from '../../utils/datetime';
 
 interface Iprops {
-  startValue: Date | null;
-  endValue: Date | null;
-  hoverValue: Date | null;
+  type: TIsVisible;
+  dateValue: IDateValue;
+  pairValue: IDateValue;
   valueFormat: string;
   monthPage: number;
   weekdayLabels: string[];
-  setStartValue: (value: Date | null) => void;
-  setEndValue: (value: Date | null) => void;
-  setHoverValue: (value: Date | null) => void;
+  setDateValue: (value: IDateValue) => void;
+  setPairValue: (value: IDateValue) => void;
 }
 
-function RangepicerMonth({
-  startValue,
-  endValue,
-  hoverValue,
+export default function RangepickerMonth({
+  type, // start | end
+  dateValue,
+  pairValue,
+  setDateValue,
+  setPairValue,
   valueFormat,
   monthPage,
   weekdayLabels,
-  setStartValue,
-  setEndValue,
-  setHoverValue,
 }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
@@ -33,35 +33,47 @@ function RangepicerMonth({
   const lastDate = lastDateValue.getDate(); // 이달 말 일
   const lastDay = lastDateValue.getDay(); // 이달 말 일의 요일
   const prevLastDate = new Date(year, month - 1, 0).getDate(); // 이전달의 말 일
-  const formatedStartValue = formatDate(startValue, valueFormat);
-  const formatedEndValue = formatDate(endValue, valueFormat);
-
-  const clickHandler = (thisValue: Date) => {
-    if (startValue && endValue) {
-      // 이미 값이 존재 한다면
-      setStartValue(thisValue);
-      setEndValue(null);
-    } else if (startValue && thisValue < startValue) {
-      // startValue보다 이전 날짜 선택 했다면
-      setStartValue(thisValue);
-    } else if (startValue && thisValue > startValue) {
-      setEndValue(thisValue);
-    } else {
-      setStartValue(thisValue);
-    }
-  };
-
-  const mouseEnterHandler = (thisValue: Date) => {
-    setHoverValue(thisValue);
-  };
+  const formatedDateValue = useMemo(
+    () => formatDateValue(dateValue, valueFormat),
+    [dateValue, valueFormat]
+  );
+  const formatedPairValue = useMemo(
+    () => formatDateValue(pairValue, valueFormat),
+    [pairValue, valueFormat]
+  );
+  const formatedStartValue = useMemo(() => {
+    return type === 'start' ? formatedDateValue : formatedPairValue;
+  }, [formatedDateValue, formatedPairValue, type]);
+  const formatedEndValue = useMemo(() => {
+    return type === 'end' ? formatedDateValue : formatedPairValue;
+  }, [formatedDateValue, formatedPairValue, type]);
 
   const renderDateButton = (
+    month: number,
     date: number,
-    thisValue: Date,
     classNameModifier = ''
   ) => {
-    const day = thisValue.getDay();
-    const formatedThisValue = formatDate(thisValue, valueFormat);
+    const buttonDate = new Date(-1, month, date);
+    const day = buttonDate.getDay();
+    const formatedThisValue = formatDate(buttonDate, valueFormat);
+
+    const handleClick = () => {
+      if (
+        (type === 'start' && buttonDate > new Date(formatedEndValue)) ||
+        (type === 'end' && buttonDate < new Date(formatedStartValue))
+      ) {
+        setPairValue({
+          year: null,
+          month: null,
+          date: null,
+        });
+      }
+      setDateValue({
+        year: buttonDate.getFullYear(),
+        month: buttonDate.getMonth(),
+        date: buttonDate.getDate(),
+      });
+    };
 
     return (
       <button
@@ -70,23 +82,16 @@ function RangepicerMonth({
         key={date}
         title={formatedThisValue}
         data-day={day}
-        data-hover-active={
-          startValue &&
-          hoverValue &&
-          endValue === null &&
-          thisValue > startValue &&
-          thisValue <= hoverValue
-        }
-        data-range-active={
-          startValue &&
-          endValue &&
-          thisValue > startValue &&
-          thisValue < endValue
-        }
+        data-active={formatedDateValue === formatedThisValue}
         data-start-active={formatedStartValue === formatedThisValue}
         data-end-active={formatedEndValue === formatedThisValue}
-        onClick={() => clickHandler(thisValue)}
-        onMouseEnter={() => mouseEnterHandler(thisValue)}
+        data-range-active={
+          formatedStartValue &&
+          formatedEndValue &&
+          buttonDate > new Date(formatedStartValue) &&
+          buttonDate < new Date(formatedEndValue)
+        }
+        onClick={handleClick}
       >
         {date}
       </button>
@@ -102,32 +107,27 @@ function RangepicerMonth({
       ))}
       {Array.apply(0, Array(firstDay)).map((x, i) => {
         const date = prevLastDate - (firstDay - i - 1);
-        const thisValue = new Date(-1, monthPage + 22, date);
 
         return renderDateButton(
+          monthPage + 22,
           date,
-          thisValue,
           `${NAME_SPACE}__neighbor-button`
         );
       })}
       {Array.apply(0, Array(lastDate)).map((x, i) => {
         const date = i + 1;
-        const thisValue = new Date(-1, monthPage + 23, date);
 
-        return renderDateButton(date, thisValue);
+        return renderDateButton(monthPage + 23, date);
       })}
       {Array.apply(0, Array(6 - lastDay)).map((x, i) => {
         const date = i + 1;
-        const thisValue = new Date(-1, monthPage + 24, date);
 
         return renderDateButton(
+          monthPage + 24,
           date,
-          thisValue,
           `${NAME_SPACE}__neighbor-button`
         );
       })}
     </div>
   );
 }
-
-export default RangepicerMonth;

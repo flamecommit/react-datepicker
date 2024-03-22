@@ -2,7 +2,6 @@
 
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
-import { useElementSize } from '../hooks/useElementSize';
 import {
   IDateValue,
   ITimeValue,
@@ -15,9 +14,9 @@ import Layer from './common/Layer';
 import ControllerContainer from './controller/Container';
 import DatepickerCentury from './datepicker/Century';
 import DatepickerDecade from './datepicker/Decade';
-import DatepickerMonth from './datepicker/Month';
 import DatepickerYear from './datepicker/Year';
 import RangepickerInput from './input/RangepickerInput';
+import RangepickerMonth from './rangepicker/Month';
 import TimeselectorHeader from './timeselector/Header';
 import TimeselectorSelector from './timeselector/Selector';
 
@@ -104,9 +103,13 @@ export default function Rangepicker({
     [viewStartDate]
   );
   const endMonthPage = useMemo(() => setMonthPage(viewEndDate), [viewEndDate]);
-  const [, datepickerContainerRef, { height: datepickerContainerHeight }] =
-    useElementSize();
   const inputRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerHeight, setContainerHeight] = useState<number>(0);
+
+  useEffect(() => {
+    setContainerHeight(containerRef.current?.offsetHeight || 0);
+  }, [isVisible, viewStartDate, viewEndDate]);
 
   useEffect(() => {
     if (closesAfterChange && !timeselector && endValue !== null) {
@@ -145,8 +148,10 @@ export default function Rangepicker({
       dateStartValue.year === null ||
       dateStartValue.month === null ||
       dateStartValue.date === null
-    )
+    ) {
+      setStartValue(null);
       return;
+    }
 
     const newDate = new Date(
       Number(dateStartValue.year),
@@ -162,12 +167,16 @@ export default function Rangepicker({
   }, [dateStartValue]);
 
   useEffect(() => {
-    setViewStartDate(formatDate(startValue || NEW_DATE, 'YYYY-MM-DD'));
-  }, [startValue]);
+    setViewStartDate(
+      formatDate(startValue || endValue || NEW_DATE, 'YYYY-MM-DD')
+    );
+  }, [endValue, startValue]);
 
   useEffect(() => {
-    setViewEndDate(formatDate(endValue || NEW_DATE, 'YYYY-MM-DD'));
-  }, [endValue]);
+    setViewEndDate(
+      formatDate(endValue || startValue || NEW_DATE, 'YYYY-MM-DD')
+    );
+  }, [endValue, startValue]);
 
   useEffect(() => {
     if (!endValue) return;
@@ -190,8 +199,10 @@ export default function Rangepicker({
       dateEndValue.year === null ||
       dateEndValue.month === null ||
       dateEndValue.date === null
-    )
+    ) {
+      setEndValue(null);
       return;
+    }
 
     const newDate = new Date(
       Number(dateEndValue.year),
@@ -205,8 +216,6 @@ export default function Rangepicker({
     setEndValue(newDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateEndValue]);
-
-  console.log(isVisible);
 
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
@@ -231,6 +240,7 @@ export default function Rangepicker({
         viewEndDate={viewEndDate}
         setViewEndDate={setViewEndDate}
         inputRef={inputRef}
+        isVisible={isVisible}
       />
       <Layer
         inputRef={inputRef}
@@ -240,7 +250,7 @@ export default function Rangepicker({
       >
         <div
           className={`${NAME_SPACE}__datepicker-container`}
-          ref={datepickerContainerRef}
+          ref={containerRef}
         >
           <ControllerContainer
             viewType={viewType}
@@ -257,12 +267,21 @@ export default function Rangepicker({
               [true, showsMultipleCalendar].map((isShow, index) => (
                 <Fragment key={index}>
                   {isShow && (
-                    <DatepickerMonth
+                    <RangepickerMonth
+                      type={isVisible}
                       dateValue={
                         isVisible === 'start' ? dateStartValue : dateEndValue
                       }
+                      pairValue={
+                        isVisible === 'end' ? dateStartValue : dateEndValue
+                      }
                       setDateValue={
                         isVisible === 'start'
+                          ? setDateStartValue
+                          : setDateEndValue
+                      }
+                      setPairValue={
+                        isVisible === 'end'
                           ? setDateStartValue
                           : setDateEndValue
                       }
@@ -313,7 +332,7 @@ export default function Rangepicker({
           <div
             className={`${NAME_SPACE}__timeselector-container`}
             style={{
-              height: datepickerContainerHeight,
+              height: containerHeight,
             }}
           >
             <TimeselectorHeader
