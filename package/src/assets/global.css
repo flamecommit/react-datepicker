@@ -81,9 +81,6 @@
 }
 
 /* datepicker */
-.react-datepicker__datepicker-container {
-  /* flex-grow: 1; */
-}
 .react-datepicker__controller {
   display: flex;
   border-bottom: 1px solid #ddd;
@@ -161,35 +158,37 @@
   height: 36px;
   cursor: pointer;
   color: #000;
+  &:hover {
+    background-color: #f7f7f7;
+  }
+  &[data-active='true'] {
+    background-color: #333;
+    color: #fff;
+  }
+  &[data-hover-active='true'] {
+    background-color: #eee;
+  }
+  &[data-range-active='true'] {
+    background-color: #eee;
+  }
+  &[data-range-active='true'] {
+    background-color: #eee;
+  }
+  &[data-start-active='true'] {
+    background-color: #333;
+    color: #fff;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+  &[data-end-active='true'] {
+    background-color: #333;
+    color: #fff;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
 }
 .react-datepicker__neighbor-button {
   color: #bbb;
-}
-.react-datepicker__datepicker-button:hover {
-  background-color: #f7f7f7;
-}
-.react-datepicker__datepicker-button[data-active='true'] {
-  background-color: #333;
-  color: #fff;
-}
-.react-datepicker__datepicker-button[data-hover-active='true'] {
-  background-color: #eee;
-}
-.react-datepicker__datepicker-button[data-range-active='true'] {
-  background-color: #eee;
-}
-.react-datepicker__datepicker-button[data-start-active='true'] {
-  background-color: #333;
-  color: #fff;
-  border-radius: 6px 0 0 6px;
-}
-.react-datepicker__datepicker-button[data-end-active='true'] {
-  background-color: #333;
-  color: #fff;
-  border-radius: 0 6px 6px 0;
-}
-.react-datepicker__datepicker-button[data-start-active='true'][data-end-active='true'] {
-  border-radius: 6px;
 }
 
 /* timeselector */
@@ -233,11 +232,11 @@
   border: none;
   border-radius: none;
   cursor: pointer;
-}
-.react-datepicker__timeselector-list-button:hover {
-  background-color: #f7f7f7;
-}
-.react-datepicker__timeselector-list-button[data-active='true'] {
-  background-color: #333;
-  color: #fff;
+  &:hover {
+    background-color: #f7f7f7;
+  }
+  &[data-active='true'] {
+    background-color: #333;
+    color: #fff;
+  }
 }
