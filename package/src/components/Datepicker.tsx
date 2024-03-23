@@ -194,6 +194,7 @@ function Datepicker({
                       valueFormat={comValueFormat}
                       monthPage={monthPage + index}
                       weekdayLabels={weekdayLabels}
+                      timeValue={timeValue}
                     />
                   )}
                 </Fragment>

@@ -1,7 +1,7 @@
 'use client';
 
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
-import { NAME_SPACE, RESET_DATE_VALUE } from '../constants/core';
+import { NAME_SPACE } from '../constants/core';
 import {
   IDateValue,
   ITimeValue,
@@ -224,20 +224,18 @@ export default function Rangepicker({
     if (startValue && endValue) {
       // start가 end 보다 클 때
       if (startValue > endValue) {
-        // start 변화일 때
         if (prevStartValue.current !== startValue) {
-          // end 초기화
-          setDateEndValue(RESET_DATE_VALUE);
-        }
-        // end 변화일 때
-        if (prevEndValue.current !== endValue) {
-          // start 초기화
-          setDateStartValue(RESET_DATE_VALUE);
+          setDateEndValue(dateStartValue);
+          setTimeEndValue(timeStartValue);
+        } else {
+          setDateStartValue(dateEndValue);
+          setTimeStartValue(timeEndValue);
         }
       }
     }
     prevStartValue.current = startValue;
     prevEndValue.current = endValue;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startValue, endValue]);
 
   return (
@@ -308,6 +306,9 @@ export default function Rangepicker({
                         (isVisible === 'start'
                           ? startMonthPage
                           : endMonthPage) + index
+                      }
+                      timeValue={
+                        isVisible === 'start' ? timeStartValue : timeEndValue
                       }
                       weekdayLabels={weekdayLabels}
                     />

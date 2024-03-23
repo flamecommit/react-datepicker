@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue, TIsVisible } from '../../types/props';
+import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
 import { formatDate, formatDateValue } from '../../utils/datetime';
 
 interface Iprops {
@@ -13,6 +13,7 @@ interface Iprops {
   monthPage: number;
   weekdayLabels: string[];
   setDateValue: (value: IDateValue) => void;
+  timeValue: ITimeValue;
 }
 
 export default function RangepickerMonth({
@@ -23,6 +24,7 @@ export default function RangepickerMonth({
   valueFormat,
   monthPage,
   weekdayLabels,
+  timeValue,
 }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
@@ -32,12 +34,12 @@ export default function RangepickerMonth({
   const lastDay = lastDateValue.getDay(); // 이달 말 일의 요일
   const prevLastDate = new Date(year, month - 1, 0).getDate(); // 이전달의 말 일
   const formatedDateValue = useMemo(
-    () => formatDateValue(dateValue, valueFormat),
-    [dateValue, valueFormat]
+    () => formatDateValue(dateValue, timeValue, valueFormat),
+    [dateValue, timeValue, valueFormat]
   );
   const formatedPairValue = useMemo(
-    () => formatDateValue(pairValue, valueFormat),
-    [pairValue, valueFormat]
+    () => formatDateValue(pairValue, timeValue, valueFormat),
+    [pairValue, timeValue, valueFormat]
   );
   const formatedStartValue = useMemo(() => {
     return type === 'start' ? formatedDateValue : formatedPairValue;
@@ -51,7 +53,14 @@ export default function RangepickerMonth({
     date: number,
     classNameModifier = ''
   ) => {
-    const buttonDate = new Date(-1, month, date);
+    const buttonDate = new Date(
+      -1,
+      month,
+      date,
+      timeValue.hour,
+      timeValue.minute,
+      timeValue.second
+    );
     const day = buttonDate.getDay();
     const formatedThisValue = formatDate(buttonDate, valueFormat);
 

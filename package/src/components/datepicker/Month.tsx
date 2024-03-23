@@ -1,7 +1,7 @@
 'use client';
 
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue } from '../../types/props';
+import { IDateValue, ITimeValue } from '../../types/props';
 import { formatDate, formatDateValue } from '../../utils/datetime';
 
 interface Iprops {
@@ -10,6 +10,7 @@ interface Iprops {
   monthPage: number;
   weekdayLabels: string[];
   setDateValue: (value: IDateValue) => void;
+  timeValue: ITimeValue;
 }
 
 function DatepicerMonth({
@@ -18,6 +19,7 @@ function DatepicerMonth({
   valueFormat,
   monthPage,
   weekdayLabels,
+  timeValue,
 }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
@@ -26,14 +28,21 @@ function DatepicerMonth({
   const lastDate = lastDateValue.getDate(); // 이달 말 일
   const lastDay = lastDateValue.getDay(); // 이달 말 일의 요일
   const prevLastDate = new Date(year, month - 1, 0).getDate(); // 이전달의 말 일
-  const formatedValue = formatDateValue(dateValue, valueFormat);
+  const formatedValue = formatDateValue(dateValue, timeValue, valueFormat);
 
   const renderDateButton = (
     month: number,
     date: number,
     classNameModifier = ''
   ) => {
-    const buttonDate = new Date(-1, month, date);
+    const buttonDate = new Date(
+      -1,
+      month,
+      date,
+      timeValue.hour,
+      timeValue.minute,
+      timeValue.second
+    );
     const day = buttonDate.getDay();
     const formatedThisValue = formatDate(buttonDate, valueFormat);
 

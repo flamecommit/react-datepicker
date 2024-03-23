@@ -1,4 +1,4 @@
-import { IDateValue } from '../types/props';
+import { IDateValue, ITimeValue } from '../types/props';
 import { addLeadingZero } from './string';
 
 export const toLocalISOString = (date: Date): string => {
@@ -33,7 +33,11 @@ export const formatDate = (dateObj: Date | null, format: string) => {
   return result;
 };
 
-export const formatDateValue = (dateValue: IDateValue, format: string) => {
+export const formatDateValue = (
+  dateValue: IDateValue,
+  timeValue: ITimeValue,
+  format: string
+) => {
   return formatDate(
     dateValue.year !== null &&
       dateValue.month !== null &&
@@ -41,7 +45,10 @@ export const formatDateValue = (dateValue: IDateValue, format: string) => {
       ? new Date(
           Number(dateValue.year),
           Number(dateValue.month),
-          Number(dateValue.date)
+          Number(dateValue.date),
+          timeValue.hour,
+          timeValue.minute,
+          timeValue.second
         )
       : null,
     format
