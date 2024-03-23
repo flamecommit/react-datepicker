@@ -1,3 +1,9 @@
+## 2.0.0
+
+- Datepicker와 Rangepicker에 키보드 입력 기능이 추가되었습니다.
+- Rangepicker에 Timeselector기능이 추가되었습니다.
+- Rangepicker에 closesAfterChange 옵션이 삭제됩니다.
+
 ## 1.12.10
 
 - onChange Dependencies 수정 (value의 변화만 감지하도록 변경)

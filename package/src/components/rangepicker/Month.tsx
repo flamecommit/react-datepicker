@@ -13,7 +13,6 @@ interface Iprops {
   monthPage: number;
   weekdayLabels: string[];
   setDateValue: (value: IDateValue) => void;
-  setPairValue: (value: IDateValue) => void;
 }
 
 export default function RangepickerMonth({
@@ -21,7 +20,6 @@ export default function RangepickerMonth({
   dateValue,
   pairValue,
   setDateValue,
-  setPairValue,
   valueFormat,
   monthPage,
   weekdayLabels,
@@ -58,16 +56,16 @@ export default function RangepickerMonth({
     const formatedThisValue = formatDate(buttonDate, valueFormat);
 
     const handleClick = () => {
-      if (
-        (type === 'start' && buttonDate > new Date(formatedEndValue)) ||
-        (type === 'end' && buttonDate < new Date(formatedStartValue))
-      ) {
-        setPairValue({
-          year: null,
-          month: null,
-          date: null,
-        });
-      }
+      // if (
+      //   (type === 'start' && buttonDate > new Date(formatedEndValue)) ||
+      //   (type === 'end' && buttonDate < new Date(formatedStartValue))
+      // ) {
+      //   setPairValue({
+      //     year: null,
+      //     month: null,
+      //     date: null,
+      //   });
+      // }
       setDateValue({
         year: buttonDate.getFullYear(),
         month: buttonDate.getMonth(),

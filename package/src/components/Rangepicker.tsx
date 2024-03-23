@@ -1,7 +1,7 @@
 'use client';
 
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
-import { NAME_SPACE } from '../constants/core';
+import { NAME_SPACE, RESET_DATE_VALUE } from '../constants/core';
 import {
   IDateValue,
   ITimeValue,
@@ -27,7 +27,6 @@ interface IProps {
   showsMultipleCalendar?: boolean;
   valueFormat?: string;
   labelFormat?: string;
-  closesAfterChange?: boolean;
   weekdayLabels?: string[];
   withPortal?: boolean;
   className?: string;
@@ -49,7 +48,6 @@ export default function Rangepicker({
   showsMultipleCalendar = false,
   valueFormat = '',
   labelFormat = 'YYYY / MM',
-  closesAfterChange = true,
   weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
   withPortal = false,
   className = '',
@@ -67,6 +65,8 @@ export default function Rangepicker({
   const comValueFormat = valueFormat ? valueFormat : initialValueFormat;
   const [startValue, setStartValue] = useState<Date | null>(initStartValue);
   const [endValue, setEndValue] = useState<Date | null>(initEndValue);
+  const prevStartValue = useRef<Date | null>(initStartValue);
+  const prevEndValue = useRef<Date | null>(initEndValue);
   const [timeStartValue, setTimeStartValue] = useState<ITimeValue>({
     hour: initStartValue?.getHours() || 0,
     minute: initStartValue?.getMinutes() || 0,
@@ -112,9 +112,9 @@ export default function Rangepicker({
   }, [isVisible, viewStartDate, viewEndDate]);
 
   useEffect(() => {
-    if (closesAfterChange && !timeselector && endValue !== null) {
-      setIsVisible(false);
-    }
+    // if (closesAfterChange && !timeselector && endValue !== null) {
+    //   setIsVisible(false);
+    // }
     if (onChange && isMounted && endValue !== null) {
       onChange(startValue, endValue);
     }
@@ -127,6 +127,16 @@ export default function Rangepicker({
     }, 1);
   }, []);
 
+  useEffect(() => {
+    setViewStartDate(
+      formatDate(startValue || endValue || NEW_DATE, 'YYYY-MM-DD')
+    );
+    setViewEndDate(
+      formatDate(endValue || startValue || NEW_DATE, 'YYYY-MM-DD')
+    );
+  }, [endValue, startValue]);
+
+  // Start 시간 변화 감지
   useEffect(() => {
     if (!startValue) return;
 
@@ -143,6 +153,7 @@ export default function Rangepicker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeStartValue]);
 
+  // Start 날짜 변화 감지
   useEffect(() => {
     if (
       dateStartValue.year === null ||
@@ -166,18 +177,7 @@ export default function Rangepicker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateStartValue]);
 
-  useEffect(() => {
-    setViewStartDate(
-      formatDate(startValue || endValue || NEW_DATE, 'YYYY-MM-DD')
-    );
-  }, [endValue, startValue]);
-
-  useEffect(() => {
-    setViewEndDate(
-      formatDate(endValue || startValue || NEW_DATE, 'YYYY-MM-DD')
-    );
-  }, [endValue, startValue]);
-
+  // End 시간 변화 감지
   useEffect(() => {
     if (!endValue) return;
 
@@ -194,6 +194,7 @@ export default function Rangepicker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeEndValue]);
 
+  // End 날짜 변화 감지
   useEffect(() => {
     if (
       dateEndValue.year === null ||
@@ -216,6 +217,28 @@ export default function Rangepicker({
     setEndValue(newDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateEndValue]);
+
+  // start, end value변화를 감지
+  useEffect(() => {
+    // start, end 값이 둘 다 있을 때
+    if (startValue && endValue) {
+      // start가 end 보다 클 때
+      if (startValue > endValue) {
+        // start 변화일 때
+        if (prevStartValue.current !== startValue) {
+          // end 초기화
+          setDateEndValue(RESET_DATE_VALUE);
+        }
+        // end 변화일 때
+        if (prevEndValue.current !== endValue) {
+          // start 초기화
+          setDateStartValue(RESET_DATE_VALUE);
+        }
+      }
+    }
+    prevStartValue.current = startValue;
+    prevEndValue.current = endValue;
+  }, [startValue, endValue]);
 
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
@@ -280,11 +303,6 @@ export default function Rangepicker({
                           ? setDateStartValue
                           : setDateEndValue
                       }
-                      setPairValue={
-                        isVisible === 'end'
-                          ? setDateStartValue
-                          : setDateEndValue
-                      }
                       valueFormat={comValueFormat}
                       monthPage={
                         (isVisible === 'start'
@@ -336,12 +354,14 @@ export default function Rangepicker({
             }}
           >
             <TimeselectorHeader
-              timeValue={timeStartValue}
+              timeValue={isVisible === 'start' ? timeStartValue : timeEndValue}
               timeselector={timeselector}
             />
             <TimeselectorSelector
-              timeValue={timeStartValue}
-              setTimeValue={setTimeStartValue}
+              timeValue={isVisible === 'start' ? timeStartValue : timeEndValue}
+              setTimeValue={
+                isVisible === 'start' ? setTimeStartValue : setTimeEndValue
+              }
               timeselector={timeselector}
               hourStep={hourStep}
               minuteStep={minuteStep}
