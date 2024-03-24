@@ -60,7 +60,7 @@ export default function Rangepicker({
   onChange,
 }: IProps) {
   const initialValueFormat = timeselector
-    ? 'YYYY-MM-DD HH:mm:ss'
+    ? 'YYYY-MM-DD hh:mm:ss'
     : 'YYYY-MM-DD';
   const comValueFormat = valueFormat ? valueFormat : initialValueFormat;
   const [startValue, setStartValue] = useState<Date | null>(initStartValue);
@@ -241,11 +241,11 @@ export default function Rangepicker({
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
       <RangepickerInput
-        valueFormat={comValueFormat}
-        startValue={startValue}
-        dateStartValue={dateStartValue}
+        valueFormat={comValueFormat} // YYYY-MM-DD hh:mm:ss
+        startValue={startValue} // Date
+        dateStartValue={dateStartValue} // { year, month, date }
         setDateStartValue={setDateStartValue}
-        timeStartValue={timeStartValue}
+        timeStartValue={timeStartValue} // { hour, minute, second }
         setTimeStartValue={setTimeStartValue}
         endValue={endValue}
         dateEndValue={dateEndValue}

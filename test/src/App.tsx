@@ -45,7 +45,7 @@ function App() {
           }}
           useClearButton
           initValue={new Date('2001-11-11 20:13:12')}
-          valueFormat="YYYY-MM-DD HH:mm:ss"
+          valueFormat="YYYY-MM-DD hh:mm:ss"
           withPortal
         />
       </section>
@@ -59,12 +59,12 @@ function App() {
           }}
           useClearButton
           initValue={new Date('2001-11-11 01:02:03')}
-          valueFormat="YYYY-MM-DD HH:mm:ss"
+          valueFormat="YYYY-MM-DD hh:mm:ss"
         />
       </section>
       <section>
         <h3>Datepicker</h3>
-        <Datepicker valueFormat="YYYY-MM-DD HH/mm/ss" />
+        <Datepicker valueFormat="YYYY-MM-DD hh/mm/ss" />
       </section>
       <section>
         <h3>initValue</h3>
@@ -107,7 +107,6 @@ function App() {
         <Rangepicker
           weekdayLabels={['일', '월', '화', '수', '목', '금', '토']}
           showsMultipleCalendar
-          closesAfterChange={false}
         />
       </section>
       <section>
@@ -115,7 +114,6 @@ function App() {
         <Rangepicker
           weekdayLabels={['일', '월', '화', '수', '목', '금', '토']}
           showsMultipleCalendar
-          closesAfterChange={false}
           onChange={(startDate, endDate) => {
             console.log(startDate, endDate);
           }}

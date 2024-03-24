@@ -60,7 +60,7 @@ function InputUnit({
       case 'YYYY':
       case 'MM':
       case 'DD':
-      case 'HH':
+      case 'hh':
       case 'mm':
       case 'ss':
         return getValueUnit(value, type);
@@ -115,7 +115,7 @@ function InputUnit({
       YYYY: Number(value) > 9999 ? '9999' : addLeadingZero(value),
       MM: Number(value) > 12 ? '12' : addLeadingZero(value),
       DD: Number(value) > 31 ? '31' : addLeadingZero(value),
-      HH: Number(value) > 23 ? '23' : addLeadingZero(value),
+      hh: Number(value) > 23 ? '23' : addLeadingZero(value),
       mm: Number(value) > 59 ? '59' : addLeadingZero(value),
       ss: Number(value) > 59 ? '59' : addLeadingZero(value),
     };
@@ -145,7 +145,7 @@ function InputUnit({
       case 'DD':
         utilSetDateValue({ date: text });
         return;
-      case 'HH':
+      case 'hh':
         utilSetTimeValue({ hour: text });
         return;
       case 'mm':
@@ -202,7 +202,7 @@ function InputUnit({
           }
         }
         return;
-      case 'HH':
+      case 'hh':
         if (value >= 3 || count >= 2) {
           if (nextRef.current) {
             nextRef.current.focus();

@@ -60,7 +60,7 @@ function Datepicker({
   onChange,
 }: IProps) {
   const initialValueFormat = timeselector
-    ? 'YYYY-MM-DD HH:mm:ss'
+    ? 'YYYY-MM-DD hh:mm:ss'
     : 'YYYY-MM-DD';
   const comValueFormat = valueFormat ? valueFormat : initialValueFormat;
   const [value, setValue] = useState<Date | null>(initValue);

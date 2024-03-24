@@ -26,7 +26,7 @@ export const formatDate = (dateObj: Date | null, format: string) => {
   if (/.*YYYY.*/.test(format)) result = result.replace(/YYYY/g, String(year));
   if (/.*MM.*/.test(format)) result = result.replace(/MM/g, String(month));
   if (/.*DD.*/.test(format)) result = result.replace(/DD/g, String(date));
-  if (/.*HH.*/.test(format)) result = result.replace(/HH/g, String(hour));
+  if (/.*hh.*/.test(format)) result = result.replace(/hh/g, String(hour));
   if (/.*mm.*/.test(format)) result = result.replace(/mm/g, String(minute));
   if (/.*ss.*/.test(format)) result = result.replace(/ss/g, String(second));
 
@@ -71,8 +71,8 @@ export const getValueUnit = (value: Date | null, unit: string): string => {
       return month || 'MM';
     case 'DD':
       return date || 'DD';
-    case 'HH':
-      return hour || 'HH';
+    case 'hh':
+      return hour || 'hh';
     case 'mm':
       return minute || 'mm';
     case 'ss':
