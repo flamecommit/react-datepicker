@@ -139,7 +139,7 @@ function InputUnit({
     const processedValue = conditions[type as keyof typeof conditions] || value;
     if (text !== processedValue) {
       setText(processedValue);
-      element.innerText = processedValue;
+      // element.innerText = processedValue;
     }
   };
 
