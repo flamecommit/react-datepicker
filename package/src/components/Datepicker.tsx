@@ -65,14 +65,14 @@ function Datepicker({
   const comValueFormat = valueFormat ? valueFormat : initialValueFormat;
   const [value, setValue] = useState<Date | null>(initValue);
   const [timeValue, setTimeValue] = useState<ITimeValue>({
-    hour: initValue?.getHours() || 0,
-    minute: initValue?.getMinutes() || 0,
-    second: initValue?.getSeconds() || 0,
+    hour: initValue !== null ? initValue?.getHours() : 0,
+    minute: initValue !== null ? initValue?.getMinutes() : 0,
+    second: initValue !== null ? initValue?.getSeconds() : 0,
   });
   const [dateValue, setDateValue] = useState<IDateValue>({
-    year: initValue?.getFullYear() || null,
-    month: initValue?.getMonth() || null,
-    date: initValue?.getDate() || null,
+    year: initValue !== null ? initValue?.getFullYear() : null,
+    month: initValue !== null ? initValue?.getMonth() : null,
+    date: initValue !== null ? initValue?.getDate() : null,
   });
   const [viewDate, setViewDate] = useState<string>(
     formatDate(value || NEW_DATE, 'YYYY-MM-DD')
@@ -153,7 +153,6 @@ function Datepicker({
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
       <DatepickerInput
-        value={value}
         valueFormat={comValueFormat}
         dateValue={dateValue}
         setDateValue={setDateValue}

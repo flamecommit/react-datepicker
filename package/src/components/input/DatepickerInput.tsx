@@ -7,7 +7,6 @@ import { splitString } from '../../utils/string';
 import InputUnit from './InputUnit';
 
 interface IProps {
-  value: Date | null;
   valueFormat: string;
   dateValue: IDateValue;
   setDateValue: (value: IDateValue) => void;
@@ -23,7 +22,6 @@ interface IProps {
 }
 
 export default function DatepickerInput({
-  value,
   valueFormat,
   dateValue,
   setDateValue,
@@ -43,7 +41,6 @@ export default function DatepickerInput({
         return (
           <InputUnit
             key={i}
-            value={value}
             dateValue={dateValue}
             setDateValue={setDateValue}
             timeValue={timeValue}

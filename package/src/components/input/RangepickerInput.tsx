@@ -8,12 +8,10 @@ import InputUnit from './InputUnit';
 
 interface IProps {
   valueFormat: string;
-  startValue: Date | null;
   dateStartValue: IDateValue;
   setDateStartValue: (value: IDateValue) => void;
   timeStartValue: ITimeValue;
   setTimeStartValue: (value: ITimeValue) => void;
-  endValue: Date | null;
   dateEndValue: IDateValue;
   setDateEndValue: (value: IDateValue) => void;
   timeEndValue: ITimeValue;
@@ -32,12 +30,10 @@ interface IProps {
 
 export default function RangepickerInput({
   valueFormat,
-  startValue,
   dateStartValue,
   setDateStartValue,
   timeStartValue,
   setTimeStartValue,
-  endValue,
   dateEndValue,
   setDateEndValue,
   timeEndValue,
@@ -64,7 +60,6 @@ export default function RangepickerInput({
             <InputUnit
               key={i}
               visibleType="start"
-              value={startValue}
               dateValue={dateStartValue}
               setDateValue={setDateStartValue}
               timeValue={timeStartValue}
@@ -87,7 +82,6 @@ export default function RangepickerInput({
             <InputUnit
               key={i}
               visibleType="end"
-              value={endValue}
               dateValue={dateEndValue}
               setDateValue={setDateEndValue}
               timeValue={timeEndValue}

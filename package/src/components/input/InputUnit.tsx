@@ -10,12 +10,11 @@ import {
 } from 'react';
 import { NAME_SPACE, VALUE_TYPES } from '../../constants/core';
 import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
-import { getValueUnit } from '../../utils/datetime';
+import { getDateValueUnit, getTimeValueUnit } from '../../utils/datetime';
 import { addLeadingZero, isNumeric } from '../../utils/string';
 
 interface IProps {
   visibleType?: TIsVisible;
-  value: Date | null;
   type: string;
   dateValue: IDateValue;
   setDateValue: (value: IDateValue) => void;
@@ -39,9 +38,25 @@ function selectText(element: HTMLElement) {
   }
 }
 
+// 형제 Input Element중 NextInputElement를 검색.
+function getNextSiblingsWithDataValueTrue(
+  currentElement: HTMLElement
+): HTMLElement[] {
+  const siblingElements: HTMLElement[] = [];
+  let nextSibling = currentElement.nextElementSibling as HTMLElement | null;
+
+  while (nextSibling) {
+    if (nextSibling.dataset.value === 'true') {
+      siblingElements.push(nextSibling);
+    }
+    nextSibling = nextSibling.nextElementSibling as HTMLElement;
+  }
+
+  return siblingElements;
+}
+
 function InputUnit({
   visibleType = true,
-  value,
   type,
   dateValue,
   setDateValue,
@@ -59,16 +74,17 @@ function InputUnit({
       case 'YYYY':
       case 'MM':
       case 'DD':
+        return getDateValueUnit(dateValue, type);
       case 'hh':
       case 'mm':
       case 'ss':
-        return getValueUnit(value, type);
+        return getTimeValueUnit(timeValue, type);
       case ' ':
         return '&nbsp;';
       default:
         return type;
     }
-  }, [type, value]);
+  }, [type, dateValue, timeValue]);
   const [text, setText] = useState<string | number | null>(displayUnit);
 
   const utilSetDateValue = ({
@@ -236,23 +252,6 @@ function InputUnit({
     }
   };
 
-  // 형제 Input Element중 NextInputElement를 검색.
-  function getNextSiblingsWithDataValueTrue(
-    currentElement: HTMLElement
-  ): HTMLElement[] {
-    const siblingElements: HTMLElement[] = [];
-    let nextSibling = currentElement.nextElementSibling as HTMLElement | null;
-
-    while (nextSibling) {
-      if (nextSibling.dataset.value === 'true') {
-        siblingElements.push(nextSibling);
-      }
-      nextSibling = nextSibling.nextElementSibling as HTMLElement;
-    }
-
-    return siblingElements;
-  }
-
   // 다음 Input Unit을 nextRef에 저장.
   useEffect(() => {
     if (inputRef.current) {
@@ -290,10 +289,10 @@ function InputUnit({
       contentEditable={isValue}
       suppressContentEditableWarning={true}
       onFocus={(e) => {
+        setIsVisible(visibleType);
         setTimeout(() => {
-          setIsVisible(visibleType);
           selectText(e.target);
-        }, 1);
+        }, 10);
       }}
       onClick={(e) => {
         if (!isValue) return;

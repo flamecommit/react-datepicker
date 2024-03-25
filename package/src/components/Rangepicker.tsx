@@ -73,24 +73,24 @@ export default function Rangepicker({
   const prevStartValue = useRef<Date | null>(initStartValue);
   const prevEndValue = useRef<Date | null>(initEndValue);
   const [timeStartValue, setTimeStartValue] = useState<ITimeValue>({
-    hour: initStartValue?.getHours() || 0,
-    minute: initStartValue?.getMinutes() || 0,
-    second: initStartValue?.getSeconds() || 0,
+    hour: initStartValue !== null ? initStartValue?.getHours() : 0,
+    minute: initStartValue !== null ? initStartValue?.getMinutes() : 0,
+    second: initStartValue !== null ? initStartValue?.getSeconds() : 0,
   });
   const [dateStartValue, setDateStartValue] = useState<IDateValue>({
-    year: initStartValue?.getFullYear() || null,
-    month: initStartValue?.getMonth() || null,
-    date: initStartValue?.getDate() || null,
+    year: initStartValue !== null ? initStartValue?.getFullYear() : null,
+    month: initStartValue !== null ? initStartValue?.getMonth() : null,
+    date: initStartValue !== null ? initStartValue?.getDate() : null,
   });
   const [timeEndValue, setTimeEndValue] = useState<ITimeValue>({
-    hour: initEndValue?.getHours() || 0,
-    minute: initEndValue?.getMinutes() || 0,
-    second: initEndValue?.getSeconds() || 0,
+    hour: initEndValue !== null ? initEndValue?.getHours() : 0,
+    minute: initEndValue !== null ? initEndValue?.getMinutes() : 0,
+    second: initEndValue !== null ? initEndValue?.getSeconds() : 0,
   });
   const [dateEndValue, setDateEndValue] = useState<IDateValue>({
-    year: initEndValue?.getFullYear() || null,
-    month: initEndValue?.getMonth() || null,
-    date: initEndValue?.getDate() || null,
+    year: initEndValue !== null ? initEndValue?.getFullYear() : null,
+    month: initEndValue !== null ? initEndValue?.getMonth() : null,
+    date: initEndValue !== null ? initEndValue?.getDate() : null,
   });
   const [viewStartDate, setViewStartDate] = useState<string>(
     formatDate(startValue || NEW_DATE, 'YYYY-MM-DD')
@@ -251,12 +251,10 @@ export default function Rangepicker({
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
       <RangepickerInput
         valueFormat={comValueFormat} // YYYY-MM-DD hh:mm:ss
-        startValue={startValue} // Date
         dateStartValue={dateStartValue} // { year, month, date }
         setDateStartValue={setDateStartValue}
         timeStartValue={timeStartValue} // { hour, minute, second }
         setTimeStartValue={setTimeStartValue}
-        endValue={endValue}
         dateEndValue={dateEndValue}
         setDateEndValue={setDateEndValue}
         timeEndValue={timeEndValue}

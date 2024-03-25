@@ -55,28 +55,31 @@ export const formatDateValue = (
   );
 };
 
-export const getValueUnit = (value: Date | null, unit: string): string => {
-  if (!value) return unit;
-
-  const localDate = toLocalISOString(value);
-  const [dateStr, timeStr] = localDate.split('T') as [string, string];
-  const [year, month, date] = dateStr.split('-');
-  const removeMS = timeStr.split('.')[0] as string;
-  const [hour, minute, second] = removeMS.split(':');
-
+export const getDateValueUnit = (value: IDateValue, unit: string): string => {
   switch (unit) {
     case 'YYYY':
-      return year || 'YYYY';
+      return value.year !== null ? `${value.year}` : 'YYYY';
     case 'MM':
-      return month || 'MM';
+      return value.month !== null
+        ? addLeadingZero(Number(value.month) + 1)
+        : 'MM';
     case 'DD':
-      return date || 'DD';
+      return value.date !== null ? addLeadingZero(value.date) : 'DD';
+    default:
+      return '';
+  }
+};
+
+export const getTimeValueUnit = (value: ITimeValue, unit: string): string => {
+  if (!value) return unit;
+
+  switch (unit) {
     case 'hh':
-      return hour || 'hh';
+      return value.hour ? `${value.hour}` : 'hh';
     case 'mm':
-      return minute || 'mm';
+      return value.minute ? `${value.minute}` : 'mm';
     case 'ss':
-      return second || 'ss';
+      return value.second ? `${value.second}` : 'ss';
     default:
       return '';
   }
