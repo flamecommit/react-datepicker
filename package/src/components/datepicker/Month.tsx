@@ -1,7 +1,7 @@
 'use client';
 
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue, ITimeValue } from '../../types/props';
+import { IDateValue, ITimeValue, ITimeselector } from '../../types/props';
 import { formatDate, formatDateValue } from '../../utils/datetime';
 
 interface Iprops {
@@ -11,6 +11,9 @@ interface Iprops {
   weekdayLabels: string[];
   setDateValue: (value: IDateValue) => void;
   timeValue: ITimeValue;
+  closesAfterChange: boolean;
+  timeselector: false | ITimeselector;
+  setIsVisible: (value: boolean) => void;
 }
 
 function DatepicerMonth({
@@ -20,6 +23,9 @@ function DatepicerMonth({
   monthPage,
   weekdayLabels,
   timeValue,
+  closesAfterChange,
+  timeselector,
+  setIsVisible,
 }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
@@ -46,6 +52,17 @@ function DatepicerMonth({
     const day = buttonDate.getDay();
     const formatedThisValue = formatDate(buttonDate, valueFormat);
 
+    const handleClick = () => {
+      if (closesAfterChange && !timeselector) {
+        setIsVisible(false);
+      }
+      setDateValue({
+        year: buttonDate.getFullYear(),
+        month: buttonDate.getMonth(),
+        date: buttonDate.getDate(),
+      });
+    };
+
     return (
       <button
         type="button"
@@ -54,13 +71,7 @@ function DatepicerMonth({
         title={formatedThisValue}
         data-day={day}
         data-active={formatedValue === formatedThisValue}
-        onClick={() =>
-          setDateValue({
-            year: buttonDate.getFullYear(),
-            month: buttonDate.getMonth(),
-            date: buttonDate.getDate(),
-          })
-        }
+        onClick={handleClick}
       >
         {date}
       </button>

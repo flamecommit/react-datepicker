@@ -92,9 +92,6 @@ function Datepicker({
   }, [isVisible, viewDate]);
 
   useEffect(() => {
-    if (closesAfterChange && !timeselector) {
-      setIsVisible(false);
-    }
     if (onChange && isMounted) {
       onChange(value);
     }
@@ -196,6 +193,9 @@ function Datepicker({
                       monthPage={monthPage + index}
                       weekdayLabels={weekdayLabels}
                       timeValue={timeValue}
+                      closesAfterChange={closesAfterChange}
+                      timeselector={timeselector}
+                      setIsVisible={setIsVisible}
                     />
                   )}
                 </Fragment>

@@ -75,11 +75,11 @@ export const getTimeValueUnit = (value: ITimeValue, unit: string): string => {
 
   switch (unit) {
     case 'hh':
-      return value.hour ? `${value.hour}` : 'hh';
+      return value.hour ? addLeadingZero(value.hour) : 'hh';
     case 'mm':
-      return value.minute ? `${value.minute}` : 'mm';
+      return value.minute ? addLeadingZero(value.minute) : 'mm';
     case 'ss':
-      return value.second ? `${value.second}` : 'ss';
+      return value.second ? addLeadingZero(value.second) : 'ss';
     default:
       return '';
   }
