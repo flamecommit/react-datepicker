@@ -85,7 +85,11 @@ function InputUnit({
         return type;
     }
   }, [type, dateValue, timeValue]);
-  const [text, setText] = useState<string | number | null>(displayUnit);
+  const [text, setText] = useState<string>(displayUnit);
+
+  useEffect(() => {
+    setText(displayUnit);
+  }, [displayUnit]);
 
   const utilSetDateValue = ({
     year,
@@ -285,7 +289,7 @@ function InputUnit({
       ref={inputRef}
       data-value={isValue}
       className={`${NAME_SPACE}__input-unit`}
-      dangerouslySetInnerHTML={{ __html: displayUnit }}
+      dangerouslySetInnerHTML={{ __html: text }}
       contentEditable={isValue}
       suppressContentEditableWarning={true}
       onFocus={(e) => {
