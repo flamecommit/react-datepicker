@@ -7,8 +7,7 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  height: 36px;
-  padding: 0 10px;
+  padding: 8px 10px;
   border: 1px solid #ccc;
 }
 .react-datepicker__input-range-container {
@@ -34,11 +33,9 @@
   outline: none;
 }
 .react-datepicker__clear {
-  position: absolute;
-  top: 1px;
-  right: 1px;
-  width: 34px;
-  height: 34px;
+  margin-left: 1rem;
+  width: 18px;
+  height: 18px;
   background-image: url('data:image/svg+xml;base64,PHN2ZyBzdHJva2U9ImN1cnJlbnRDb2xvciIgZmlsbD0iY3VycmVudENvbG9yIiBzdHJva2Utd2lkdGg9IjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgaGVpZ2h0PSIxZW0iIHdpZHRoPSIxZW0iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik0zLDMgTDIxLDIxIE0zLDIxIEwyMSwzIj48L3BhdGg+PC9zdmc+');
   background-repeat: no-repeat;
   background-position: center;
@@ -46,9 +43,6 @@
   background-color: transparent;
   font-size: 0;
   cursor: pointer;
-}
-.react-datepicker__clear:hover {
-  background-color: #f7f7f7;
 }
 
 /* portal */

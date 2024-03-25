@@ -49,6 +49,7 @@ export default function RangepickerInput({
   setViewEndDate,
   inputRef,
   isVisible,
+  useClearButton,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
@@ -99,6 +100,36 @@ export default function RangepickerInput({
           );
         })}
       </div>
+      {useClearButton && (
+        <button
+          type="button"
+          className={`${NAME_SPACE}__clear`}
+          onClick={() => {
+            setDateStartValue({
+              year: null,
+              month: null,
+              date: null,
+            });
+            setDateEndValue({
+              year: null,
+              month: null,
+              date: null,
+            });
+            setTimeStartValue({
+              hour: 0,
+              minute: 0,
+              second: 0,
+            });
+            setTimeEndValue({
+              hour: 0,
+              minute: 0,
+              second: 0,
+            });
+          }}
+        >
+          Clear
+        </button>
+      )}
     </div>
   );
 }

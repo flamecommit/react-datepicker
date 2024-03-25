@@ -54,7 +54,6 @@ function InputUnit({
   const inputRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLElement>();
   const isValue = useMemo(() => VALUE_TYPES.includes(type), [type]);
-  const [text, setText] = useState<string | number | null>();
   const displayUnit = useMemo((): string => {
     switch (type) {
       case 'YYYY':
@@ -70,6 +69,7 @@ function InputUnit({
         return type;
     }
   }, [type, value]);
+  const [text, setText] = useState<string | number | null>(displayUnit);
 
   const utilSetDateValue = ({
     year,
@@ -121,8 +121,10 @@ function InputUnit({
     };
 
     const processedValue = conditions[type as keyof typeof conditions] || value;
-    setText(processedValue);
-    element.innerText = processedValue;
+    if (text !== processedValue) {
+      setText(processedValue);
+      element.innerText = processedValue;
+    }
   };
 
   // Text의 변화를 감지하여 Value에 최종 저장

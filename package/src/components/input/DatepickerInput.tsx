@@ -33,6 +33,7 @@ export default function DatepickerInput({
   viewDate,
   setViewDate,
   inputRef,
+  useClearButton,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
@@ -54,6 +55,26 @@ export default function DatepickerInput({
           />
         );
       })}
+      {useClearButton && (
+        <button
+          type="button"
+          className={`${NAME_SPACE}__clear`}
+          onClick={() => {
+            setDateValue({
+              year: null,
+              month: null,
+              date: null,
+            });
+            setTimeValue({
+              hour: 0,
+              minute: 0,
+              second: 0,
+            });
+          }}
+        >
+          Clear
+        </button>
+      )}
     </div>
   );
 }

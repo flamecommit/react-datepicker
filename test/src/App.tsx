@@ -8,7 +8,25 @@ function App() {
   return (
     <div>
       <section>
-        <Rangepicker />
+        <Rangepicker
+          onChange={() => {
+            console.log('onChange');
+            // alert(`${startDate} ~ ${endDate}`);
+          }}
+        />
+      </section>
+      <section>
+        <h3>useClearButton</h3>
+        <Rangepicker
+          initStartValue={new Date('2001-11-11 20:13:12')}
+          initEndValue={new Date('2001-11-19 20:13:12')}
+          timeselector={{
+            hour: true,
+            minute: true,
+            second: true,
+          }}
+          useClearButton
+        />
       </section>
       <section>
         <h3>initStartValue, initEndValue</h3>

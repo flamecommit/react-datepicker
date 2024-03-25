@@ -32,10 +32,15 @@ interface IProps {
   className?: string;
   placeholder?: string;
   disabled?: boolean;
+  /** 시간선택기 사용 여부를 결정합니다. */
   timeselector?: false | ITimeselector;
+  /** 시간선택기 - (시간)의 간격을 결정합니다. */
   hourStep?: number;
+  /** 시간선택기 - (분)의 간격을 결정합니다. */
   minuteStep?: number;
+  /** 시간선택기 - (초)의 간격을 결정합니다. */
   secondStep?: number;
+  /** value의 변화를 감지하여 Callback함수를 실행합니다. */
   onChange?: (startDate: Date | null, endDate: Date | null) => void;
 }
 
@@ -106,6 +111,7 @@ export default function Rangepicker({
   const inputRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerHeight, setContainerHeight] = useState<number>(0);
+  const changeTimeout = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     setContainerHeight(containerRef.current?.offsetHeight || 0);
@@ -115,11 +121,14 @@ export default function Rangepicker({
     // if (closesAfterChange && !timeselector && endValue !== null) {
     //   setIsVisible(false);
     // }
-    if (onChange && isMounted && endValue !== null) {
-      onChange(startValue, endValue);
+    if (onChange && isMounted) {
+      clearTimeout(changeTimeout.current);
+      changeTimeout.current = setTimeout(() => {
+        onChange(startValue, endValue);
+      }, 50);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [endValue]);
+  }, [startValue, endValue]);
 
   useEffect(() => {
     setTimeout(() => {

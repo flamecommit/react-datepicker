@@ -128,8 +128,10 @@ function Datepicker({
       dateValue.year === null ||
       dateValue.month === null ||
       dateValue.date === null
-    )
+    ) {
+      setValue(null);
       return;
+    }
 
     const newDate = new Date(
       Number(dateValue.year),
