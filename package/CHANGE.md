@@ -3,6 +3,7 @@
 - Datepicker와 Rangepicker에 키보드 입력 기능이 추가되었습니다.
 - Rangepicker에 Timeselector기능이 추가되었습니다.
 - Rangepicker에 closesAfterChange 옵션이 삭제됩니다.
+- onChange Callback의 오작동이 fix되었습니다.
 
 ## 1.12.10
 
