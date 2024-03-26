@@ -4,6 +4,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
 import {
   IDateValue,
+  ITimeStep,
   ITimeValue,
   ITimeselector,
   TIsVisible,
@@ -34,12 +35,7 @@ interface IProps {
   disabled?: boolean;
   /** 시간선택기 사용 여부를 결정합니다. */
   timeselector?: false | ITimeselector;
-  /** 시간선택기 - (시간)의 간격을 결정합니다. */
-  hourStep?: number;
-  /** 시간선택기 - (분)의 간격을 결정합니다. */
-  minuteStep?: number;
-  /** 시간선택기 - (초)의 간격을 결정합니다. */
-  secondStep?: number;
+  timeStep?: ITimeStep;
   /** value의 변화를 감지하여 Callback함수를 실행합니다. */
   onChange?: (startDate: Date | null, endDate: Date | null) => void;
 }
@@ -59,9 +55,7 @@ export default function Rangepicker({
   placeholder = '',
   disabled = false,
   timeselector = false,
-  hourStep = 1,
-  minuteStep = 1,
-  secondStep = 1,
+  timeStep = { hour: 1, minute: 1, second: 1 },
   onChange,
 }: IProps) {
   const initialValueFormat = timeselector
@@ -371,9 +365,7 @@ export default function Rangepicker({
                 isVisible === 'start' ? setTimeStartValue : setTimeEndValue
               }
               timeselector={timeselector}
-              hourStep={hourStep}
-              minuteStep={minuteStep}
-              secondStep={secondStep}
+              timeStep={timeStep}
             />
           </div>
         )}
