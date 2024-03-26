@@ -17,7 +17,6 @@ interface IProps {
   timeEndValue: ITimeValue;
   setTimeEndValue: (value: ITimeValue) => void;
   useClearButton: boolean;
-  placeholder: string;
   disabled: boolean;
   setIsVisible: (value: TIsVisible) => void;
   viewStartDate: string;
@@ -46,11 +45,16 @@ export default function RangepickerInput({
   inputRef,
   isVisible,
   useClearButton,
+  disabled,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
   return (
-    <div className={`${NAME_SPACE}__input-container`} ref={inputRef}>
+    <div
+      className={`${NAME_SPACE}__input-container`}
+      ref={inputRef}
+      aria-disabled={disabled}
+    >
       <div
         className={`${NAME_SPACE}__input-range-container`}
         data-active={isVisible === 'start'}
@@ -68,6 +72,7 @@ export default function RangepickerInput({
               type={type}
               viewDate={viewStartDate}
               setViewDate={setViewStartDate}
+              disabled={disabled}
             />
           );
         })}
@@ -90,6 +95,7 @@ export default function RangepickerInput({
               type={type}
               viewDate={viewEndDate}
               setViewDate={setViewEndDate}
+              disabled={disabled}
             />
           );
         })}

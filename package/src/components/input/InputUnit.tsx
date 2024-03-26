@@ -23,6 +23,7 @@ interface IProps {
   setIsVisible: (value: TIsVisible) => void;
   viewDate: string;
   setViewDate: (value: string) => void;
+  disabled: boolean;
 }
 
 // Function to select text
@@ -65,6 +66,7 @@ function InputUnit({
   setIsVisible,
   viewDate,
   setViewDate,
+  disabled,
 }: IProps) {
   const inputRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLElement>();
@@ -86,10 +88,6 @@ function InputUnit({
     }
   }, [type, dateValue, timeValue]);
   const [text, setText] = useState<string>(displayUnit);
-
-  useEffect(() => {
-    setText(displayUnit);
-  }, [displayUnit]);
 
   const utilSetDateValue = ({
     year,
@@ -147,43 +145,8 @@ function InputUnit({
     }
   };
 
-  // Text의 변화를 감지하여 Value에 최종 저장
-  useEffect(() => {
-    if (!isNumeric(text as string)) return;
-
-    switch (type) {
-      case 'YYYY':
-        utilSetDateValue({ ...dateValue, year: Number(text) });
-        setViewDate(
-          `${text}-${viewDate.split('-')[1]}-${viewDate.split('-')[2]}`
-        );
-        return;
-      case 'MM':
-        utilSetDateValue({ ...dateValue, month: Number(text) - 1 });
-        setViewDate(
-          `${viewDate.split('-')[0]}-${text}-${viewDate.split('-')[2]}`
-        );
-        return;
-      case 'DD':
-        utilSetDateValue({ ...dateValue, date: Number(text) });
-        return;
-      case 'hh':
-        utilSetTimeValue({ ...timeValue, hour: Number(text) });
-        return;
-      case 'mm':
-        utilSetTimeValue({ ...timeValue, minute: Number(text) });
-        return;
-      case 'ss':
-        utilSetTimeValue({ ...timeValue, second: Number(text) });
-        return;
-      default:
-        return;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text]);
-
   // Type마다 특정 자리수 입력 시 다음 Input으로 focusing
-  const handleInput = (e: FormEvent<HTMLDivElement>) => {
+  const inputHandler = (e: FormEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
     const count = target.textContent?.length || 0;
     const value = Number(target.textContent);
@@ -256,17 +219,6 @@ function InputUnit({
     }
   };
 
-  // 다음 Input Unit을 nextRef에 저장.
-  useEffect(() => {
-    if (inputRef.current) {
-      const nextSiblings = getNextSiblingsWithDataValueTrue(inputRef.current);
-
-      if (nextSiblings.length) {
-        nextRef.current = nextSiblings[0];
-      }
-    }
-  }, []);
-
   // 허용된 입력 외 prevent
   const numberChecker = (e: KeyboardEvent) => {
     const allowKeys = [
@@ -283,6 +235,81 @@ function InputUnit({
     }
   };
 
+  const focusHandler = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (disabled) return;
+    setIsVisible(visibleType);
+    setTimeout(() => {
+      selectText(e.target);
+    }, 10);
+  };
+
+  const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (disabled) return;
+    if (!isValue) {
+      if (nextRef.current) {
+        nextRef.current.focus();
+      }
+    } else {
+      const target = e.target as HTMLElement;
+      selectText(target);
+    }
+  };
+
+  const blurHandler = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (disabled) return;
+    setValue(e.target);
+  };
+
+  useEffect(() => {
+    setText(displayUnit);
+  }, [displayUnit]);
+
+  // Text의 변화를 감지하여 Value에 최종 저장
+  useEffect(() => {
+    if (!isNumeric(text as string)) return;
+
+    switch (type) {
+      case 'YYYY':
+        utilSetDateValue({ ...dateValue, year: Number(text) });
+        setViewDate(
+          `${text}-${viewDate.split('-')[1]}-${viewDate.split('-')[2]}`
+        );
+        return;
+      case 'MM':
+        utilSetDateValue({ ...dateValue, month: Number(text) - 1 });
+        setViewDate(
+          `${viewDate.split('-')[0]}-${text}-${viewDate.split('-')[2]}`
+        );
+        return;
+      case 'DD':
+        utilSetDateValue({ ...dateValue, date: Number(text) });
+        return;
+      case 'hh':
+        utilSetTimeValue({ ...timeValue, hour: Number(text) });
+        return;
+      case 'mm':
+        utilSetTimeValue({ ...timeValue, minute: Number(text) });
+        return;
+      case 'ss':
+        utilSetTimeValue({ ...timeValue, second: Number(text) });
+        return;
+      default:
+        return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text]);
+
+  // 다음 Input Unit을 nextRef에 저장.
+  useEffect(() => {
+    if (inputRef.current) {
+      const nextSiblings = getNextSiblingsWithDataValueTrue(inputRef.current);
+
+      if (nextSiblings.length) {
+        nextRef.current = nextSiblings[0];
+      }
+    }
+  }, []);
+
   return (
     <div
       role="presentation"
@@ -290,24 +317,13 @@ function InputUnit({
       data-value={isValue}
       className={`${NAME_SPACE}__input-unit`}
       dangerouslySetInnerHTML={{ __html: text }}
-      contentEditable={isValue}
+      contentEditable={isValue && !disabled}
       suppressContentEditableWarning={true}
-      onFocus={(e) => {
-        setIsVisible(visibleType);
-        setTimeout(() => {
-          selectText(e.target);
-        }, 10);
-      }}
-      onClick={(e) => {
-        if (!isValue) return;
-        const target = e.target as HTMLElement;
-        selectText(target);
-      }}
-      onInput={handleInput}
+      onFocus={focusHandler}
+      onClick={clickHandler}
+      onInput={inputHandler}
       onKeyDown={numberChecker}
-      onBlur={(e) => {
-        setValue(e.target);
-      }}
+      onBlur={blurHandler}
       inputMode="numeric"
     />
   );

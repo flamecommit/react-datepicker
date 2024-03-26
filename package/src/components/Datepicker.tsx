@@ -31,13 +31,9 @@ interface IProps {
   weekdayLabels?: string[];
   withPortal?: boolean;
   className?: string;
-  placeholder?: string;
   disabled?: boolean;
   timepicker?: false | ITimepicker;
   timeStep?: ITimeStep;
-  hourStep?: number;
-  minuteStep?: number;
-  secondStep?: number;
   onChange?: (activeDate: Date | null) => void;
 }
 
@@ -53,7 +49,6 @@ function Datepicker({
   weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
   withPortal = false,
   className = '',
-  placeholder = '',
   disabled = false,
   timepicker = false,
   timeStep = { hour: 1, minute: 1, second: 1 },
@@ -154,7 +149,6 @@ function Datepicker({
         timeValue={timeValue}
         setTimeValue={setTimeValue}
         useClearButton={useClearButton}
-        placeholder={placeholder}
         disabled={disabled}
         setIsVisible={setIsVisible}
         viewDate={viewDate}

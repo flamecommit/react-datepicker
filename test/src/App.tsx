@@ -8,7 +8,7 @@ function App() {
   return (
     <div>
       <section>
-        <Datepicker disabled />
+        <Rangepicker disabled />
       </section>
       <section>
         <h3>useClearButton</h3>

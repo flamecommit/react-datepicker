@@ -31,7 +31,6 @@ interface IProps {
   weekdayLabels?: string[];
   withPortal?: boolean;
   className?: string;
-  placeholder?: string;
   disabled?: boolean;
   /** 시간선택기 사용 여부를 결정합니다. */
   timepicker?: false | ITimepicker;
@@ -52,7 +51,6 @@ export default function Rangepicker({
   weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
   withPortal = false,
   className = '',
-  placeholder = '',
   disabled = false,
   timepicker = false,
   timeStep = { hour: 1, minute: 1, second: 1 },
@@ -252,7 +250,6 @@ export default function Rangepicker({
         timeEndValue={timeEndValue}
         setTimeEndValue={setTimeEndValue}
         useClearButton={useClearButton}
-        placeholder={placeholder}
         disabled={disabled}
         setIsVisible={setIsVisible}
         viewStartDate={viewStartDate}

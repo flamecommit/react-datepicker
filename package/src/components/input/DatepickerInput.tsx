@@ -13,7 +13,6 @@ interface IProps {
   timeValue: ITimeValue;
   setTimeValue: (value: ITimeValue) => void;
   useClearButton: boolean;
-  placeholder: string;
   disabled: boolean;
   setIsVisible: (value: TIsVisible) => void;
   viewDate: string;
@@ -32,11 +31,16 @@ export default function DatepickerInput({
   setViewDate,
   inputRef,
   useClearButton,
+  disabled,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
   return (
-    <div className={`${NAME_SPACE}__input-container`} ref={inputRef}>
+    <div
+      className={`${NAME_SPACE}__input-container`}
+      ref={inputRef}
+      aria-disabled={disabled}
+    >
       {formatArray.map((type, i) => {
         return (
           <InputUnit
@@ -49,6 +53,7 @@ export default function DatepickerInput({
             type={type}
             viewDate={viewDate}
             setViewDate={setViewDate}
+            disabled={disabled}
           />
         );
       })}
