@@ -44,7 +44,7 @@ function TimeselectorSelectorList({
             onClick={() =>
               setTimeValue({
                 ...timeValue,
-                ...{ [timeKey]: item },
+                [timeKey]: item,
               })
             }
           >

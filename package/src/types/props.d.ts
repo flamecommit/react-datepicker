@@ -11,9 +11,9 @@ export interface ITimeValue {
 }
 
 export interface IDateValue {
-  year: number | string | null;
-  month: number | string | null;
-  date: number | string | null;
+  year: number | null;
+  month: number | null;
+  date: number | null;
 }
 
 export type TIsVisible = boolean | 'start' | 'end';

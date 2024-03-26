@@ -71,15 +71,13 @@ export const getDateValueUnit = (value: IDateValue, unit: string): string => {
 };
 
 export const getTimeValueUnit = (value: ITimeValue, unit: string): string => {
-  if (!value) return unit;
-
   switch (unit) {
     case 'hh':
-      return value.hour ? addLeadingZero(value.hour) : 'hh';
+      return addLeadingZero(value.hour);
     case 'mm':
-      return value.minute ? addLeadingZero(value.minute) : 'mm';
+      return addLeadingZero(value.minute);
     case 'ss':
-      return value.second ? addLeadingZero(value.second) : 'ss';
+      return addLeadingZero(value.second);
     default:
       return '';
   }

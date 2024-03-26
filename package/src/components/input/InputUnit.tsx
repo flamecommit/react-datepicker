@@ -96,14 +96,14 @@ function InputUnit({
     month,
     date,
   }: {
-    year?: string | number | null;
-    month?: string | number | null;
-    date?: string | number | null;
+    year: number | null;
+    month: number | null;
+    date: number | null;
   }) => {
     setDateValue({
-      year: year ? year : dateValue.year,
-      month: month ? Number(month) - 1 : dateValue.month,
-      date: date ? date : dateValue.date,
+      year: year !== null ? year : dateValue.year,
+      month: month !== null ? month : dateValue.month,
+      date: date !== null ? date : dateValue.date,
     });
   };
 
@@ -112,14 +112,14 @@ function InputUnit({
     minute,
     second,
   }: {
-    hour?: string | number | null;
-    minute?: string | number | null;
-    second?: string | number | null;
+    hour: number | null;
+    minute: number | null;
+    second: number | null;
   }) => {
     setTimeValue({
-      hour: hour ? Number(hour) : timeValue.hour,
-      minute: minute ? Number(minute) : timeValue.minute,
-      second: second ? Number(second) : timeValue.second,
+      hour: hour !== null ? hour : timeValue.hour,
+      minute: minute !== null ? minute : timeValue.minute,
+      second: second !== null ? second : timeValue.second,
     });
   };
 
@@ -153,28 +153,28 @@ function InputUnit({
 
     switch (type) {
       case 'YYYY':
-        utilSetDateValue({ year: text });
+        utilSetDateValue({ ...dateValue, year: Number(text) });
         setViewDate(
           `${text}-${viewDate.split('-')[1]}-${viewDate.split('-')[2]}`
         );
         return;
       case 'MM':
-        utilSetDateValue({ month: text });
+        utilSetDateValue({ ...dateValue, month: Number(text) - 1 });
         setViewDate(
           `${viewDate.split('-')[0]}-${text}-${viewDate.split('-')[2]}`
         );
         return;
       case 'DD':
-        utilSetDateValue({ date: text });
+        utilSetDateValue({ ...dateValue, date: Number(text) });
         return;
       case 'hh':
-        utilSetTimeValue({ hour: text });
+        utilSetTimeValue({ ...timeValue, hour: Number(text) });
         return;
       case 'mm':
-        utilSetTimeValue({ minute: text });
+        utilSetTimeValue({ ...timeValue, minute: Number(text) });
         return;
       case 'ss':
-        utilSetTimeValue({ second: text });
+        utilSetTimeValue({ ...timeValue, second: Number(text) });
         return;
       default:
         return;
