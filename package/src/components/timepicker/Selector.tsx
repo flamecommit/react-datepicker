@@ -2,20 +2,20 @@
 
 import { Fragment } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { ITimeStep, ITimeValue, ITimeselector } from '../../types/props';
-import TimeselectorSelectorList from './SelectorList';
+import { ITimeStep, ITimeValue, ITimepicker } from '../../types/props';
+import TimepickerSelectorList from './SelectorList';
 
 interface IProps {
   timeValue: ITimeValue;
   setTimeValue: (value: ITimeValue) => void;
-  timeselector: ITimeselector;
+  timepicker: ITimepicker;
   timeStep: ITimeStep;
 }
 
-function TimeselectorSelector({
+export default function TimepickerSelector({
   timeValue,
   setTimeValue,
-  timeselector,
+  timepicker,
   timeStep,
 }: IProps) {
   const generateArray = (step: number, max: number) => {
@@ -39,12 +39,12 @@ function TimeselectorSelector({
   };
 
   return (
-    <div className={`${NAME_SPACE}__timeselector-selector`}>
+    <div className={`${NAME_SPACE}__timepicker-selector`}>
       {Object.entries(selectors).map(([key, { items }]) => (
         <Fragment key={key}>
-          {timeselector[key as keyof ITimeselector] && (
-            <TimeselectorSelectorList
-              timeKey={key as keyof ITimeselector}
+          {timepicker[key as keyof ITimepicker] && (
+            <TimepickerSelectorList
+              timeKey={key as keyof ITimepicker}
               items={items}
               timeValue={timeValue}
               setTimeValue={setTimeValue}
@@ -55,5 +55,3 @@ function TimeselectorSelector({
     </div>
   );
 }
-
-export default TimeselectorSelector;

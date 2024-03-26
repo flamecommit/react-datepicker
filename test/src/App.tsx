@@ -8,19 +8,14 @@ function App() {
   return (
     <div>
       <section>
-        <Rangepicker
-          onChange={() => {
-            console.log('onChange');
-            // alert(`${startDate} ~ ${endDate}`);
-          }}
-        />
+        <Datepicker disabled />
       </section>
       <section>
         <h3>useClearButton</h3>
         <Rangepicker
           initStartValue={new Date('2001-11-11 20:13:12')}
           initEndValue={new Date('2001-11-19 20:13:12')}
-          timeselector={{
+          timepicker={{
             hour: true,
             minute: true,
             second: true,
@@ -33,7 +28,7 @@ function App() {
         <Rangepicker
           initStartValue={new Date('2001-11-11 20:13:12')}
           initEndValue={new Date('2001-11-19 20:13:12')}
-          timeselector={{
+          timepicker={{
             hour: true,
             minute: true,
             second: true,
@@ -41,9 +36,9 @@ function App() {
         />
       </section>
       <section>
-        <h3>Timeselector timeStep</h3>
+        <h3>Timepicker timeStep</h3>
         <Datepicker
-          timeselector={{
+          timepicker={{
             hour: true,
             minute: true,
             second: true,
@@ -56,9 +51,9 @@ function App() {
         />
       </section>
       <section>
-        <h3>Timeselector</h3>
+        <h3>Timepicker</h3>
         <Datepicker
-          timeselector={{
+          timepicker={{
             hour: true,
             minute: true,
             second: true,
@@ -70,9 +65,9 @@ function App() {
         />
       </section>
       <section>
-        <h3>Timeselector</h3>
+        <h3>Timepicker</h3>
         <Datepicker
-          timeselector={{
+          timepicker={{
             hour: true,
             minute: true,
             second: true,

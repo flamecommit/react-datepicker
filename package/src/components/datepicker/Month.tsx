@@ -1,7 +1,7 @@
 'use client';
 
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue, ITimeValue, ITimeselector } from '../../types/props';
+import { IDateValue, ITimeValue, ITimepicker } from '../../types/props';
 import { formatDate, formatDateValue } from '../../utils/datetime';
 
 interface Iprops {
@@ -12,7 +12,7 @@ interface Iprops {
   setDateValue: (value: IDateValue) => void;
   timeValue: ITimeValue;
   closesAfterChange: boolean;
-  timeselector: false | ITimeselector;
+  timepicker: false | ITimepicker;
   setIsVisible: (value: boolean) => void;
 }
 
@@ -24,7 +24,7 @@ function DatepicerMonth({
   weekdayLabels,
   timeValue,
   closesAfterChange,
-  timeselector,
+  timepicker,
   setIsVisible,
 }: Iprops) {
   const year = Math.ceil(monthPage / 12);
@@ -53,7 +53,7 @@ function DatepicerMonth({
     const formatedThisValue = formatDate(buttonDate, valueFormat);
 
     const handleClick = () => {
-      if (closesAfterChange && !timeselector) {
+      if (closesAfterChange && !timepicker) {
         setIsVisible(false);
       }
       setDateValue({

@@ -6,7 +6,7 @@ import {
   IDateValue,
   ITimeStep,
   ITimeValue,
-  ITimeselector,
+  ITimepicker,
   TIsVisible,
 } from '../types/props';
 import { formatDate } from '../utils/datetime';
@@ -18,8 +18,8 @@ import DatepickerDecade from './datepicker/Decade';
 import DatepickerYear from './datepicker/Year';
 import RangepickerInput from './input/RangepickerInput';
 import RangepickerMonth from './rangepicker/Month';
-import TimeselectorHeader from './timeselector/Header';
-import TimeselectorSelector from './timeselector/Selector';
+import TimepickerHeader from './timepicker/Header';
+import TimepickerSelector from './timepicker/Selector';
 
 interface IProps {
   initStartValue?: Date | null;
@@ -34,7 +34,7 @@ interface IProps {
   placeholder?: string;
   disabled?: boolean;
   /** 시간선택기 사용 여부를 결정합니다. */
-  timeselector?: false | ITimeselector;
+  timepicker?: false | ITimepicker;
   timeStep?: ITimeStep;
   /** value의 변화를 감지하여 Callback함수를 실행합니다. */
   onChange?: (startDate: Date | null, endDate: Date | null) => void;
@@ -54,13 +54,11 @@ export default function Rangepicker({
   className = '',
   placeholder = '',
   disabled = false,
-  timeselector = false,
+  timepicker = false,
   timeStep = { hour: 1, minute: 1, second: 1 },
   onChange,
 }: IProps) {
-  const initialValueFormat = timeselector
-    ? 'YYYY-MM-DD hh:mm:ss'
-    : 'YYYY-MM-DD';
+  const initialValueFormat = timepicker ? 'YYYY-MM-DD hh:mm:ss' : 'YYYY-MM-DD';
   const comValueFormat = valueFormat ? valueFormat : initialValueFormat;
   const [startValue, setStartValue] = useState<Date | null>(initStartValue);
   const [endValue, setEndValue] = useState<Date | null>(initEndValue);
@@ -112,7 +110,7 @@ export default function Rangepicker({
   }, [isVisible, viewStartDate, viewEndDate]);
 
   useEffect(() => {
-    // if (closesAfterChange && !timeselector && endValue !== null) {
+    // if (closesAfterChange && !timepicker && endValue !== null) {
     //   setIsVisible(false);
     // }
     if (onChange && isMounted) {
@@ -348,23 +346,23 @@ export default function Rangepicker({
             )}
           </div>
         </div>
-        {timeselector && (
+        {timepicker && (
           <div
-            className={`${NAME_SPACE}__timeselector-container`}
+            className={`${NAME_SPACE}__timepicker-container`}
             style={{
               height: containerHeight,
             }}
           >
-            <TimeselectorHeader
+            <TimepickerHeader
               timeValue={isVisible === 'start' ? timeStartValue : timeEndValue}
-              timeselector={timeselector}
+              timepicker={timepicker}
             />
-            <TimeselectorSelector
+            <TimepickerSelector
               timeValue={isVisible === 'start' ? timeStartValue : timeEndValue}
               setTimeValue={
                 isVisible === 'start' ? setTimeStartValue : setTimeEndValue
               }
-              timeselector={timeselector}
+              timepicker={timepicker}
               timeStep={timeStep}
             />
           </div>

@@ -1,34 +1,32 @@
 'use client';
 
 import { NAME_SPACE } from '../../constants/core';
-import { ITimeValue, ITimeselector } from '../../types/props';
+import { ITimeValue, ITimepicker } from '../../types/props';
 import { addLeadingZero } from '../../utils/string';
 
 interface IProps {
   timeValue: ITimeValue;
-  timeselector: ITimeselector;
+  timepicker: ITimepicker;
 }
 
-function TimeselectorHeader({ timeValue, timeselector }: IProps) {
+export default function TimepickerHeader({ timeValue, timepicker }: IProps) {
   return (
-    <div className={`${NAME_SPACE}__timeselector-header`}>
-      {timeselector.hour && (
+    <div className={`${NAME_SPACE}__timepicker-header`}>
+      {timepicker.hour && (
         <div className="hour">{addLeadingZero(timeValue.hour)}</div>
       )}
-      {timeselector.hour && timeselector.minute && (
+      {timepicker.hour && timepicker.minute && (
         <div className="delimiter">:</div>
       )}
-      {timeselector.minute && (
+      {timepicker.minute && (
         <div className="minute">{addLeadingZero(timeValue.minute)}</div>
       )}
-      {timeselector.minute && timeselector.second && (
+      {timepicker.minute && timepicker.second && (
         <div className="delimiter">:</div>
       )}
-      {timeselector.second && (
+      {timepicker.second && (
         <div className="second">{addLeadingZero(timeValue.second)}</div>
       )}
     </div>
   );
 }
-
-export default TimeselectorHeader;

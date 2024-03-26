@@ -6,7 +6,7 @@ import {
   IDateValue,
   ITimeStep,
   ITimeValue,
-  ITimeselector,
+  ITimepicker,
   TIsVisible,
 } from '../types/props';
 import { formatDate } from '../utils/datetime';
@@ -18,8 +18,8 @@ import DatepickerDecade from './datepicker/Decade';
 import DatepickerMonth from './datepicker/Month';
 import DatepickerYear from './datepicker/Year';
 import DatepickerInput from './input/DatepickerInput';
-import TimeselectorHeader from './timeselector/Header';
-import TimeselectorSelector from './timeselector/Selector';
+import TimepickerHeader from './timepicker/Header';
+import TimepickerSelector from './timepicker/Selector';
 
 interface IProps {
   initValue?: Date | null;
@@ -33,7 +33,7 @@ interface IProps {
   className?: string;
   placeholder?: string;
   disabled?: boolean;
-  timeselector?: false | ITimeselector;
+  timepicker?: false | ITimepicker;
   timeStep?: ITimeStep;
   hourStep?: number;
   minuteStep?: number;
@@ -55,13 +55,11 @@ function Datepicker({
   className = '',
   placeholder = '',
   disabled = false,
-  timeselector = false,
+  timepicker = false,
   timeStep = { hour: 1, minute: 1, second: 1 },
   onChange,
 }: IProps) {
-  const initialValueFormat = timeselector
-    ? 'YYYY-MM-DD hh:mm:ss'
-    : 'YYYY-MM-DD';
+  const initialValueFormat = timepicker ? 'YYYY-MM-DD hh:mm:ss' : 'YYYY-MM-DD';
   const comValueFormat = valueFormat ? valueFormat : initialValueFormat;
   const [value, setValue] = useState<Date | null>(initValue);
   const [timeValue, setTimeValue] = useState<ITimeValue>({
@@ -194,7 +192,7 @@ function Datepicker({
                       weekdayLabels={weekdayLabels}
                       timeValue={timeValue}
                       closesAfterChange={closesAfterChange}
-                      timeselector={timeselector}
+                      timepicker={timepicker}
                       setIsVisible={setIsVisible}
                     />
                   )}
@@ -226,21 +224,18 @@ function Datepicker({
             )}
           </div>
         </div>
-        {timeselector && (
+        {timepicker && (
           <div
-            className={`${NAME_SPACE}__timeselector-container`}
+            className={`${NAME_SPACE}__timepicker-container`}
             style={{
               height: containerHeight,
             }}
           >
-            <TimeselectorHeader
-              timeValue={timeValue}
-              timeselector={timeselector}
-            />
-            <TimeselectorSelector
+            <TimepickerHeader timeValue={timeValue} timepicker={timepicker} />
+            <TimepickerSelector
               timeValue={timeValue}
               setTimeValue={setTimeValue}
-              timeselector={timeselector}
+              timepicker={timepicker}
               timeStep={timeStep}
             />
           </div>

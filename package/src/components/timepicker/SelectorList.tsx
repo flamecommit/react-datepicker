@@ -2,17 +2,17 @@
 
 import { useEffect, useRef } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { ITimeValue, ITimeselector } from '../../types/props';
+import { ITimeValue, ITimepicker } from '../../types/props';
 import { addLeadingZero } from '../../utils/string';
 
 interface IProps {
-  timeKey: keyof ITimeselector;
+  timeKey: keyof ITimepicker;
   items: number[];
   timeValue: ITimeValue;
   setTimeValue: (value: ITimeValue) => void;
 }
 
-function TimeselectorSelectorList({
+export default function TimepickerSelectorList({
   timeKey,
   items,
   timeValue,
@@ -34,12 +34,12 @@ function TimeselectorSelectorList({
   }, [items, timeKey, timeValue]);
 
   return (
-    <div className={`${NAME_SPACE}__timeselector-list`} ref={listRef}>
+    <div className={`${NAME_SPACE}__timepicker-list`} ref={listRef}>
       {items.map((item, index) => (
-        <div key={index} className={`${NAME_SPACE}__timeselector-list-item`}>
+        <div key={index} className={`${NAME_SPACE}__timepicker-list-item`}>
           <button
             type="button"
-            className={`${NAME_SPACE}__timeselector-list-button`}
+            className={`${NAME_SPACE}__timepicker-list-button`}
             data-active={item === timeValue[timeKey]}
             onClick={() =>
               setTimeValue({
@@ -55,5 +55,3 @@ function TimeselectorSelectorList({
     </div>
   );
 }
-
-export default TimeselectorSelectorList;
