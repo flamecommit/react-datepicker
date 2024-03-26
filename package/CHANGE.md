@@ -1,3 +1,7 @@
+## 2.1.0
+
+- hourStep, minuteStep, secondStep 옵션이 사라지고 timeStep 옵션으로 합쳐집니다.
+
 ## 2.0.0
 
 - Datepicker와 Rangepicker에 키보드 입력 기능이 추가되었습니다.

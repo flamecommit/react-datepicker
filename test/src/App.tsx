@@ -41,16 +41,18 @@ function App() {
         />
       </section>
       <section>
-        <h3>Timeselector</h3>
+        <h3>Timeselector timeStep</h3>
         <Datepicker
           timeselector={{
             hour: true,
             minute: true,
             second: true,
           }}
-          hourStep={1}
-          minuteStep={10}
-          secondStep={10}
+          timeStep={{
+            hour: 1,
+            minute: 15,
+            second: 10,
+          }}
         />
       </section>
       <section>

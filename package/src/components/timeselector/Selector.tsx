@@ -2,25 +2,21 @@
 
 import { Fragment } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { ITimeValue, ITimeselector } from '../../types/props';
+import { ITimeStep, ITimeValue, ITimeselector } from '../../types/props';
 import TimeselectorSelectorList from './SelectorList';
 
 interface IProps {
   timeValue: ITimeValue;
   setTimeValue: (value: ITimeValue) => void;
   timeselector: ITimeselector;
-  hourStep: number;
-  minuteStep: number;
-  secondStep: number;
+  timeStep: ITimeStep;
 }
 
 function TimeselectorSelector({
   timeValue,
   setTimeValue,
   timeselector,
-  hourStep,
-  minuteStep,
-  secondStep,
+  timeStep,
 }: IProps) {
   const generateArray = (step: number, max: number) => {
     const hours = [];
@@ -32,13 +28,13 @@ function TimeselectorSelector({
 
   const selectors = {
     hour: {
-      items: generateArray(hourStep, 23),
+      items: generateArray(timeStep.hour || 1, 23),
     },
     minute: {
-      items: generateArray(minuteStep, 59),
+      items: generateArray(timeStep.minute || 1, 59),
     },
     second: {
-      items: generateArray(secondStep, 59),
+      items: generateArray(timeStep.second || 1, 59),
     },
   };
 

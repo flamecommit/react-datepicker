@@ -16,4 +16,10 @@ export interface IDateValue {
   date: number | null;
 }
 
+export interface ITimeStep {
+  hour?: number;
+  minute?: number;
+  second?: number;
+}
+
 export type TIsVisible = boolean | 'start' | 'end';

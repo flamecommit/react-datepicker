@@ -4,6 +4,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
 import {
   IDateValue,
+  ITimeStep,
   ITimeValue,
   ITimeselector,
   TIsVisible,
@@ -33,6 +34,7 @@ interface IProps {
   placeholder?: string;
   disabled?: boolean;
   timeselector?: false | ITimeselector;
+  timeStep?: ITimeStep;
   hourStep?: number;
   minuteStep?: number;
   secondStep?: number;
@@ -54,9 +56,7 @@ function Datepicker({
   placeholder = '',
   disabled = false,
   timeselector = false,
-  hourStep = 1,
-  minuteStep = 1,
-  secondStep = 1,
+  timeStep = { hour: 1, minute: 1, second: 1 },
   onChange,
 }: IProps) {
   const initialValueFormat = timeselector
@@ -241,9 +241,7 @@ function Datepicker({
               timeValue={timeValue}
               setTimeValue={setTimeValue}
               timeselector={timeselector}
-              hourStep={hourStep}
-              minuteStep={minuteStep}
-              secondStep={secondStep}
+              timeStep={timeStep}
             />
           </div>
         )}
