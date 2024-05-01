@@ -1,6 +1,6 @@
 ## 라이브러리 개요
 
-react-datepicker는 React 기반의 웹 애플리케이션에서 사용자가 쉽게 날짜를 선택할 수 있도록 도와주는 라이브러리 입니다.
+react-datepicker는 날짜와 기간, 시간 선택 UI를 제공하는 React 컴포넌트 라이브러리 입니다.
 ​
 
 ## 기능 소개
@@ -44,11 +44,11 @@ import '@shinyongjun/react-datepicker/css';
 
 ## API 문서
 
-라이브러리의 주요 API들에 대한 문서를 [Docs](https://shinyongjun.gitbook.io/react-datepicker/)에서 확인할 수 있습니다.
+라이브러리의 주요 API들에 대한 문서를 [Docs](https://www.shinyongjun.com/library/react-datepicker/docs/Getting%20Started/Overview)에서 확인할 수 있습니다.
 
 ## 실제 사용 사례
 
-라이브러리의 실제 사용 예시는 [Demo](https://shinyongjun.com/library/react-datepicker)에서 확인할 수 있습니다.
+라이브러리의 실제 사용 예시는 [Demo](https://www.shinyongjun.com/library/react-datepicker/demo)에서 확인할 수 있습니다.
 ​
 
 ## 피드백 및 지원

@@ -1,6 +1,6 @@
 {
   "name": "@shinyongjun/react-datepicker",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "source": "./src/index.tsx",
@@ -19,9 +19,10 @@
   "keywords": [
     "react",
     "datepicker",
-    "scroll"
+    "timeselector",
+    "rangepicker"
   ],
-  "homepage": "https://shinyongjun.gitbook.io/react-datepicker",
+  "homepage": "https://www.shinyongjun.com/library",
   "bugs": {
     "url": "https://github.com/flamecommit/react-datepicker/issues",
     "email": "shinyj1991@gmail.com"
@@ -29,7 +30,7 @@
   "author": {
     "name": "shinyongjun",
     "email": "shinyj1991@gmail.com",
-    "url": "https://shinyongjun.com"
+    "url": "https://www.shinyongjun.com"
   },
   "repository": {
     "type": "git",
