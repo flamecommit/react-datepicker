@@ -140,6 +140,19 @@ function Datepicker({
     setViewDate(formatDate(value || NEW_DATE, 'YYYY-MM-DD'));
   }, [value]);
 
+  // browser에서 focus가 사라졌을 때 picker close
+  const windowBlurHandler = () => {
+    setIsVisible(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('blur', windowBlurHandler);
+    // return window.removeEventListener('blur', windowBlurHandler);
+    return () => {
+      window.removeEventListener('blur', windowBlurHandler);
+    };
+  }, []);
+
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
       <DatepickerInput

@@ -9,18 +9,16 @@ import {
   useState,
 } from 'react';
 import { NAME_SPACE, VALUE_TYPES } from '../../constants/core';
-import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
+import { IDateValue, ITimeValue } from '../../types/props';
 import { getDateValueUnit, getTimeValueUnit } from '../../utils/datetime';
 import { addLeadingZero, isNumeric } from '../../utils/string';
 
 interface IProps {
-  visibleType?: TIsVisible;
   type: string;
   dateValue: IDateValue;
   setDateValue: (value: IDateValue) => void;
   timeValue: ITimeValue;
   setTimeValue: (value: ITimeValue) => void;
-  setIsVisible: (value: TIsVisible) => void;
   viewDate: string;
   setViewDate: (value: string) => void;
   disabled: boolean;
@@ -57,13 +55,11 @@ function getNextSiblingsWithDataValueTrue(
 }
 
 function InputUnit({
-  visibleType = true,
   type,
   dateValue,
   setDateValue,
   timeValue,
   setTimeValue,
-  setIsVisible,
   viewDate,
   setViewDate,
   disabled,
@@ -237,7 +233,6 @@ function InputUnit({
 
   const focusHandler = (e: React.FocusEvent<HTMLDivElement>) => {
     if (disabled) return;
-    setIsVisible(visibleType);
     setTimeout(() => {
       selectText(e.target);
     }, 10);

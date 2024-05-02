@@ -49,6 +49,11 @@ export default function RangepickerInput({
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
+  const triggerHandler = (type: 'start' | 'end') => {
+    if (disabled) return;
+    setIsVisible(type);
+  };
+
   return (
     <div
       className={`${NAME_SPACE}__input-container`}
@@ -63,12 +68,10 @@ export default function RangepickerInput({
           return (
             <InputUnit
               key={i}
-              visibleType="start"
               dateValue={dateStartValue}
               setDateValue={setDateStartValue}
               timeValue={timeStartValue}
               setTimeValue={setTimeStartValue}
-              setIsVisible={setIsVisible}
               type={type}
               viewDate={viewStartDate}
               setViewDate={setViewStartDate}
@@ -77,6 +80,13 @@ export default function RangepickerInput({
           );
         })}
       </div>
+      <button
+        type="button"
+        className={`${NAME_SPACE}__trigger`}
+        onClick={() => triggerHandler('start')}
+      >
+        Trigger
+      </button>
       <div className={`${NAME_SPACE}__input-range-separator`}> ~ </div>
       <div
         className={`${NAME_SPACE}__input-range-container`}
@@ -86,12 +96,10 @@ export default function RangepickerInput({
           return (
             <InputUnit
               key={i}
-              visibleType="end"
               dateValue={dateEndValue}
               setDateValue={setDateEndValue}
               timeValue={timeEndValue}
               setTimeValue={setTimeEndValue}
-              setIsVisible={setIsVisible}
               type={type}
               viewDate={viewEndDate}
               setViewDate={setViewEndDate}
@@ -100,6 +108,13 @@ export default function RangepickerInput({
           );
         })}
       </div>
+      <button
+        type="button"
+        className={`${NAME_SPACE}__trigger`}
+        onClick={() => triggerHandler('end')}
+      >
+        Trigger
+      </button>
       {useClearButton && (
         <button
           type="button"

@@ -35,6 +35,11 @@ export default function DatepickerInput({
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
+  const triggerHandler = () => {
+    if (disabled) return;
+    setIsVisible(true);
+  };
+
   return (
     <div
       className={`${NAME_SPACE}__input-container`}
@@ -49,7 +54,6 @@ export default function DatepickerInput({
             setDateValue={setDateValue}
             timeValue={timeValue}
             setTimeValue={setTimeValue}
-            setIsVisible={setIsVisible}
             type={type}
             viewDate={viewDate}
             setViewDate={setViewDate}
@@ -57,6 +61,13 @@ export default function DatepickerInput({
           />
         );
       })}
+      <button
+        type="button"
+        className={`${NAME_SPACE}__trigger`}
+        onClick={triggerHandler}
+      >
+        Trigger
+      </button>
       {useClearButton && (
         <button
           type="button"
