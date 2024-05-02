@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { NAME_SPACE } from '../../constants/core';
 import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
 import { formatDate, formatDateValue } from '../../utils/datetime';
+import { setMonthPage } from '../../utils/page';
 
 interface Iprops {
   type: TIsVisible;
@@ -33,6 +34,14 @@ export default function RangepickerMonth({
   const lastDate = lastDateValue.getDate(); // 이달 말 일
   const lastDay = lastDateValue.getDay(); // 이달 말 일의 요일
   const prevLastDate = new Date(year, month - 1, 0).getDate(); // 이전달의 말 일
+  const startValue = useMemo(
+    () => (type === 'start' ? dateValue : pairValue),
+    [dateValue, pairValue, type]
+  );
+  const endValue = useMemo(
+    () => (type === 'end' ? dateValue : pairValue),
+    [dateValue, pairValue, type]
+  );
   const formatedDateValue = useMemo(
     () => formatDateValue(dateValue, timeValue, valueFormat),
     [dateValue, timeValue, valueFormat]
@@ -47,6 +56,17 @@ export default function RangepickerMonth({
   const formatedEndValue = useMemo(() => {
     return type === 'end' ? formatedDateValue : formatedPairValue;
   }, [formatedDateValue, formatedPairValue, type]);
+
+  const parsedValueToDate = (value: IDateValue) => {
+    return new Date(
+      -1,
+      setMonthPage(`${value.year! + 2}-${value.month!}`),
+      value.date!,
+      timeValue.hour,
+      timeValue.minute,
+      timeValue.second
+    );
+  };
 
   const renderDateButton = (
     month: number,
@@ -93,10 +113,10 @@ export default function RangepickerMonth({
         data-start-active={formatedStartValue === formatedThisValue}
         data-end-active={formatedEndValue === formatedThisValue}
         data-range-active={
-          formatedStartValue &&
-          formatedEndValue &&
-          buttonDate > new Date(formatedStartValue) &&
-          buttonDate < new Date(formatedEndValue)
+          startValue &&
+          endValue &&
+          buttonDate > parsedValueToDate(startValue) &&
+          buttonDate < parsedValueToDate(endValue)
         }
         onClick={handleClick}
       >

@@ -65,6 +65,7 @@ export default function DatepickerInput({
         type="button"
         className={`${NAME_SPACE}__trigger`}
         onClick={triggerHandler}
+        disabled={disabled}
       >
         Trigger
       </button>

@@ -101,8 +101,8 @@ function Datepicker({
     if (!value) return;
 
     const newDate = new Date(
-      value.getFullYear(),
-      value.getMonth(),
+      -1,
+      setMonthPage(`${value.getFullYear() + 2}-${value.getMonth()}`),
       value.getDate(),
       timeValue.hour,
       timeValue.minute,
@@ -124,8 +124,8 @@ function Datepicker({
     }
 
     const newDate = new Date(
-      Number(dateValue.year),
-      Number(dateValue.month),
+      -1,
+      setMonthPage(`${dateValue.year + 2}-${dateValue.month}`),
       Number(dateValue.date),
       timeValue.hour,
       timeValue.minute,
@@ -141,17 +141,16 @@ function Datepicker({
   }, [value]);
 
   // browser에서 focus가 사라졌을 때 picker close
-  const windowBlurHandler = () => {
-    setIsVisible(false);
-  };
+  // const windowBlurHandler = () => {
+  //   setIsVisible(false);
+  // };
 
-  useEffect(() => {
-    window.addEventListener('blur', windowBlurHandler);
-    // return window.removeEventListener('blur', windowBlurHandler);
-    return () => {
-      window.removeEventListener('blur', windowBlurHandler);
-    };
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener('blur', windowBlurHandler);
+  //   return () => {
+  //     window.removeEventListener('blur', windowBlurHandler);
+  //   };
+  // }, []);
 
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>

@@ -84,6 +84,7 @@ export default function RangepickerInput({
         type="button"
         className={`${NAME_SPACE}__trigger`}
         onClick={() => triggerHandler('start')}
+        disabled={disabled}
       >
         Trigger
       </button>
@@ -112,6 +113,7 @@ export default function RangepickerInput({
         type="button"
         className={`${NAME_SPACE}__trigger`}
         onClick={() => triggerHandler('end')}
+        disabled={disabled}
       >
         Trigger
       </button>

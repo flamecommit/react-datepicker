@@ -1,3 +1,8 @@
+## 2.2.0
+
+- InputUnit에 focus시 datepicker가 자동으로 열리지 않고 Trigger버튼이 추가되었습니다. (이벤트간 충돌 Fix)
+- 0~100년 구간의 value가 정상적으로 입력되지 않던 현상을 수정했습니다.
+
 ## 2.1.0
 
 - hourStep, minuteStep, secondStep 옵션이 사라지고 timeStep 옵션으로 합쳐집니다.

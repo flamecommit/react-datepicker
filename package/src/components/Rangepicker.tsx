@@ -140,8 +140,8 @@ export default function Rangepicker({
     if (!startValue) return;
 
     const newDate = new Date(
-      startValue.getFullYear(),
-      startValue.getMonth(),
+      -1,
+      setMonthPage(`${startValue.getFullYear() + 2}-${startValue.getMonth()}`),
       startValue.getDate(),
       timeStartValue.hour,
       timeStartValue.minute,
@@ -164,8 +164,8 @@ export default function Rangepicker({
     }
 
     const newDate = new Date(
-      Number(dateStartValue.year),
-      Number(dateStartValue.month),
+      -1,
+      setMonthPage(`${dateStartValue.year + 2}-${dateStartValue.month}`),
       Number(dateStartValue.date),
       timeStartValue.hour,
       timeStartValue.minute,
@@ -181,8 +181,8 @@ export default function Rangepicker({
     if (!endValue) return;
 
     const newDate = new Date(
-      endValue.getFullYear(),
-      endValue.getMonth(),
+      -1,
+      setMonthPage(`${endValue.getFullYear() + 2}-${endValue.getMonth()}`),
       endValue.getDate(),
       timeEndValue.hour,
       timeEndValue.minute,
@@ -205,8 +205,8 @@ export default function Rangepicker({
     }
 
     const newDate = new Date(
-      Number(dateEndValue.year),
-      Number(dateEndValue.month),
+      -1,
+      setMonthPage(`${dateEndValue.year + 2}-${dateEndValue.month}`),
       Number(dateEndValue.date),
       timeEndValue.hour,
       timeEndValue.minute,
@@ -236,6 +236,18 @@ export default function Rangepicker({
     prevEndValue.current = endValue;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startValue, endValue]);
+
+  // browser에서 focus가 사라졌을 때 picker close
+  // const windowBlurHandler = () => {
+  //   setIsVisible(false);
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener('blur', windowBlurHandler);
+  //   return () => {
+  //     window.removeEventListener('blur', windowBlurHandler);
+  //   };
+  // }, []);
 
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>

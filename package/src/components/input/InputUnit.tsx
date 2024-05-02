@@ -126,7 +126,7 @@ function InputUnit({
     }
 
     const conditions = {
-      YYYY: Number(value) > 9999 ? '9999' : addLeadingZero(value),
+      YYYY: Number(value) > 9999 ? '9999' : value,
       MM: Number(value) > 12 ? '12' : addLeadingZero(value),
       DD: Number(value) > 31 ? '31' : addLeadingZero(value),
       hh: Number(value) > 23 ? '23' : addLeadingZero(value),

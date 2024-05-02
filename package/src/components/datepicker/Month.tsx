@@ -16,7 +16,7 @@ interface Iprops {
   setIsVisible: (value: boolean) => void;
 }
 
-function DatepicerMonth({
+export default function DatepickerMonth({
   dateValue,
   setDateValue,
   valueFormat,
@@ -111,5 +111,3 @@ function DatepicerMonth({
     </div>
   );
 }
-
-export default DatepicerMonth;

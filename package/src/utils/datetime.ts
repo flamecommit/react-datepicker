@@ -1,4 +1,5 @@
 import { IDateValue, ITimeValue } from '../types/props';
+import { setMonthPage } from './page';
 import { addLeadingZero } from './string';
 
 export const toLocalISOString = (date: Date): string => {
@@ -43,8 +44,8 @@ export const formatDateValue = (
       dateValue.month !== null &&
       dateValue.date !== null
       ? new Date(
-          Number(dateValue.year),
-          Number(dateValue.month),
+          -1,
+          setMonthPage(`${dateValue.year + 2}-${dateValue.month}`),
           Number(dateValue.date),
           timeValue.hour,
           timeValue.minute,

@@ -26,13 +26,6 @@
 .react-datepicker__input-range-separator {
   margin-inline: 4px;
 }
-.react-datepicker__trigger-button {
-  position: absolute;
-  inset: 0;
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-}
 .react-datepicker__input-unit {
   position: relative;
   outline: none;
@@ -61,6 +54,9 @@
   background-color: transparent;
   font-size: 0;
   cursor: pointer;
+  &:disabled {
+    cursor: default;
+  }
 }
 
 /* portal */
