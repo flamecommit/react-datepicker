@@ -35,6 +35,7 @@ interface IProps {
   timepicker?: false | ITimepicker;
   timeStep?: ITimeStep;
   onChange?: (activeDate: Date | null) => void;
+  holidays?: string[]; // [01-01, 12-25, 2024-06-27]
 }
 
 const NEW_DATE = new Date();
@@ -52,6 +53,7 @@ function Datepicker({
   disabled = false,
   timepicker = false,
   timeStep = { hour: 1, minute: 1, second: 1 },
+  holidays = [],
   onChange,
 }: IProps) {
   const initialValueFormat = timepicker ? 'YYYY-MM-DD hh:mm:ss' : 'YYYY-MM-DD';
@@ -199,6 +201,7 @@ function Datepicker({
                       timeValue={timeValue}
                       closesAfterChange={closesAfterChange}
                       timepicker={timepicker}
+                      holidays={holidays}
                       setIsVisible={setIsVisible}
                     />
                   )}

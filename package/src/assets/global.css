@@ -194,6 +194,9 @@
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
   }
+  &[data-holiday='true'] {
+    color: red;
+  }
 }
 .react-datepicker__neighbor-button {
   color: #bbb;

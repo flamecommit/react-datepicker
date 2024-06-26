@@ -2,6 +2,21 @@ import { IDateValue, ITimeValue } from '../types/props';
 import { setMonthPage } from './page';
 import { addLeadingZero } from './string';
 
+export const checkHoliday = (
+  formatedDate: string,
+  holidays: string[]
+): boolean => {
+  const regex1 = /^\d{4}-\d{2}-\d{2}$/;
+  const regex2 = /^\d{2}-\d{2}$/;
+
+  return holidays.some((holiday) => {
+    return (
+      (regex1.test(holiday) && formatedDate === holiday) ||
+      (regex2.test(holiday) && formatedDate.endsWith(holiday))
+    );
+  });
+};
+
 export const toLocalISOString = (date: Date): string => {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, '0');

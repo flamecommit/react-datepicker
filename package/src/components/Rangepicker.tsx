@@ -37,6 +37,7 @@ interface IProps {
   timeStep?: ITimeStep;
   /** value의 변화를 감지하여 Callback함수를 실행합니다. */
   onChange?: (startDate: Date | null, endDate: Date | null) => void;
+  holidays?: string[]; // [01-01, 12-25, 2024-06-27]
 }
 
 const NEW_DATE = new Date();
@@ -54,6 +55,7 @@ export default function Rangepicker({
   disabled = false,
   timepicker = false,
   timeStep = { hour: 1, minute: 1, second: 1 },
+  holidays = [],
   onChange,
 }: IProps) {
   const initialValueFormat = timepicker ? 'YYYY-MM-DD hh:mm:ss' : 'YYYY-MM-DD';
@@ -319,6 +321,7 @@ export default function Rangepicker({
                         isVisible === 'start' ? timeStartValue : timeEndValue
                       }
                       weekdayLabels={weekdayLabels}
+                      holidays={holidays}
                     />
                   )}
                 </Fragment>

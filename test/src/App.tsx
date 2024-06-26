@@ -8,6 +8,15 @@ function App() {
   return (
     <div>
       <section>
+        <h3>Rangepicker - holidays</h3>
+        <Rangepicker holidays={['01-01', '2024-06-27']} />
+      </section>
+      <section>
+        <h3>Datepicker - holidays</h3>
+        <Datepicker holidays={['01-01', '2024-06-27']} />
+      </section>
+      <section>
+        <h3>Rangepicker - disabled</h3>
         <Rangepicker disabled />
       </section>
       <section>

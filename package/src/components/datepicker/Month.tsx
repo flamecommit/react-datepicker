@@ -2,7 +2,11 @@
 
 import { NAME_SPACE } from '../../constants/core';
 import { IDateValue, ITimeValue, ITimepicker } from '../../types/props';
-import { formatDate, formatDateValue } from '../../utils/datetime';
+import {
+  checkHoliday,
+  formatDate,
+  formatDateValue,
+} from '../../utils/datetime';
 
 interface Iprops {
   dateValue: IDateValue;
@@ -14,6 +18,7 @@ interface Iprops {
   closesAfterChange: boolean;
   timepicker: false | ITimepicker;
   setIsVisible: (value: boolean) => void;
+  holidays: string[];
 }
 
 export default function DatepickerMonth({
@@ -26,6 +31,7 @@ export default function DatepickerMonth({
   closesAfterChange,
   timepicker,
   setIsVisible,
+  holidays,
 }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
@@ -51,6 +57,7 @@ export default function DatepickerMonth({
     );
     const day = buttonDate.getDay();
     const formatedThisValue = formatDate(buttonDate, valueFormat);
+    const isHoliday = checkHoliday(formatedThisValue, holidays);
 
     const handleClick = () => {
       if (closesAfterChange && !timepicker) {
@@ -71,6 +78,7 @@ export default function DatepickerMonth({
         title={formatedThisValue}
         data-day={day}
         data-active={formatedValue === formatedThisValue}
+        data-holiday={isHoliday}
         onClick={handleClick}
       >
         {date}

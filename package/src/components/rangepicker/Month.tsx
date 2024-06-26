@@ -3,7 +3,11 @@
 import { useMemo } from 'react';
 import { NAME_SPACE } from '../../constants/core';
 import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
-import { formatDate, formatDateValue } from '../../utils/datetime';
+import {
+  checkHoliday,
+  formatDate,
+  formatDateValue,
+} from '../../utils/datetime';
 import { setMonthPage } from '../../utils/page';
 
 interface Iprops {
@@ -15,6 +19,7 @@ interface Iprops {
   weekdayLabels: string[];
   setDateValue: (value: IDateValue) => void;
   timeValue: ITimeValue;
+  holidays: string[];
 }
 
 export default function RangepickerMonth({
@@ -26,6 +31,7 @@ export default function RangepickerMonth({
   monthPage,
   weekdayLabels,
   timeValue,
+  holidays,
 }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
@@ -83,6 +89,7 @@ export default function RangepickerMonth({
     );
     const day = buttonDate.getDay();
     const formatedThisValue = formatDate(buttonDate, valueFormat);
+    const isHoliday = checkHoliday(formatedThisValue, holidays);
 
     const handleClick = () => {
       // if (
@@ -118,6 +125,7 @@ export default function RangepickerMonth({
           buttonDate > parsedValueToDate(startValue) &&
           buttonDate < parsedValueToDate(endValue)
         }
+        data-holiday={isHoliday}
         onClick={handleClick}
       >
         {date}
