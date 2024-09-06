@@ -1,30 +1,67 @@
-import { Datepicker, Rangepicker } from '@shinyongjun/react-datepicker';
+import { DatePicker, RangePicker } from '@shinyongjun/react-datepicker';
 import '@shinyongjun/react-datepicker/css';
 import { useState } from 'react';
 
 function App() {
-  const [dateValue] = useState<Date>(new Date('2001-11-11'));
+  // const [dateValue] = useState<Date>(new Date('2001-11-11'));
+  const [value, setValue] = useState<Date | null>(new Date());
+  const [startValue, setStartValue] = useState<Date | null>(new Date());
+  const [endValue, setEndValue] = useState<Date | null>(new Date());
 
   return (
     <div>
       <section>
-        <h3>Rangepicker - holidays</h3>
-        <Rangepicker holidays={['01-01', '2024-06-27']} />
+        <h3>RangePicker</h3>
+        <RangePicker
+          startValue={startValue}
+          endValue={endValue}
+          onChangeStart={setStartValue}
+          onChangeEnd={setEndValue}
+        />
+        start: {startValue?.toString()}
+        <br />
+        end: {endValue?.toString()}
       </section>
       <section>
-        <h3>Datepicker - holidays</h3>
-        <Datepicker holidays={['01-01', '2024-06-27']} />
+        <h3>DatePicker & TimePicker</h3>
+        <DatePicker
+          value={value}
+          onChange={setValue}
+          timePicker={{
+            hour: true,
+            minute: true,
+            second: true,
+          }}
+        />
+        {value?.toString()}
       </section>
       <section>
-        <h3>Rangepicker - disabled</h3>
-        <Rangepicker disabled />
+        <h3>DatePicker No Value</h3>
+        <DatePicker />
+      </section>
+      <section>
+        <h3>DatePicker</h3>
+        <DatePicker value={value} onChange={setValue} />
+        {value?.toString()}
+      </section>
+      {/* <section>
+        <h3>RangePicker - holidays</h3>
+        <RangePicker holidays={['01-01', '2024-06-27']} />
+      </section>
+      <section>
+        <h3>DatePicker - holidays</h3>
+        <DatePicker holidays={['01-01', '2024-06-27']} />
+      </section>
+      <section>
+        <h3>RangePicker - disabled</h3>
+        <RangePicker disabled />
       </section>
       <section>
         <h3>useClearButton</h3>
-        <Rangepicker
+        <RangePicker
           initStartValue={new Date('2001-11-11 20:13:12')}
           initEndValue={new Date('2001-11-19 20:13:12')}
-          timepicker={{
+          timePicker={{
             hour: true,
             minute: true,
             second: true,
@@ -34,10 +71,10 @@ function App() {
       </section>
       <section>
         <h3>initStartValue, initEndValue</h3>
-        <Rangepicker
+        <RangePicker
           initStartValue={new Date('2001-11-11 20:13:12')}
           initEndValue={new Date('2001-11-19 20:13:12')}
-          timepicker={{
+          timePicker={{
             hour: true,
             minute: true,
             second: true,
@@ -45,9 +82,9 @@ function App() {
         />
       </section>
       <section>
-        <h3>Timepicker timeStep</h3>
-        <Datepicker
-          timepicker={{
+        <h3>TimePicker timeStep</h3>
+        <DatePicker
+          timePicker={{
             hour: true,
             minute: true,
             second: true,
@@ -60,40 +97,40 @@ function App() {
         />
       </section>
       <section>
-        <h3>Timepicker</h3>
-        <Datepicker
-          timepicker={{
+        <h3>TimePicker</h3>
+        <DatePicker
+          timePicker={{
             hour: true,
             minute: true,
             second: true,
           }}
           useClearButton
-          initValue={new Date('2001-11-11 20:13:12')}
+          value={new Date('2001-11-11 20:13:12')}
           valueFormat="YYYY-MM-DD hh:mm:ss"
           withPortal
         />
       </section>
       <section>
-        <h3>Timepicker</h3>
-        <Datepicker
-          timepicker={{
+        <h3>TimePicker</h3>
+        <DatePicker
+          timePicker={{
             hour: true,
             minute: true,
             second: true,
           }}
           useClearButton
-          initValue={new Date('2001-11-11 01:02:03')}
+          value={new Date('2001-11-11 01:02:03')}
           valueFormat="YYYY-MM-DD hh:mm:ss"
         />
       </section>
       <section>
-        <h3>Datepicker</h3>
-        <Datepicker valueFormat="YYYY-MM-DD hh/mm/ss" />
+        <h3>DatePicker</h3>
+        <DatePicker valueFormat="YYYY-MM-DD hh/mm/ss" />
       </section>
       <section>
         <h3>initValue</h3>
-        <Datepicker
-          initValue={dateValue}
+        <DatePicker
+          value={dateValue}
           onChange={(value) => {
             console.log('value', value);
           }}
@@ -101,41 +138,41 @@ function App() {
       </section>
       <section>
         <h3>showsMultipleCalendar</h3>
-        <Datepicker showsMultipleCalendar />
+        <DatePicker showsMultipleCalendar />
       </section>
       <section>
         <h3>useClearButton</h3>
-        <Datepicker useClearButton />
+        <DatePicker useClearButton />
       </section>
       <section>
         <h3>valueFormat=MM/DD/YYYY</h3>
-        <Datepicker
+        <DatePicker
           valueFormat="MM/DD/YYYY"
-          initValue={new Date('2001-11-11 14:13:12')}
+          value={new Date('2001-11-11 14:13:12')}
         />
       </section>
       <section>
         <h3>labelFormat=YYYY년 MM월</h3>
-        <Datepicker labelFormat="YYYY년 MM월" />
+        <DatePicker labelFormat="YYYY년 MM월" />
       </section>
       <section>
-        <h3>Rangepicker</h3>
-        <Rangepicker />
+        <h3>RangePicker</h3>
+        <RangePicker />
       </section>
       <section>
-        <h3>Rangepicker - showsMultipleCalendar</h3>
-        <Rangepicker showsMultipleCalendar />
+        <h3>RangePicker - showsMultipleCalendar</h3>
+        <RangePicker showsMultipleCalendar />
       </section>
       <section>
-        <h3>Rangepicker - showsMultipleCalendar, closesAfterChange</h3>
-        <Rangepicker
+        <h3>RangePicker - showsMultipleCalendar, closesAfterChange</h3>
+        <RangePicker
           weekdayLabels={['일', '월', '화', '수', '목', '금', '토']}
           showsMultipleCalendar
         />
       </section>
       <section>
         <h3>onChange</h3>
-        <Rangepicker
+        <RangePicker
           weekdayLabels={['일', '월', '화', '수', '목', '금', '토']}
           showsMultipleCalendar
           onChange={(startDate, endDate) => {
@@ -146,7 +183,7 @@ function App() {
       <section>
         <h3>datetime-local</h3>
         <input type="datetime-local" />
-      </section>
+      </section> */}
     </div>
   );
 }

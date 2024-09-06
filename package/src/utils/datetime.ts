@@ -1,4 +1,5 @@
 import { IDateValue, ITimeValue } from '../types/props';
+import { TDateUnitType } from '../types/unit';
 import { setMonthPage } from './page';
 import { addLeadingZero } from './string';
 
@@ -29,7 +30,7 @@ export const toLocalISOString = (date: Date): string => {
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
 };
 
-export const formatDate = (dateObj: Date | null, format: string) => {
+export const formatDate = (dateObj: Date | null, format: string): string => {
   if (!dateObj) return '';
   let result = format;
 
@@ -53,7 +54,7 @@ export const formatDateValue = (
   dateValue: IDateValue,
   timeValue: ITimeValue,
   format: string
-) => {
+): string => {
   return formatDate(
     dateValue.year !== null &&
       dateValue.month !== null &&
@@ -71,8 +72,33 @@ export const formatDateValue = (
   );
 };
 
-export const getDateValueUnit = (value: IDateValue, unit: string): string => {
-  switch (unit) {
+export const getDateUnit = (
+  value: Date | null,
+  unitType: TDateUnitType
+): string => {
+  if (value === null) return '';
+
+  switch (unitType) {
+    case 'YYYY': {
+      return `${value.getFullYear()}`;
+    }
+    case 'MM': {
+      return addLeadingZero(value.getMonth() + 1);
+    }
+    case 'DD': {
+      return addLeadingZero(value.getDate());
+    }
+    default: {
+      return '';
+    }
+  }
+};
+
+export const getDateValueUnit = (
+  value: IDateValue,
+  unitType: string
+): string => {
+  switch (unitType) {
     case 'YYYY':
       return value.year !== null ? `${value.year}` : 'YYYY';
     case 'MM':
@@ -176,3 +202,14 @@ export const setViewDateByType = (
  * DD Month YYYY (영국 스타일) - 04 September 2023
  * Month DD, YYYY (미국 스타일) - September 04, 2023
  */
+
+export const valueToDateObj = (
+  dateValue: IDateValue,
+  timeValue: ITimeValue
+): Date | null => {
+  const { year, month, date } = dateValue;
+  const { hour, minute, second } = timeValue;
+  if (year === null || month === null || date === null) return null;
+
+  return new Date(year, month, date, hour, minute, second);
+};

@@ -5,8 +5,8 @@ react-datepicker는 날짜와 기간, 시간 선택 UI를 제공하는 React 컴
 
 ## 기능 소개
 
-- 날짜를 선택하는 <Datepicker /> 컴포넌트를 제공합니다.
-- 기간을 선택하는 <Rangepicker /> 컴포넌트를 제공합니다.
+- 날짜를 선택하는 <DatePicker /> 컴포넌트를 제공합니다.
+- 기간을 선택하는 <RangePicker /> 컴포넌트를 제공합니다.
 - timeselector 옵션을 사용하여 시간선택자를 활성화 할 수 있습니다.
   ​
 
@@ -31,7 +31,7 @@ yarn add @shinyongjun/react-datepicker
 react-datepicker를 사용하려면 먼저 컴포넌트를 import해야 합니다.
 
 ```javascript
-import { Datepicker, Rangepicker } from '@shinyongjun/react-datepicker';
+import { DatePicker, RangePicker } from '@shinyongjun/react-datepicker';
 ```
 
 최상위 컴포넌트(app/layout.tsx or pages/\_app.tsx)에 css 파일도 import 합니다.

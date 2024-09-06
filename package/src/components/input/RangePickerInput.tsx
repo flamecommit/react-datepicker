@@ -25,9 +25,12 @@ interface IProps {
   setViewEndDate: (value: string) => void;
   inputRef: RefObject<HTMLDivElement>;
   isVisible: TIsVisible;
+  onChangeStart?: (newValue: Date | null) => void;
+  onChangeEnd?: (newValue: Date | null) => void;
+  isMounted: boolean;
 }
 
-export default function RangepickerInput({
+export default function RangePickerInput({
   valueFormat,
   dateStartValue,
   setDateStartValue,
@@ -46,6 +49,9 @@ export default function RangepickerInput({
   isVisible,
   useClearButton,
   disabled,
+  onChangeStart,
+  onChangeEnd,
+  isMounted,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
@@ -76,6 +82,8 @@ export default function RangepickerInput({
               viewDate={viewStartDate}
               setViewDate={setViewStartDate}
               disabled={disabled}
+              onChange={onChangeStart}
+              isMounted={isMounted}
             />
           );
         })}
@@ -105,6 +113,8 @@ export default function RangepickerInput({
               viewDate={viewEndDate}
               setViewDate={setViewEndDate}
               disabled={disabled}
+              onChange={onChangeEnd}
+              isMounted={isMounted}
             />
           );
         })}

@@ -4,7 +4,7 @@ npm i -D @types/node @types/react @types/react-dom @shinyongjun/eslint-config es
 
 npm i -D @types/node @types/react @types/react-dom @shinyongjun/eslint-config eslint prettier react react-dom typescript concurrently cpy-cli -w package
 
-## React Datepicker
+## React DatePicker
 
 ## Timezone
 

@@ -17,11 +17,13 @@ interface IProps {
   type: string;
   dateValue: IDateValue;
   setDateValue: (value: IDateValue) => void;
+  onChange?: (newValue: Date | null) => void;
   timeValue: ITimeValue;
   setTimeValue: (value: ITimeValue) => void;
   viewDate: string;
   setViewDate: (value: string) => void;
   disabled: boolean;
+  isMounted: boolean;
 }
 
 // Function to select text
@@ -58,11 +60,13 @@ function InputUnit({
   type,
   dateValue,
   setDateValue,
+  onChange,
   timeValue,
   setTimeValue,
   viewDate,
   setViewDate,
   disabled,
+  isMounted,
 }: IProps) {
   const inputRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLElement>();
@@ -141,6 +145,14 @@ function InputUnit({
     }
   };
 
+  const focusController = () => {
+    if (nextRef.current) {
+      nextRef.current.focus();
+    } else {
+      inputRef.current?.blur();
+    }
+  };
+
   // Type마다 특정 자리수 입력 시 다음 Input으로 focusing
   const inputHandler = (e: FormEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
@@ -158,56 +170,32 @@ function InputUnit({
     switch (type) {
       case 'YYYY':
         if (count >= 4) {
-          if (nextRef.current) {
-            nextRef.current.focus();
-          } else {
-            inputRef.current?.blur();
-          }
+          focusController();
         }
         return;
       case 'MM':
         if (value >= 2 || count >= 2) {
-          if (nextRef.current) {
-            nextRef.current.focus();
-          } else {
-            inputRef.current?.blur();
-          }
+          focusController();
         }
         return;
       case 'DD':
         if (value >= 4 || count >= 2) {
-          if (nextRef.current) {
-            nextRef.current.focus();
-          } else {
-            inputRef.current?.blur();
-          }
+          focusController();
         }
         return;
       case 'hh':
         if (value >= 3 || count >= 2) {
-          if (nextRef.current) {
-            nextRef.current.focus();
-          } else {
-            inputRef.current?.blur();
-          }
+          focusController();
         }
         return;
       case 'mm':
         if (value >= 6 || count >= 2) {
-          if (nextRef.current) {
-            nextRef.current.focus();
-          } else {
-            inputRef.current?.blur();
-          }
+          focusController();
         }
         return;
       case 'ss':
         if (value >= 6 || count >= 2) {
-          if (nextRef.current) {
-            nextRef.current.focus();
-          } else {
-            inputRef.current?.blur();
-          }
+          focusController();
         }
         return;
       default:
@@ -256,7 +244,29 @@ function InputUnit({
   };
 
   useEffect(() => {
+    if (!isMounted) return;
+
     setText(displayUnit);
+
+    if (
+      dateValue.year !== null &&
+      dateValue.month !== null &&
+      dateValue.date !== null
+    ) {
+      if (onChange) {
+        onChange(
+          new Date(
+            dateValue.year,
+            dateValue.month,
+            dateValue.date,
+            timeValue.hour,
+            timeValue.minute,
+            timeValue.second
+          )
+        );
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayUnit]);
 
   // Text의 변화를 감지하여 Value에 최종 저장

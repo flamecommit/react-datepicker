@@ -1,2 +1,2 @@
-export { default as Datepicker } from './components/Datepicker';
-export { default as Rangepicker } from './components/Rangepicker';
+export { default as DatePicker } from './components/DatePicker';
+export { default as RangePicker } from './components/RangePicker';

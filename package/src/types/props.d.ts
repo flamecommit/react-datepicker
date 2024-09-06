@@ -1,4 +1,4 @@
-export interface ITimepicker {
+export interface ITimePicker {
   hour?: boolean;
   minute?: boolean;
   second?: boolean;

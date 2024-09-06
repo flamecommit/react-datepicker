@@ -10,6 +10,7 @@ interface IProps {
   valueFormat: string;
   dateValue: IDateValue;
   setDateValue: (value: IDateValue) => void;
+  onChange?: (newValue: Date | null) => void;
   timeValue: ITimeValue;
   setTimeValue: (value: ITimeValue) => void;
   useClearButton: boolean;
@@ -18,12 +19,14 @@ interface IProps {
   viewDate: string;
   setViewDate: (value: string) => void;
   inputRef: RefObject<HTMLDivElement>;
+  isMounted: boolean;
 }
 
-export default function DatepickerInput({
+export default function DatePickerInput({
   valueFormat,
   dateValue,
   setDateValue,
+  onChange,
   timeValue,
   setTimeValue,
   setIsVisible,
@@ -32,6 +35,7 @@ export default function DatepickerInput({
   inputRef,
   useClearButton,
   disabled,
+  isMounted,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
@@ -52,12 +56,14 @@ export default function DatepickerInput({
             key={i}
             dateValue={dateValue}
             setDateValue={setDateValue}
+            onChange={onChange}
             timeValue={timeValue}
             setTimeValue={setTimeValue}
             type={type}
             viewDate={viewDate}
             setViewDate={setViewDate}
             disabled={disabled}
+            isMounted={isMounted}
           />
         );
       })}
