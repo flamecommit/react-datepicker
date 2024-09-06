@@ -1,3 +1,12 @@
+## 2.4.0
+
+- Rangepicker: 시작 날짜 선택시 자동으로 종료 달력이 활성화 되는 로직 추가.
+- Rangepicker: 종료 날짜 선택시 달력 닫히는 로직 추가
+
+## 2.3.0
+
+- holidays: 공휴일 옵션 추가
+
 ## 2.2.0
 
 - InputUnit에 focus시 datepicker가 자동으로 열리지 않고 Trigger버튼이 추가되었습니다. (이벤트간 충돌 Fix)

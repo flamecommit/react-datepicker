@@ -322,6 +322,7 @@ export default function Rangepicker({
                       }
                       weekdayLabels={weekdayLabels}
                       holidays={holidays}
+                      setIsVisible={setIsVisible}
                     />
                   )}
                 </Fragment>

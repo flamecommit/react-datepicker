@@ -20,6 +20,7 @@ interface Iprops {
   setDateValue: (value: IDateValue) => void;
   timeValue: ITimeValue;
   holidays: string[];
+  setIsVisible: (value: TIsVisible) => void;
 }
 
 export default function RangepickerMonth({
@@ -32,6 +33,7 @@ export default function RangepickerMonth({
   weekdayLabels,
   timeValue,
   holidays,
+  setIsVisible,
 }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
@@ -102,11 +104,20 @@ export default function RangepickerMonth({
       //     date: null,
       //   });
       // }
+      console.log(type);
       setDateValue({
         year: buttonDate.getFullYear(),
         month: buttonDate.getMonth(),
         date: buttonDate.getDate(),
       });
+
+      if (type === 'start') {
+        return setIsVisible('end');
+      }
+
+      if (type === 'end') {
+        return setIsVisible(false);
+      }
     };
 
     return (
