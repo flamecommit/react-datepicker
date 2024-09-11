@@ -8,8 +8,8 @@
     "build": "npm run build -w package",
     "watch": "npm run watch -w package",
     "test": "npm run start -w test",
-    "dev": "concurrently \"npm run watch\" \"npm run test\"",
-    "link": "concurrently \"npm link -w package\" \"npm link @shinyongjun/react-datepicker -w test\"",
+    "link:package": "npm link -w package",
+    "link:test": "npm link @shinyongjun/react-datepicker -w test",
     "publish": "npm publish --access public -w package"
   },
   "workspaces": [
