@@ -65,24 +65,24 @@ export default function RangePicker({
   const prevStartValue = useRef<Date | null>(startValue);
   const prevEndValue = useRef<Date | null>(endValue);
   const [timeStartValue, setTimeStartValue] = useState<ITimeValue>({
-    hour: startValue !== null ? startValue?.getHours() : 0,
-    minute: startValue !== null ? startValue?.getMinutes() : 0,
-    second: startValue !== null ? startValue?.getSeconds() : 0,
+    hour: startValue ? startValue?.getHours() : 0,
+    minute: startValue ? startValue?.getMinutes() : 0,
+    second: startValue ? startValue?.getSeconds() : 0,
   });
   const [dateStartValue, setDateStartValue] = useState<IDateValue>({
-    year: startValue !== null ? startValue?.getFullYear() : null,
-    month: startValue !== null ? startValue?.getMonth() : null,
-    date: startValue !== null ? startValue?.getDate() : null,
+    year: startValue ? startValue?.getFullYear() : null,
+    month: startValue ? startValue?.getMonth() : null,
+    date: startValue ? startValue?.getDate() : null,
   });
   const [timeEndValue, setTimeEndValue] = useState<ITimeValue>({
-    hour: endValue !== null ? endValue?.getHours() : 0,
-    minute: endValue !== null ? endValue?.getMinutes() : 0,
-    second: endValue !== null ? endValue?.getSeconds() : 0,
+    hour: endValue ? endValue?.getHours() : 0,
+    minute: endValue ? endValue?.getMinutes() : 0,
+    second: endValue ? endValue?.getSeconds() : 0,
   });
   const [dateEndValue, setDateEndValue] = useState<IDateValue>({
-    year: endValue !== null ? endValue?.getFullYear() : null,
-    month: endValue !== null ? endValue?.getMonth() : null,
-    date: endValue !== null ? endValue?.getDate() : null,
+    year: endValue ? endValue?.getFullYear() : null,
+    month: endValue ? endValue?.getMonth() : null,
+    date: endValue ? endValue?.getDate() : null,
   });
   const [viewStartDate, setViewStartDate] = useState<string>(
     formatDate(startValue || NEW_DATE, 'YYYY-MM-DD')
@@ -117,24 +117,24 @@ export default function RangePicker({
 
   useEffect(() => {
     setTimeStartValue({
-      hour: startValue !== null ? startValue?.getHours() : 0,
-      minute: startValue !== null ? startValue?.getMinutes() : 0,
-      second: startValue !== null ? startValue?.getSeconds() : 0,
+      hour: startValue ? startValue?.getHours() : 0,
+      minute: startValue ? startValue?.getMinutes() : 0,
+      second: startValue ? startValue?.getSeconds() : 0,
     });
     setDateStartValue({
-      year: startValue !== null ? startValue?.getFullYear() : null,
-      month: startValue !== null ? startValue?.getMonth() : null,
-      date: startValue !== null ? startValue?.getDate() : null,
+      year: startValue ? startValue?.getFullYear() : null,
+      month: startValue ? startValue?.getMonth() : null,
+      date: startValue ? startValue?.getDate() : null,
     });
     setTimeEndValue({
-      hour: endValue !== null ? endValue?.getHours() : 0,
-      minute: endValue !== null ? endValue?.getMinutes() : 0,
-      second: endValue !== null ? endValue?.getSeconds() : 0,
+      hour: endValue ? endValue?.getHours() : 0,
+      minute: endValue ? endValue?.getMinutes() : 0,
+      second: endValue ? endValue?.getSeconds() : 0,
     });
     setDateEndValue({
-      year: endValue !== null ? endValue?.getFullYear() : null,
-      month: endValue !== null ? endValue?.getMonth() : null,
-      date: endValue !== null ? endValue?.getDate() : null,
+      year: endValue ? endValue?.getFullYear() : null,
+      month: endValue ? endValue?.getMonth() : null,
+      date: endValue ? endValue?.getDate() : null,
     });
     setViewStartDate(
       formatDate(startValue || endValue || NEW_DATE, 'YYYY-MM-DD')
