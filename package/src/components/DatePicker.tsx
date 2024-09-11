@@ -92,7 +92,6 @@ function DatePicker({
   }, []);
 
   useEffect(() => {
-    console.log('value', value);
     setDateValue({
       year: value !== null ? value?.getFullYear() : null,
       month: value !== null ? value?.getMonth() : null,
