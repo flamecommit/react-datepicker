@@ -7,9 +7,19 @@ function App() {
   const [value, setValue] = useState<Date | null>(new Date());
   const [startValue, setStartValue] = useState<Date | null>(new Date());
   const [endValue, setEndValue] = useState<Date | null>(new Date());
+  const [value2, setValue2] = useState<Date | null>(new Date());
 
   return (
     <div>
+      <section>
+        <h3>DatePicker TimeInput Disabled</h3>
+        <DatePicker
+          value={value2}
+          onChange={setValue2}
+          valueFormat="YYYY-MM-DD hh:mm:ss"
+        />
+        {startValue?.toString()}
+      </section>
       <section>
         <h3>RangePicker</h3>
         <RangePicker

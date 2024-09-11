@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react';
 import { NAME_SPACE, VALUE_TYPES } from '../../constants/core';
-import { IDateValue, ITimeValue } from '../../types/props';
+import { IDateValue, ITimePicker, ITimeValue } from '../../types/props';
 import { getDateValueUnit, getTimeValueUnit } from '../../utils/datetime';
 import { addLeadingZero, isNumeric } from '../../utils/string';
 
@@ -24,6 +24,7 @@ interface IProps {
   setViewDate: (value: string) => void;
   disabled: boolean;
   isMounted: boolean;
+  timePicker: false | ITimePicker;
 }
 
 // Function to select text
@@ -67,10 +68,20 @@ function InputUnit({
   setViewDate,
   disabled,
   isMounted,
+  timePicker,
 }: IProps) {
   const inputRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLElement>();
   const isValue = useMemo(() => VALUE_TYPES.includes(type), [type]);
+  const isDisabled = useMemo(() => {
+    if (['hh', 'mm', 'ss'].includes(type)) {
+      if (!timePicker) return true;
+      if (type === 'hh' && !timePicker.hour) return true;
+      if (type === 'mm' && !timePicker.minute) return true;
+      if (type === 'ss' && !timePicker.second) return true;
+    }
+    return false;
+  }, [type, timePicker]);
   const displayUnit = useMemo((): string => {
     switch (type) {
       case 'YYYY':
@@ -205,6 +216,8 @@ function InputUnit({
 
   // 허용된 입력 외 prevent
   const numberChecker = (e: KeyboardEvent) => {
+    if (isDisabled) e.preventDefault();
+
     const allowKeys = [
       'Backspace',
       'ArrowLeft',

@@ -121,6 +121,7 @@ function DatePicker({
         setViewDate={setViewDate}
         inputRef={inputRef}
         isMounted={isMounted}
+        timePicker={timePicker}
       />
       <Layer
         inputRef={inputRef}

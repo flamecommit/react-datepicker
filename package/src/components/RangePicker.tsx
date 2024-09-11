@@ -273,6 +273,7 @@ export default function RangePicker({
         onChangeStart={onChangeStart}
         onChangeEnd={onChangeEnd}
         isMounted={isMounted}
+        timePicker={timePicker}
       />
       <Layer
         inputRef={inputRef}

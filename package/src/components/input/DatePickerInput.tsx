@@ -2,7 +2,12 @@
 
 import { RefObject, useMemo } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
+import {
+  IDateValue,
+  ITimePicker,
+  ITimeValue,
+  TIsVisible,
+} from '../../types/props';
 import { splitString } from '../../utils/string';
 import InputUnit from './InputUnit';
 
@@ -20,6 +25,7 @@ interface IProps {
   setViewDate: (value: string) => void;
   inputRef: RefObject<HTMLDivElement>;
   isMounted: boolean;
+  timePicker: false | ITimePicker;
 }
 
 export default function DatePickerInput({
@@ -36,6 +42,7 @@ export default function DatePickerInput({
   useClearButton,
   disabled,
   isMounted,
+  timePicker,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
@@ -64,6 +71,7 @@ export default function DatePickerInput({
             setViewDate={setViewDate}
             disabled={disabled}
             isMounted={isMounted}
+            timePicker={timePicker}
           />
         );
       })}

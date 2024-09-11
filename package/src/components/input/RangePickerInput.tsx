@@ -2,7 +2,12 @@
 
 import { RefObject, useMemo } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
+import {
+  IDateValue,
+  ITimePicker,
+  ITimeValue,
+  TIsVisible,
+} from '../../types/props';
 import { splitString } from '../../utils/string';
 import InputUnit from './InputUnit';
 
@@ -28,6 +33,7 @@ interface IProps {
   onChangeStart?: (newValue: Date | null) => void;
   onChangeEnd?: (newValue: Date | null) => void;
   isMounted: boolean;
+  timePicker: false | ITimePicker;
 }
 
 export default function RangePickerInput({
@@ -52,6 +58,7 @@ export default function RangePickerInput({
   onChangeStart,
   onChangeEnd,
   isMounted,
+  timePicker,
 }: IProps) {
   const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
 
@@ -84,6 +91,7 @@ export default function RangePickerInput({
               disabled={disabled}
               onChange={onChangeStart}
               isMounted={isMounted}
+              timePicker={timePicker}
             />
           );
         })}
