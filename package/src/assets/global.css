@@ -169,6 +169,10 @@
   &:hover {
     background-color: #f7f7f7;
   }
+  &:disabled {
+    background-color: #ddd;
+    cursor: default;
+  }
   &[data-active='true'] {
     background-color: #333;
     color: #fff;

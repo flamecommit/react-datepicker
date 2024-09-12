@@ -12,6 +12,26 @@ function App() {
   return (
     <div>
       <section>
+        <h3>DatePicker - maxDate</h3>
+        <DatePicker
+          maxDate={new Date()}
+          value={value2}
+          onChange={setValue2}
+          valueFormat="YYYY-MM-DD hh:mm:ss"
+        />
+        {startValue?.toString()}
+      </section>
+      <section>
+        <h3>DatePicker - minDate</h3>
+        <DatePicker
+          minDate={new Date()}
+          value={value2}
+          onChange={setValue2}
+          valueFormat="YYYY-MM-DD hh:mm:ss"
+        />
+        {startValue?.toString()}
+      </section>
+      <section>
         <h3>DatePicker TimeInput Disabled</h3>
         <DatePicker
           value={value2}

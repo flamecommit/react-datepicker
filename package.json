@@ -5,7 +5,6 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "npm run build -w package",
     "watch": "npm run watch -w package",
     "test": "npm run start -w test",
     "link:package": "npm link -w package",

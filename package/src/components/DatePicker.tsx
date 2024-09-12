@@ -3,9 +3,8 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
 import {
+  DatePickerProps,
   IDateValue,
-  ITimePicker,
-  ITimeStep,
   ITimeValue,
   TIsVisible,
 } from '../types/props';
@@ -20,23 +19,6 @@ import DatePickerYear from './datePicker/Year';
 import DatePickerInput from './input/DatePickerInput';
 import TimePickerHeader from './timePicker/Header';
 import TimePickerSelector from './timePicker/Selector';
-
-interface IProps {
-  value?: Date | null;
-  useClearButton?: boolean;
-  showsMultipleCalendar?: boolean;
-  valueFormat?: string;
-  labelFormat?: string;
-  closesAfterChange?: boolean;
-  weekdayLabels?: string[];
-  withPortal?: boolean;
-  className?: string;
-  disabled?: boolean;
-  timePicker?: false | ITimePicker;
-  timeStep?: ITimeStep;
-  onChange?: (newValue: Date | null) => void;
-  holidays?: string[]; // [01-01, 12-25, 2024-06-27]
-}
 
 const NEW_DATE = new Date();
 
@@ -54,8 +36,10 @@ function DatePicker({
   timePicker = false,
   timeStep = { hour: 1, minute: 1, second: 1 },
   holidays = [],
+  minDate,
+  maxDate,
   onChange,
-}: IProps) {
+}: DatePickerProps) {
   const initialValueFormat = timePicker ? 'YYYY-MM-DD hh:mm:ss' : 'YYYY-MM-DD';
   const comValueFormat = valueFormat ? valueFormat : initialValueFormat;
   const [timeValue, setTimeValue] = useState<ITimeValue>({
@@ -156,6 +140,8 @@ function DatePicker({
                       closesAfterChange={closesAfterChange}
                       timePicker={timePicker}
                       holidays={holidays}
+                      minDate={minDate}
+                      maxDate={maxDate}
                       setIsVisible={setIsVisible}
                     />
                   )}

@@ -15,6 +15,8 @@ interface Iprops {
   timePicker: false | ITimePicker;
   setIsVisible: (value: boolean) => void;
   holidays: string[];
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 export default function DatePickerMonth({
@@ -28,6 +30,8 @@ export default function DatePickerMonth({
   timePicker,
   setIsVisible,
   holidays,
+  minDate,
+  maxDate,
 }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
@@ -43,6 +47,7 @@ export default function DatePickerMonth({
     date: number,
     classNameModifier = ''
   ) => {
+    let isDisabled = false;
     const buttonDate = new Date(
       -1,
       month,
@@ -54,6 +59,9 @@ export default function DatePickerMonth({
     const day = buttonDate.getDay();
     const formatedThisValue = formatDate(buttonDate, valueFormat);
     const isHoliday = checkHoliday(formatedThisValue, holidays);
+
+    if (minDate && buttonDate < minDate) isDisabled = true;
+    if (maxDate && buttonDate > maxDate) isDisabled = true;
 
     const handleClick = () => {
       if (closesAfterChange && !timePicker) {
@@ -80,6 +88,7 @@ export default function DatePickerMonth({
         data-active={formatedValue === formatedThisValue}
         data-holiday={isHoliday}
         onClick={handleClick}
+        disabled={isDisabled}
       >
         {date}
       </button>

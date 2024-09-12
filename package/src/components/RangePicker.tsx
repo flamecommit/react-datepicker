@@ -4,9 +4,8 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
 import {
   IDateValue,
-  ITimePicker,
-  ITimeStep,
   ITimeValue,
+  RangePickerProps,
   TIsVisible,
 } from '../types/props';
 import { formatDate } from '../utils/datetime';
@@ -20,26 +19,6 @@ import RangePickerInput from './input/RangePickerInput';
 import RangePickerMonth from './rangePicker/Month';
 import TimePickerHeader from './timePicker/Header';
 import TimePickerSelector from './timePicker/Selector';
-
-interface IProps {
-  startValue?: Date | null;
-  endValue?: Date | null;
-  useClearButton?: boolean;
-  showsMultipleCalendar?: boolean;
-  valueFormat?: string;
-  labelFormat?: string;
-  weekdayLabels?: string[];
-  withPortal?: boolean;
-  className?: string;
-  disabled?: boolean;
-  /** 시간선택기 사용 여부를 결정합니다. */
-  timePicker?: false | ITimePicker;
-  timeStep?: ITimeStep;
-  /** value의 변화를 감지하여 Callback함수를 실행합니다. */
-  onChangeStart?: (newValue: Date | null) => void;
-  onChangeEnd?: (newValue: Date | null) => void;
-  holidays?: string[]; // [01-01, 12-25, 2024-06-27]
-}
 
 const NEW_DATE = new Date();
 
@@ -59,7 +38,7 @@ export default function RangePicker({
   holidays = [],
   onChangeStart,
   onChangeEnd,
-}: IProps) {
+}: RangePickerProps) {
   const initialValueFormat = timePicker ? 'YYYY-MM-DD hh:mm:ss' : 'YYYY-MM-DD';
   const comValueFormat = valueFormat ? valueFormat : initialValueFormat;
   const prevStartValue = useRef<Date | null>(startValue);

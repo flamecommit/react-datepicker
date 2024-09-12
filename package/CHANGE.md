@@ -1,3 +1,9 @@
+## 3.2.0
+
+- <DatePicker /> 옵션 추가
+  - minDate?: Date - minDate 이전 날짜는 선택할 수 없습니다.
+  - maxDate?: Date - maxDate 이후 날짜는 선택할 수 없습니다.
+
 ## 3.1.0
 
 - timePicker 옵션이 비활성화일 때 valueFormat에 시간(hh:mm:ss)이 포함되어 있더라도 input이 불가능 하도록 변경되었습니다.
