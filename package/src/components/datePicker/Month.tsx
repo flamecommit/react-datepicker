@@ -1,7 +1,7 @@
 'use client';
 
 import { NAME_SPACE } from '../../constants/core';
-import { ITimePicker, ITimeValue } from '../../types/props';
+import { ITimeValue } from '../../types/props';
 import { checkHoliday, formatDate } from '../../utils/datetime';
 
 interface Iprops {
@@ -11,9 +11,6 @@ interface Iprops {
   weekdayLabels: string[];
   onChange?: (newValue: Date | null) => void;
   timeValue: ITimeValue;
-  closesAfterChange: boolean;
-  timePicker: false | ITimePicker;
-  setIsVisible: (value: boolean) => void;
   holidays: string[];
   minDate?: Date;
   maxDate?: Date;
@@ -26,9 +23,6 @@ export default function DatePickerMonth({
   monthPage,
   weekdayLabels,
   timeValue,
-  closesAfterChange,
-  timePicker,
-  setIsVisible,
   holidays,
   minDate,
   maxDate,
@@ -64,10 +58,6 @@ export default function DatePickerMonth({
     if (maxDate && buttonDate > maxDate) isDisabled = true;
 
     const handleClick = () => {
-      if (closesAfterChange && !timePicker) {
-        setIsVisible(false);
-      }
-
       if (onChange) {
         onChange(buttonDate);
       }

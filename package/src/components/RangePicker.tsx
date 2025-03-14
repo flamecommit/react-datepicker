@@ -2,12 +2,7 @@
 
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
-import {
-  IDateValue,
-  ITimeValue,
-  RangePickerProps,
-  TIsVisible,
-} from '../types/props';
+import { ITimeValue, RangePickerProps, TIsVisible } from '../types/props';
 import { formatDate } from '../utils/datetime';
 import { setMonthPage } from '../utils/page';
 import Layer from './common/Layer';
@@ -48,20 +43,10 @@ export default function RangePicker({
     minute: startValue ? startValue?.getMinutes() : 0,
     second: startValue ? startValue?.getSeconds() : 0,
   });
-  const [dateStartValue, setDateStartValue] = useState<IDateValue>({
-    year: startValue ? startValue?.getFullYear() : null,
-    month: startValue ? startValue?.getMonth() : null,
-    date: startValue ? startValue?.getDate() : null,
-  });
   const [timeEndValue, setTimeEndValue] = useState<ITimeValue>({
     hour: endValue ? endValue?.getHours() : 0,
     minute: endValue ? endValue?.getMinutes() : 0,
     second: endValue ? endValue?.getSeconds() : 0,
-  });
-  const [dateEndValue, setDateEndValue] = useState<IDateValue>({
-    year: endValue ? endValue?.getFullYear() : null,
-    month: endValue ? endValue?.getMonth() : null,
-    date: endValue ? endValue?.getDate() : null,
   });
   const [viewStartDate, setViewStartDate] = useState<string>(
     formatDate(startValue || NEW_DATE, 'YYYY-MM-DD')
@@ -93,20 +78,10 @@ export default function RangePicker({
       minute: startValue ? startValue?.getMinutes() : 0,
       second: startValue ? startValue?.getSeconds() : 0,
     });
-    setDateStartValue({
-      year: startValue ? startValue?.getFullYear() : null,
-      month: startValue ? startValue?.getMonth() : null,
-      date: startValue ? startValue?.getDate() : null,
-    });
     setTimeEndValue({
       hour: endValue ? endValue?.getHours() : 0,
       minute: endValue ? endValue?.getMinutes() : 0,
       second: endValue ? endValue?.getSeconds() : 0,
-    });
-    setDateEndValue({
-      year: endValue ? endValue?.getFullYear() : null,
-      month: endValue ? endValue?.getMonth() : null,
-      date: endValue ? endValue?.getDate() : null,
     });
     setViewStartDate(
       formatDate(startValue || endValue || NEW_DATE, 'YYYY-MM-DD')
@@ -224,15 +199,11 @@ export default function RangePicker({
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
       <RangePickerInput
+        startValue={startValue}
+        endValue={endValue}
+        onChangeStart={onChangeStart}
+        onChangeEnd={onChangeEnd}
         valueFormat={comValueFormat} // YYYY-MM-DD hh:mm:ss
-        dateStartValue={dateStartValue} // { year, month, date }
-        setDateStartValue={setDateStartValue}
-        timeStartValue={timeStartValue} // { hour, minute, second }
-        setTimeStartValue={setTimeStartValue}
-        dateEndValue={dateEndValue}
-        setDateEndValue={setDateEndValue}
-        timeEndValue={timeEndValue}
-        setTimeEndValue={setTimeEndValue}
         useClearButton={useClearButton}
         disabled={disabled}
         setIsVisible={setIsVisible}
@@ -266,18 +237,11 @@ export default function RangePicker({
                   {isShow && (
                     <RangePickerMonth
                       type={isVisible}
-                      dateValue={
-                        isVisible === 'start' ? dateStartValue : dateEndValue
+                      value={isVisible === 'start' ? startValue : endValue}
+                      pairValue={isVisible === 'end' ? startValue : endValue}
+                      onChange={
+                        isVisible === 'start' ? onChangeStart : onChangeEnd
                       }
-                      pairValue={
-                        isVisible === 'end' ? dateStartValue : dateEndValue
-                      }
-                      setDateValue={
-                        isVisible === 'start'
-                          ? setDateStartValue
-                          : setDateEndValue
-                      }
-                      valueFormat={comValueFormat}
                       monthPage={
                         (isVisible === 'start'
                           ? startMonthPage
@@ -288,7 +252,6 @@ export default function RangePicker({
                       }
                       weekdayLabels={weekdayLabels}
                       holidays={holidays}
-                      setIsVisible={setIsVisible}
                     />
                   )}
                 </Fragment>
@@ -337,11 +300,11 @@ export default function RangePicker({
               timePicker={timePicker}
             />
             <TimePickerSelector
+              value={isVisible === 'start' ? startValue : endValue}
               timeValue={isVisible === 'start' ? timeStartValue : timeEndValue}
               onChange={isVisible === 'start' ? onChangeStart : onChangeEnd}
               timePicker={timePicker}
               timeStep={timeStep}
-              dateValue={isVisible === 'start' ? dateStartValue : dateEndValue}
             />
           </div>
         )}

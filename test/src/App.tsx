@@ -80,6 +80,23 @@ function App() {
         <DatePicker value={value} onChange={setValue} />
         {value?.toString()}
       </section>
+      <section>
+        <h3>RangePicker & TimePicker</h3>
+        <RangePicker
+          startValue={startValue}
+          endValue={endValue}
+          onChangeStart={setStartValue}
+          onChangeEnd={setEndValue}
+          timePicker={{
+            hour: true,
+            minute: true,
+            second: true,
+          }}
+        />
+        start: {startValue?.toString()}
+        <br />
+        end: {endValue?.toString()}
+      </section>
       {/* <section>
         <h3>RangePicker - holidays</h3>
         <RangePicker holidays={['01-01', '2024-06-27']} />

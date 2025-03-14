@@ -2,38 +2,29 @@
 
 import { useMemo } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
-import {
-  checkHoliday,
-  formatDate,
-  formatDateValue,
-} from '../../utils/datetime';
-import { setMonthPage } from '../../utils/page';
+import { ITimeValue, TIsVisible } from '../../types/props';
+import { checkHoliday, formatDate } from '../../utils/datetime';
 
 interface Iprops {
   type: TIsVisible;
-  dateValue: IDateValue;
-  pairValue: IDateValue;
-  valueFormat: string;
+  value: Date | null;
+  pairValue: Date | null;
+  onChange?: (newValue: Date | null) => void;
   monthPage: number;
   weekdayLabels: string[];
-  setDateValue: (value: IDateValue) => void;
   timeValue: ITimeValue;
   holidays: string[];
-  setIsVisible: (value: TIsVisible) => void;
 }
 
 export default function RangePickerMonth({
   type, // start | end
-  dateValue,
+  value,
   pairValue,
-  setDateValue,
-  valueFormat,
+  onChange,
   monthPage,
   weekdayLabels,
   timeValue,
   holidays,
-  setIsVisible,
 }: Iprops) {
   const year = Math.ceil(monthPage / 12);
   const month = monthPage % 12 || 12;
@@ -42,39 +33,29 @@ export default function RangePickerMonth({
   const lastDate = lastDateValue.getDate(); // 이달 말 일
   const lastDay = lastDateValue.getDay(); // 이달 말 일의 요일
   const prevLastDate = new Date(year, month - 1, 0).getDate(); // 이전달의 말 일
+  const defaultFormat = 'YYYY-MM-DD';
   const startValue = useMemo(
-    () => (type === 'start' ? dateValue : pairValue),
-    [dateValue, pairValue, type]
+    () => (type === 'start' ? value : pairValue),
+    [value, pairValue, type]
   );
   const endValue = useMemo(
-    () => (type === 'end' ? dateValue : pairValue),
-    [dateValue, pairValue, type]
+    () => (type === 'end' ? value : pairValue),
+    [value, pairValue, type]
   );
   const formatedDateValue = useMemo(
-    () => formatDateValue(dateValue, timeValue, valueFormat),
-    [dateValue, timeValue, valueFormat]
-  );
-  const formatedPairValue = useMemo(
-    () => formatDateValue(pairValue, timeValue, valueFormat),
-    [pairValue, timeValue, valueFormat]
+    () => formatDate(value, defaultFormat),
+    [value]
   );
   const formatedStartValue = useMemo(() => {
-    return type === 'start' ? formatedDateValue : formatedPairValue;
-  }, [formatedDateValue, formatedPairValue, type]);
+    return type === 'start'
+      ? formatDate(value, defaultFormat)
+      : formatDate(pairValue, defaultFormat);
+  }, [value, pairValue, type]);
   const formatedEndValue = useMemo(() => {
-    return type === 'end' ? formatedDateValue : formatedPairValue;
-  }, [formatedDateValue, formatedPairValue, type]);
-
-  const parsedValueToDate = (value: IDateValue) => {
-    return new Date(
-      -1,
-      setMonthPage(`${value.year! + 2}-${value.month!}`),
-      value.date!,
-      timeValue.hour,
-      timeValue.minute,
-      timeValue.second
-    );
-  };
+    return type === 'end'
+      ? formatDate(value, defaultFormat)
+      : formatDate(pairValue, defaultFormat);
+  }, [value, pairValue, type]);
 
   const renderDateButton = (
     month: number,
@@ -90,22 +71,12 @@ export default function RangePickerMonth({
       timeValue.second
     );
     const day = buttonDate.getDay();
-    const formatedThisValue = formatDate(buttonDate, valueFormat);
+    const formatedThisValue = formatDate(buttonDate, defaultFormat);
     const isHoliday = checkHoliday(formatedThisValue, holidays);
 
     const handleClick = () => {
-      setDateValue({
-        year: buttonDate.getFullYear(),
-        month: buttonDate.getMonth(),
-        date: buttonDate.getDate(),
-      });
-
-      if (type === 'start') {
-        return setIsVisible('end');
-      }
-
-      if (type === 'end') {
-        return setIsVisible(false);
+      if (onChange) {
+        onChange(buttonDate);
       }
     };
 
@@ -122,8 +93,8 @@ export default function RangePickerMonth({
         data-range-active={
           startValue &&
           endValue &&
-          buttonDate > parsedValueToDate(startValue) &&
-          buttonDate < parsedValueToDate(endValue)
+          buttonDate > startValue &&
+          buttonDate < endValue
         }
         data-holiday={isHoliday}
         onClick={handleClick}

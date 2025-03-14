@@ -4,7 +4,6 @@ export interface DatePickerProps {
   showsMultipleCalendar?: boolean;
   valueFormat?: string;
   labelFormat?: string;
-  closesAfterChange?: boolean;
   weekdayLabels?: string[];
   withPortal?: boolean;
   className?: string;

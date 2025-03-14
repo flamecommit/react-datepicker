@@ -2,23 +2,23 @@
 
 import { useEffect, useRef } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue, ITimePicker, ITimeValue } from '../../types/props';
+import { ITimePicker, ITimeValue } from '../../types/props';
 import { valueToDateObj } from '../../utils/datetime';
 import { addLeadingZero } from '../../utils/string';
 
 interface IProps {
+  value: Date | null;
   timeKey: keyof ITimePicker;
   items: number[];
   timeValue: ITimeValue;
-  dateValue: IDateValue;
   onChange?: (newValue: Date | null) => void;
 }
 
 export default function TimePickerSelectorList({
+  value,
   timeKey,
   items,
   timeValue,
-  dateValue,
   onChange,
 }: IProps) {
   const listRef = useRef<HTMLDivElement>(null);
@@ -36,12 +36,12 @@ export default function TimePickerSelectorList({
     });
   }, [items, timeKey, timeValue]);
 
-  const handleClick = (value: number) => {
+  const handleClick = (v: number) => {
     const newTimeValue = {
       ...timeValue,
-      [timeKey]: value,
+      [timeKey]: v,
     };
-    const newDate = valueToDateObj(dateValue, newTimeValue);
+    const newDate = valueToDateObj(value, newTimeValue);
 
     if (onChange) {
       onChange(newDate);

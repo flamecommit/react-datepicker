@@ -2,45 +2,46 @@
 
 import { RefObject } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
-import { formatDateValue } from '../../utils/datetime';
+import { TIsVisible } from '../../types/props';
+import { formatDate } from '../../utils/datetime';
 
 interface IProps {
   valueFormat: string;
-  dateStartValue: IDateValue;
-  setDateStartValue: (value: IDateValue) => void;
-  timeStartValue: ITimeValue;
-  setTimeStartValue: (value: ITimeValue) => void;
-  dateEndValue: IDateValue;
-  setDateEndValue: (value: IDateValue) => void;
-  timeEndValue: ITimeValue;
-  setTimeEndValue: (value: ITimeValue) => void;
+  startValue: Date | null;
+  endValue: Date | null;
   useClearButton: boolean;
   disabled: boolean;
   setIsVisible: (value: TIsVisible) => void;
   inputRef: RefObject<HTMLDivElement>;
   isVisible: TIsVisible;
+  onChangeStart?: (value: Date | null) => void;
+  onChangeEnd?: (value: Date | null) => void;
 }
 
 export default function RangePickerInput({
   valueFormat,
-  dateStartValue,
-  setDateStartValue,
-  timeStartValue,
-  setTimeStartValue,
-  dateEndValue,
-  setDateEndValue,
-  timeEndValue,
-  setTimeEndValue,
+  startValue,
+  endValue,
   setIsVisible,
   inputRef,
   isVisible,
   useClearButton,
   disabled,
+  onChangeStart,
+  onChangeEnd,
 }: IProps) {
   const triggerHandler = (type: 'start' | 'end') => {
     if (disabled) return;
     setIsVisible(type);
+  };
+
+  const clearHandler = () => {
+    if (onChangeStart) {
+      onChangeStart(null);
+    }
+    if (onChangeEnd) {
+      onChangeEnd(null);
+    }
   };
 
   return (
@@ -53,9 +54,7 @@ export default function RangePickerInput({
         className={`${NAME_SPACE}__input-range-container`}
         data-active={isVisible === 'start'}
       >
-        <div>
-          {formatDateValue(dateStartValue, timeStartValue, valueFormat)}
-        </div>
+        <div>{formatDate(startValue, valueFormat)}</div>
       </div>
       <button
         type="button"
@@ -70,7 +69,7 @@ export default function RangePickerInput({
         className={`${NAME_SPACE}__input-range-container`}
         data-active={isVisible === 'end'}
       >
-        <div>{formatDateValue(dateEndValue, timeEndValue, valueFormat)}</div>
+        <div>{formatDate(endValue, valueFormat)}</div>
       </div>
       <button
         type="button"
@@ -84,28 +83,7 @@ export default function RangePickerInput({
         <button
           type="button"
           className={`${NAME_SPACE}__clear`}
-          onClick={() => {
-            setDateStartValue({
-              year: null,
-              month: null,
-              date: null,
-            });
-            setDateEndValue({
-              year: null,
-              month: null,
-              date: null,
-            });
-            setTimeStartValue({
-              hour: 0,
-              minute: 0,
-              second: 0,
-            });
-            setTimeEndValue({
-              hour: 0,
-              minute: 0,
-              second: 0,
-            });
-          }}
+          onClick={clearHandler}
         >
           Clear
         </button>

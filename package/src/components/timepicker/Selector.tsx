@@ -2,27 +2,22 @@
 
 import { Fragment } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import {
-  IDateValue,
-  ITimePicker,
-  ITimeStep,
-  ITimeValue,
-} from '../../types/props';
+import { ITimePicker, ITimeStep, ITimeValue } from '../../types/props';
 import TimePickerSelectorList from './SelectorList';
 
 interface IProps {
+  value: Date | null;
   timeValue: ITimeValue;
   timePicker: ITimePicker;
   timeStep: ITimeStep;
-  dateValue: IDateValue;
   onChange?: (newValue: Date | null) => void;
 }
 
 export default function TimePickerSelector({
+  value,
   timeValue,
   timePicker,
   timeStep,
-  dateValue,
   onChange,
 }: IProps) {
   const generateArray = (step: number, max: number) => {
@@ -51,10 +46,10 @@ export default function TimePickerSelector({
         <Fragment key={key}>
           {timePicker[key as keyof ITimePicker] && (
             <TimePickerSelectorList
+              value={value}
               timeKey={key as keyof ITimePicker}
               items={items}
               timeValue={timeValue}
-              dateValue={dateValue}
               onChange={onChange}
             />
           )}

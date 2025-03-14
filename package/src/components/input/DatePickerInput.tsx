@@ -2,15 +2,13 @@
 
 import { RefObject } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
-import { formatDateValue } from '../../utils/datetime';
+import { TIsVisible } from '../../types/props';
+import { formatDate } from '../../utils/datetime';
 
 interface IProps {
+  value: Date | null;
+  onChange?: (value: Date | null) => void;
   valueFormat: string;
-  dateValue: IDateValue;
-  setDateValue: (value: IDateValue) => void;
-  timeValue: ITimeValue;
-  setTimeValue: (value: ITimeValue) => void;
   useClearButton: boolean;
   disabled: boolean;
   setIsVisible: (value: TIsVisible) => void;
@@ -18,11 +16,9 @@ interface IProps {
 }
 
 export default function DatePickerInput({
+  value,
+  onChange,
   valueFormat,
-  dateValue,
-  setDateValue,
-  timeValue,
-  setTimeValue,
   setIsVisible,
   inputRef,
   useClearButton,
@@ -33,13 +29,19 @@ export default function DatePickerInput({
     setIsVisible(true);
   };
 
+  const clearHandler = () => {
+    if (onChange) {
+      onChange(null);
+    }
+  };
+
   return (
     <div
       className={`${NAME_SPACE}__input-container`}
       ref={inputRef}
       aria-disabled={disabled}
     >
-      <div>{formatDateValue(dateValue, timeValue, valueFormat)}</div>
+      <div>{formatDate(value, valueFormat)}</div>
       <button
         type="button"
         className={`${NAME_SPACE}__trigger`}
@@ -52,18 +54,7 @@ export default function DatePickerInput({
         <button
           type="button"
           className={`${NAME_SPACE}__clear`}
-          onClick={() => {
-            setDateValue({
-              year: null,
-              month: null,
-              date: null,
-            });
-            setTimeValue({
-              hour: 0,
-              minute: 0,
-              second: 0,
-            });
-          }}
+          onClick={clearHandler}
         >
           Clear
         </button>

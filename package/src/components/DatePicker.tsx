@@ -2,12 +2,7 @@
 
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { NAME_SPACE } from '../constants/core';
-import {
-  DatePickerProps,
-  IDateValue,
-  ITimeValue,
-  TIsVisible,
-} from '../types/props';
+import { DatePickerProps, ITimeValue, TIsVisible } from '../types/props';
 import { formatDate } from '../utils/datetime';
 import { setMonthPage } from '../utils/page';
 import Layer from './common/Layer';
@@ -28,7 +23,6 @@ function DatePicker({
   showsMultipleCalendar = false,
   valueFormat = '',
   labelFormat = 'YYYY / MM',
-  closesAfterChange = true,
   weekdayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
   withPortal = false,
   className = '',
@@ -47,11 +41,6 @@ function DatePicker({
     minute: value !== null ? value?.getMinutes() : 0,
     second: value !== null ? value?.getSeconds() : 0,
   });
-  const [dateValue, setDateValue] = useState<IDateValue>({
-    year: value !== null ? value?.getFullYear() : null,
-    month: value !== null ? value?.getMonth() : null,
-    date: value !== null ? value?.getDate() : null,
-  });
   const [viewDate, setViewDate] = useState<string>(
     formatDate(value || NEW_DATE, 'YYYY-MM-DD')
   );
@@ -69,11 +58,6 @@ function DatePicker({
   }, [isVisible, viewDate]);
 
   useEffect(() => {
-    setDateValue({
-      year: value !== null ? value?.getFullYear() : null,
-      month: value !== null ? value?.getMonth() : null,
-      date: value !== null ? value?.getDate() : null,
-    });
     setTimeValue({
       hour: value !== null ? value?.getHours() : 0,
       minute: value !== null ? value?.getMinutes() : 0,
@@ -85,11 +69,9 @@ function DatePicker({
   return (
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
       <DatePickerInput
+        value={value}
+        onChange={onChange}
         valueFormat={comValueFormat}
-        dateValue={dateValue}
-        setDateValue={setDateValue}
-        timeValue={timeValue}
-        setTimeValue={setTimeValue}
         useClearButton={useClearButton}
         disabled={disabled}
         setIsVisible={setIsVisible}
@@ -125,12 +107,9 @@ function DatePicker({
                       monthPage={monthPage + index}
                       weekdayLabels={weekdayLabels}
                       timeValue={timeValue}
-                      closesAfterChange={closesAfterChange}
-                      timePicker={timePicker}
                       holidays={holidays}
                       minDate={minDate}
                       maxDate={maxDate}
-                      setIsVisible={setIsVisible}
                     />
                   )}
                 </Fragment>
@@ -170,10 +149,10 @@ function DatePicker({
           >
             <TimePickerHeader timeValue={timeValue} timePicker={timePicker} />
             <TimePickerSelector
+              value={value}
               timeValue={timeValue}
               timePicker={timePicker}
               timeStep={timeStep}
-              dateValue={dateValue}
               onChange={onChange}
             />
           </div>

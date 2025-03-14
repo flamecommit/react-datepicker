@@ -204,12 +204,11 @@ export const setViewDateByType = (
  */
 
 export const valueToDateObj = (
-  dateValue: IDateValue,
-  timeValue: ITimeValue
+  date: Date | null,
+  time: ITimeValue
 ): Date | null => {
-  const { year, month, date } = dateValue;
-  const { hour, minute, second } = timeValue;
-  if (year === null || month === null || date === null) return null;
-
-  return new Date(year, month, date, hour, minute, second);
+  if (date === null) return null;
+  const newDate = new Date(date);
+  newDate.setHours(time.hour, time.minute, time.second, 0);
+  return newDate;
 };
