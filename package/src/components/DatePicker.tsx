@@ -59,7 +59,6 @@ function DatePicker({
     'century' | 'decade' | 'year' | 'month'
   >('month');
   const [isVisible, setIsVisible] = useState<TIsVisible>(false);
-  const [isMounted, setIsMounted] = useState<boolean>(false);
   const monthPage = useMemo(() => setMonthPage(viewDate), [viewDate]);
   const inputRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -68,12 +67,6 @@ function DatePicker({
   useEffect(() => {
     setContainerHeight(containerRef.current?.offsetHeight || 0);
   }, [isVisible, viewDate]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsMounted(true);
-    }, 1);
-  }, []);
 
   useEffect(() => {
     setDateValue({
@@ -95,17 +88,12 @@ function DatePicker({
         valueFormat={comValueFormat}
         dateValue={dateValue}
         setDateValue={setDateValue}
-        onChange={onChange}
         timeValue={timeValue}
         setTimeValue={setTimeValue}
         useClearButton={useClearButton}
         disabled={disabled}
         setIsVisible={setIsVisible}
-        viewDate={viewDate}
-        setViewDate={setViewDate}
         inputRef={inputRef}
-        isMounted={isMounted}
-        timePicker={timePicker}
       />
       <Layer
         inputRef={inputRef}

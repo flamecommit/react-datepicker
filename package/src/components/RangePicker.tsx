@@ -73,7 +73,6 @@ export default function RangePicker({
     'century' | 'decade' | 'year' | 'month'
   >('month');
   const [isVisible, setIsVisible] = useState<TIsVisible>(false);
-  const [isMounted, setIsMounted] = useState<boolean>(false);
   const startMonthPage = useMemo(
     () => setMonthPage(viewStartDate),
     [viewStartDate]
@@ -87,12 +86,6 @@ export default function RangePicker({
   useEffect(() => {
     setContainerHeight(containerRef.current?.offsetHeight || 0);
   }, [isVisible, viewStartDate, viewEndDate]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsMounted(true);
-    }, 1);
-  }, []);
 
   useEffect(() => {
     setTimeStartValue({
@@ -243,16 +236,8 @@ export default function RangePicker({
         useClearButton={useClearButton}
         disabled={disabled}
         setIsVisible={setIsVisible}
-        viewStartDate={viewStartDate}
-        setViewStartDate={setViewStartDate}
-        viewEndDate={viewEndDate}
-        setViewEndDate={setViewEndDate}
         inputRef={inputRef}
         isVisible={isVisible}
-        onChangeStart={onChangeStart}
-        onChangeEnd={onChangeEnd}
-        isMounted={isMounted}
-        timePicker={timePicker}
       />
       <Layer
         inputRef={inputRef}

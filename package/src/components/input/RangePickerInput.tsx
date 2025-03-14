@@ -1,15 +1,9 @@
 'use client';
 
-import { RefObject, useMemo } from 'react';
+import { RefObject } from 'react';
 import { NAME_SPACE } from '../../constants/core';
-import {
-  IDateValue,
-  ITimePicker,
-  ITimeValue,
-  TIsVisible,
-} from '../../types/props';
-import { splitString } from '../../utils/string';
-import InputUnit from './InputUnit';
+import { IDateValue, ITimeValue, TIsVisible } from '../../types/props';
+import { formatDateValue } from '../../utils/datetime';
 
 interface IProps {
   valueFormat: string;
@@ -24,16 +18,8 @@ interface IProps {
   useClearButton: boolean;
   disabled: boolean;
   setIsVisible: (value: TIsVisible) => void;
-  viewStartDate: string;
-  setViewStartDate: (value: string) => void;
-  viewEndDate: string;
-  setViewEndDate: (value: string) => void;
   inputRef: RefObject<HTMLDivElement>;
   isVisible: TIsVisible;
-  onChangeStart?: (newValue: Date | null) => void;
-  onChangeEnd?: (newValue: Date | null) => void;
-  isMounted: boolean;
-  timePicker: false | ITimePicker;
 }
 
 export default function RangePickerInput({
@@ -47,21 +33,11 @@ export default function RangePickerInput({
   timeEndValue,
   setTimeEndValue,
   setIsVisible,
-  viewStartDate,
-  setViewStartDate,
-  viewEndDate,
-  setViewEndDate,
   inputRef,
   isVisible,
   useClearButton,
   disabled,
-  onChangeStart,
-  onChangeEnd,
-  isMounted,
-  timePicker,
 }: IProps) {
-  const formatArray = useMemo(() => splitString(valueFormat), [valueFormat]);
-
   const triggerHandler = (type: 'start' | 'end') => {
     if (disabled) return;
     setIsVisible(type);
@@ -77,24 +53,9 @@ export default function RangePickerInput({
         className={`${NAME_SPACE}__input-range-container`}
         data-active={isVisible === 'start'}
       >
-        {formatArray.map((type, i) => {
-          return (
-            <InputUnit
-              key={i}
-              dateValue={dateStartValue}
-              setDateValue={setDateStartValue}
-              timeValue={timeStartValue}
-              setTimeValue={setTimeStartValue}
-              type={type}
-              viewDate={viewStartDate}
-              setViewDate={setViewStartDate}
-              disabled={disabled}
-              onChange={onChangeStart}
-              isMounted={isMounted}
-              timePicker={timePicker}
-            />
-          );
-        })}
+        <div>
+          {formatDateValue(dateStartValue, timeStartValue, valueFormat)}
+        </div>
       </div>
       <button
         type="button"
@@ -109,23 +70,7 @@ export default function RangePickerInput({
         className={`${NAME_SPACE}__input-range-container`}
         data-active={isVisible === 'end'}
       >
-        {formatArray.map((type, i) => {
-          return (
-            <InputUnit
-              key={i}
-              dateValue={dateEndValue}
-              setDateValue={setDateEndValue}
-              timeValue={timeEndValue}
-              setTimeValue={setTimeEndValue}
-              type={type}
-              viewDate={viewEndDate}
-              setViewDate={setViewEndDate}
-              disabled={disabled}
-              onChange={onChangeEnd}
-              isMounted={isMounted}
-            />
-          );
-        })}
+        <div>{formatDateValue(dateEndValue, timeEndValue, valueFormat)}</div>
       </div>
       <button
         type="button"

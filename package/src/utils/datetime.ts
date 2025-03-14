@@ -31,7 +31,7 @@ export const toLocalISOString = (date: Date): string => {
 };
 
 export const formatDate = (dateObj: Date | null, format: string): string => {
-  if (!dateObj) return '';
+  if (!dateObj) return format;
   let result = format;
 
   const localDate = toLocalISOString(dateObj);

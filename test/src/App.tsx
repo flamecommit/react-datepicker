@@ -8,16 +8,22 @@ function App() {
   const [startValue, setStartValue] = useState<Date | null>(new Date());
   const [endValue, setEndValue] = useState<Date | null>(new Date());
   const [value2, setValue2] = useState<Date | null>(new Date());
+  const [value3, setValue3] = useState<Date | null>(null);
 
   return (
     <div>
+      <section>
+        <h3>DatePicker - Null</h3>
+        <DatePicker value={value3} onChange={setValue3} />
+        {startValue?.toString()}
+      </section>
       <section>
         <h3>DatePicker - maxDate</h3>
         <DatePicker
           maxDate={new Date()}
           value={value2}
           onChange={setValue2}
-          valueFormat="YYYY-MM-DD hh:mm:ss"
+          valueFormat="YYYY-MM-DD"
         />
         {startValue?.toString()}
       </section>
