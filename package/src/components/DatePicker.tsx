@@ -74,8 +74,9 @@ function DatePicker({
         valueFormat={comValueFormat}
         useClearButton={useClearButton}
         disabled={disabled}
-        setIsVisible={setIsVisible}
         inputRef={inputRef}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
       />
       <Layer
         inputRef={inputRef}

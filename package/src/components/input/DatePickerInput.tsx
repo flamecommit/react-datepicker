@@ -11,18 +11,20 @@ interface IProps {
   valueFormat: string;
   useClearButton: boolean;
   disabled: boolean;
-  setIsVisible: (value: TIsVisible) => void;
   inputRef: RefObject<HTMLDivElement>;
+  isVisible: TIsVisible;
+  setIsVisible: (value: TIsVisible) => void;
 }
 
 export default function DatePickerInput({
   value,
   onChange,
   valueFormat,
-  setIsVisible,
   inputRef,
   useClearButton,
   disabled,
+  isVisible,
+  setIsVisible,
 }: IProps) {
   const triggerHandler = () => {
     if (disabled) return;
@@ -41,14 +43,16 @@ export default function DatePickerInput({
       ref={inputRef}
       aria-disabled={disabled}
     >
-      <div>{formatDate(value, valueFormat)}</div>
       <button
         type="button"
-        className={`${NAME_SPACE}__trigger`}
+        className={`${NAME_SPACE}__input-value`}
         onClick={triggerHandler}
         disabled={disabled}
+        data-active={isVisible}
       >
-        Trigger
+        <span className={`${NAME_SPACE}__input-value-text`}>
+          {formatDate(value, valueFormat)}
+        </span>
       </button>
       {useClearButton && (
         <button

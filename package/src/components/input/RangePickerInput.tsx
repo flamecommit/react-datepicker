@@ -50,34 +50,28 @@ export default function RangePickerInput({
       ref={inputRef}
       aria-disabled={disabled}
     >
-      <div
-        className={`${NAME_SPACE}__input-range-container`}
-        data-active={isVisible === 'start'}
-      >
-        <div>{formatDate(startValue, valueFormat)}</div>
-      </div>
       <button
         type="button"
-        className={`${NAME_SPACE}__trigger`}
+        className={`${NAME_SPACE}__input-value`}
+        data-active={isVisible === 'start'}
         onClick={() => triggerHandler('start')}
         disabled={disabled}
       >
-        Trigger
+        <span className={`${NAME_SPACE}__input-value-text`}>
+          {formatDate(startValue, valueFormat)}
+        </span>
       </button>
       <div className={`${NAME_SPACE}__input-range-separator`}> ~ </div>
-      <div
-        className={`${NAME_SPACE}__input-range-container`}
-        data-active={isVisible === 'end'}
-      >
-        <div>{formatDate(endValue, valueFormat)}</div>
-      </div>
       <button
         type="button"
-        className={`${NAME_SPACE}__trigger`}
+        className={`${NAME_SPACE}__input-value`}
+        data-active={isVisible === 'end'}
         onClick={() => triggerHandler('end')}
         disabled={disabled}
       >
-        Trigger
+        <span className={`${NAME_SPACE}__input-value-text`}>
+          {formatDate(endValue, valueFormat)}
+        </span>
       </button>
       {useClearButton && (
         <button

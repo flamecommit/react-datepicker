@@ -92,88 +92,6 @@ export default function RangePicker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startValue, endValue]);
 
-  // Start 시간 변화 감지
-  // useEffect(() => {
-  //   if (!startValue) return;
-
-  //   const newDate = new Date(
-  //     -1,
-  //     setMonthPage(`${startValue.getFullYear() + 2}-${startValue.getMonth()}`),
-  //     startValue.getDate(),
-  //     timeStartValue.hour,
-  //     timeStartValue.minute,
-  //     timeStartValue.second
-  //   );
-
-  //   setStartValue(newDate);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [timeStartValue]);
-
-  // Start 날짜 변화 감지
-  // useEffect(() => {
-  //   if (
-  //     dateStartValue.year === null ||
-  //     dateStartValue.month === null ||
-  //     dateStartValue.date === null
-  //   ) {
-  //     setStartValue(null);
-  //     return;
-  //   }
-
-  //   const newDate = new Date(
-  //     -1,
-  //     setMonthPage(`${dateStartValue.year + 2}-${dateStartValue.month}`),
-  //     Number(dateStartValue.date),
-  //     timeStartValue.hour,
-  //     timeStartValue.minute,
-  //     timeStartValue.second
-  //   );
-
-  //   setStartValue(newDate);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [dateStartValue]);
-
-  // End 시간 변화 감지
-  // useEffect(() => {
-  //   if (!endValue) return;
-
-  //   const newDate = new Date(
-  //     -1,
-  //     setMonthPage(`${endValue.getFullYear() + 2}-${endValue.getMonth()}`),
-  //     endValue.getDate(),
-  //     timeEndValue.hour,
-  //     timeEndValue.minute,
-  //     timeEndValue.second
-  //   );
-
-  //   setEndValue(newDate);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [timeEndValue]);
-
-  // End 날짜 변화 감지
-  // useEffect(() => {
-  //   if (
-  //     dateEndValue.year === null ||
-  //     dateEndValue.month === null ||
-  //     dateEndValue.date === null
-  //   ) {
-  //     setEndValue(null);
-  //     return;
-  //   }
-
-  //   const newDate = new Date(
-  //     -1,
-  //     setMonthPage(`${dateEndValue.year + 2}-${dateEndValue.month}`),
-  //     Number(dateEndValue.date),
-  //     timeEndValue.hour,
-  //     timeEndValue.minute,
-  //     timeEndValue.second
-  //   );
-
-  //   setEndValue(newDate);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [dateEndValue]);
-
   // start, end value변화를 감지
   useEffect(() => {
     // start, end 값이 둘 다 있을 때
@@ -206,9 +124,9 @@ export default function RangePicker({
         valueFormat={comValueFormat} // YYYY-MM-DD hh:mm:ss
         useClearButton={useClearButton}
         disabled={disabled}
-        setIsVisible={setIsVisible}
         inputRef={inputRef}
         isVisible={isVisible}
+        setIsVisible={setIsVisible}
       />
       <Layer
         inputRef={inputRef}
