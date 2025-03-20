@@ -7,11 +7,29 @@ function App() {
   const [value, setValue] = useState<Date | null>(new Date());
   const [startValue, setStartValue] = useState<Date | null>(new Date());
   const [endValue, setEndValue] = useState<Date | null>(new Date());
+  const [startValue2, setStartValue2] = useState<Date | null>(null);
+  const [endValue2, setEndValue2] = useState<Date | null>(null);
   const [value2, setValue2] = useState<Date | null>(new Date());
   const [value3, setValue3] = useState<Date | null>(null);
 
   return (
     <div>
+      <section>
+        <h3>RangePicker & TimePicker</h3>
+        <RangePicker
+          startValue={startValue2}
+          endValue={endValue2}
+          onChangeStart={setStartValue2}
+          onChangeEnd={setEndValue2}
+          timePicker={{
+            hour: true,
+            minute: true,
+          }}
+        />
+        start: {startValue?.toString()}
+        <br />
+        end: {endValue?.toString()}
+      </section>
       <section>
         <h3>DatePicker - Null</h3>
         <DatePicker value={value3} onChange={setValue3} />

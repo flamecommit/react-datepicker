@@ -1,3 +1,7 @@
+## 3.4.2
+
+- RangePicker의 pairDate 변경 로직 수정
+
 ## 3.4.0
 
 - value 관리 로직 변경

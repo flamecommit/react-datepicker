@@ -72,6 +72,7 @@ export default function RangePicker({
     setContainerHeight(containerRef.current?.offsetHeight || 0);
   }, [isVisible, viewStartDate, viewEndDate]);
 
+  // Value가 외부에서 변경됨을 감지
   useEffect(() => {
     setTimeStartValue({
       hour: startValue ? startValue?.getHours() : 0,
@@ -94,6 +95,18 @@ export default function RangePicker({
 
   // start, end value변화를 감지
   useEffect(() => {
+    // start만 있을 때
+    if (startValue && endValue === null) {
+      if (onChangeEnd) {
+        onChangeEnd(startValue);
+      }
+    }
+    // end만 있을 때
+    if (endValue && startValue === null) {
+      if (onChangeStart) {
+        onChangeStart(endValue);
+      }
+    }
     // start, end 값이 둘 다 있을 때
     if (startValue && endValue) {
       // start가 end 보다 클 때
