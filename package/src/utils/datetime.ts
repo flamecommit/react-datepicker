@@ -40,12 +40,17 @@ export const formatDate = (dateObj: Date | null, format: string): string => {
   const removeMS = timeStr.split('.')[0] as string;
   const [hour, minute, second] = removeMS.split(':');
 
+  const dayOfWeek = dateObj.getDay(); // 0 (일요일) ~ 6 (토요일)
+  const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+
   if (/.*YYYY.*/.test(format)) result = result.replace(/YYYY/g, String(year));
   if (/.*MM.*/.test(format)) result = result.replace(/MM/g, String(month));
   if (/.*DD.*/.test(format)) result = result.replace(/DD/g, String(date));
   if (/.*hh.*/.test(format)) result = result.replace(/hh/g, String(hour));
   if (/.*mm.*/.test(format)) result = result.replace(/mm/g, String(minute));
   if (/.*ss.*/.test(format)) result = result.replace(/ss/g, String(second));
+  if (/.*ddd.*/.test(format))
+    result = result.replace(/ddd/g, dayNames[dayOfWeek] as string);
 
   return result;
 };

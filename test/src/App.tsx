@@ -41,7 +41,7 @@ function App() {
           maxDate={new Date()}
           value={value2}
           onChange={setValue2}
-          valueFormat="YYYY-MM-DD"
+          valueFormat="YYYY-MM-DD (ddd)"
         />
         {startValue?.toString()}
       </section>
