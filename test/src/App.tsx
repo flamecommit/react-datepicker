@@ -115,6 +115,10 @@ function App() {
         <br />
         end: {endValue?.toString()}
       </section>
+      <section>
+        <h3>closeOnDateSelect</h3>
+        <DatePicker closeOnDateSelect={true} />
+      </section>
       {/* <section>
         <h3>RangePicker - holidays</h3>
         <RangePicker holidays={['01-01', '2024-06-27']} />

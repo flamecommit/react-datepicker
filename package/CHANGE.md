@@ -1,3 +1,8 @@
+## 3.6.0
+
+- closeOnDateSelect 옵션 추가
+  - true일 때 날짜 선택 시 Layer 닫힘
+
 ## 3.4.2
 
 - RangePicker의 pairDate 변경 로직 수정

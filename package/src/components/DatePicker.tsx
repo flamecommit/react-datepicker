@@ -33,6 +33,7 @@ function DatePicker({
   minDate,
   maxDate,
   onChange,
+  closeOnDateSelect = false,
 }: DatePickerProps) {
   const initialValueFormat = timePicker ? 'YYYY-MM-DD hh:mm:ss' : 'YYYY-MM-DD';
   const comValueFormat = valueFormat ? valueFormat : initialValueFormat;
@@ -53,6 +54,16 @@ function DatePicker({
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerHeight, setContainerHeight] = useState<number>(0);
 
+  const handleChange = (
+    date: Date | null,
+    source: 'date' | 'time' | 'input' = 'date'
+  ) => {
+    onChange?.(date);
+    if (source === 'date' && closeOnDateSelect) {
+      setIsVisible(false); // ✅ 날짜 선택일 때만 닫기
+    }
+  };
+
   useEffect(() => {
     setContainerHeight(containerRef.current?.offsetHeight || 0);
   }, [isVisible, viewDate]);
@@ -70,7 +81,7 @@ function DatePicker({
     <div className={`${NAME_SPACE}__wrapper ${className}`}>
       <DatePickerInput
         value={value}
-        onChange={onChange}
+        onChange={(d) => handleChange(d, 'input')}
         valueFormat={comValueFormat}
         useClearButton={useClearButton}
         disabled={disabled}
@@ -103,7 +114,7 @@ function DatePicker({
                   {isShow && (
                     <DatePickerMonth
                       value={value}
-                      onChange={onChange}
+                      onChange={(d) => handleChange(d, 'date')}
                       valueFormat={comValueFormat}
                       monthPage={monthPage + index}
                       weekdayLabels={weekdayLabels}
@@ -154,7 +165,7 @@ function DatePicker({
               timeValue={timeValue}
               timePicker={timePicker}
               timeStep={timeStep}
-              onChange={onChange}
+              onChange={(d) => handleChange(d, 'time')}
             />
           </div>
         )}

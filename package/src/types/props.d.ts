@@ -14,6 +14,7 @@ export interface DatePickerProps {
   holidays?: string[]; // [01-01, 12-25, 2024-06-27]
   minDate?: Date;
   maxDate?: Date;
+  closeOnDateSelect?: boolean;
 }
 
 export interface RangePickerProps {
